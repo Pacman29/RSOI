@@ -1,0 +1,23 @@
+syntax = "proto3";
+package DataBaseProto;
+
+option csharp_namespace = "GRPCService.DataBaseProto";
+
+service DataBase {
+    rpc SavePdfFileInfo (PdfFileInfo) returns (DatabaseCreateFileInfoResponse) {}
+}
+
+message PdfFileInfo {
+    string MD5 = 1;
+    int64 FileLength = 2;
+}
+
+message CommonResponse {
+    bool isError = 1;
+    string ErrorMessage = 2;
+}
+
+message DatabaseCreateFileInfoResponse {
+    CommonResponse error = 1;
+    string fileId = 2;   
+}

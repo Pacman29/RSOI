@@ -7,8 +7,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RSOI;
 
-namespace RSOI
+namespace RSOI_Gateway
 {
     public class Program
     {

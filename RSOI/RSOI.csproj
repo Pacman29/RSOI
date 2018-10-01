@@ -13,7 +13,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GRPCService\GRPCService.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Grpc.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad">
+        <HintPath>..\..\..\.nuget\packages\grpc.core\1.15.0\lib\netstandard1.5\Grpc.Core.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

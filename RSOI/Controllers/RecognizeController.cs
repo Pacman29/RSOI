@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Models.Requests;
 using RSOI.Services;
@@ -12,11 +9,11 @@ namespace RSOI.Controllers
     [ApiController]
     public class RecognizeController : ControllerBase
     {
-        private IRecognizeService recognizeService;
+        private readonly IRecognizeService recognizeService;
         
         public RecognizeController(IRecognizeService _recognizeService)
         {
-            recognizeService = _recognizeService
+            recognizeService = _recognizeService;
         }
 
 
@@ -27,9 +24,9 @@ namespace RSOI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> postPdf([FromForm] PdfFile request)
+        public async Task<IActionResult> PostPdf([FromForm] PdfFile request)
         {
-            return Ok("post Recognize pdf");
+            return await recognizeService.RecognizePdf(request);
         }
     }
 }
