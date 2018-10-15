@@ -11,6 +11,8 @@ namespace DataBaseServer.DBO
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+        public DateTime changed { get; set; }
+
         [Index(IsUnique=true)]
         public string Md5 { get; set; }
         public long fileLength { get; set; }
