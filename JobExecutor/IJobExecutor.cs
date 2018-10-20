@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using GRPCService.GRPCProto;
 
 namespace JobExecutor
 {
@@ -9,5 +10,8 @@ namespace JobExecutor
         void AddJob(BaseJob job);
         BaseJob GetJob(Guid id);
         BaseJob DeleteJob(Guid id);
+        Task<BaseJob> RejectJobAsync(Guid id);
+        Task<BaseJob> DoneJobAsync(Guid id);
+        void SetJobStatus(Guid id, EnumJobStatus status);
     }
 }

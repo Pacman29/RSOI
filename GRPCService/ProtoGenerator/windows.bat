@@ -7,6 +7,6 @@ cd /d %~dp0
 set PROTOC=%UserProfile%\.nuget\packages\Google.Protobuf.Tools\3.6.1\tools\windows_x64\protoc.exe
 set PLUGIN=%UserProfile%\.nuget\packages\Grpc.Tools\1.15.0\tools\windows_x64\grpc_csharp_plugin.exe
 
-%PROTOC% -I../ProtoFiles --csharp_out DataBase  ../ProtoFiles/database_service.proto --grpc_out DataBase --plugin=protoc-gen-grpc=%PLUGIN%
+%PROTOC% -I../ProtoFiles --csharp_out GRPC  ../ProtoFiles/database_service.proto --grpc_out GRPC --plugin=protoc-gen-grpc=%PLUGIN%
 
 endlocal

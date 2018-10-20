@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataBaseServer.Migrations
 {
     [DbContext(typeof(FileInfosContext))]
-    [Migration("20181016081046_init")]
-    partial class init
+    [Migration("20181020080833_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,9 @@ namespace DataBaseServer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Md5");
+                    b.Property<string>("Md5")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()

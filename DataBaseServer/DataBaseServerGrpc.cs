@@ -22,18 +22,15 @@ namespace DataBaseServer
         {
             _fileInfosContext = new FileInfosContext();
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _gateWayService = new GateWayService("0.0.0.0:8001");
+            _gateWayService = new GateWayService("localhost:8001");
         }
 
         private Action<Guid> GetHandleJobOk()
         {
             return async (Guid guid) =>
             {
-                var jobInfo = new JobInfo()
-                {
-                    JobId = guid.ToString(),
-                    JobStatus = EnumJobStatus.Done
-                };
+                _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
+                var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 await _gateWayService.SendJobInfo(jobInfo);
             };
         }
@@ -42,25 +39,29 @@ namespace DataBaseServer
         {
             return async (Guid guid, Exception e) =>
             {
-                var jobInfo = new JobInfo()
-                {
-                    JobId = guid.ToString(),
-                    JobStatus = EnumJobStatus.Done,
-                    Message = e.ToString()
-                };
+                _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
+                var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
+                jobInfo.Message = e.ToString();
                 await _gateWayService.SendJobInfo(jobInfo);
             };
         } 
         
-        public override async Task<JobInfo> SavePdfFileInfo(PdfFileInfo request, ServerCallContext context)
+        public override async Task<Empty> SavePdfFileInfo(PdfFileInfo request, ServerCallContext context)
         {
-            var jobInfo = new JobInfo();
+            var result = new Empty();
             try
             {
-                var job = new AddPdfFileJob(_fileInfosContext, FileInfo.fromPdfFileInfo(request));
-                jobInfo.JobId = job.GetJobId().ToString();
+                var job = new AddPdfFileJob(_fileInfosContext, FileInfo.fromPdfFileInfo(request))
+                {
+                    Guid = new Guid(request.JobId)
+                };
+                var jobInfo = new JobInfo
+                {
+                    JobStatus = EnumJobStatus.Execute, 
+                    JobId = request.JobId
+                };
                 _jobExecutor.AddJob(job, GetHandleJobOk(), GetHandleJobError());
-                jobInfo.JobStatus = EnumJobStatus.Execute;
+                await _gateWayService.SendJobInfo(jobInfo);
             }
             catch (AddException e)
             {
@@ -68,7 +69,39 @@ namespace DataBaseServer
             }
 
 
-            return jobInfo;
+            return result;
+        }
+
+        public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)
+        {
+            var result = new Empty();
+            try
+            {
+                var guid = new Guid(request.JobId);
+                var job = await _jobExecutor.RejectJobAsync(guid);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return result;
+        }
+
+        public override async Task<Empty> DoneJobCall(DoneJob request, ServerCallContext context)
+        {
+            var result = new Empty();
+            try
+            {
+                var guid = new Guid(request.JobId);
+                var job = await _jobExecutor.DoneJobAsync(guid);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return result;
         }
 
         public void Dispose()

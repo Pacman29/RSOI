@@ -83,7 +83,7 @@ namespace RSOI_Gateway
         
         public static async Task Main(string[] args)
         {
-            _notifyGrpcServer = new NotifyGrpcServer("0.0.0.0",8001);
+            _notifyGrpcServer = new NotifyGrpcServer("localhost",8001);
             _aspServer = new AspServer(args);
 
             _notifyGrpcServer.Run();

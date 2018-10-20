@@ -13,14 +13,30 @@ namespace GRPCService.GRPCProto {
     static readonly string __ServiceName = "GRPCProto.DataBase";
 
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.PdfFileInfo> __Marshaller_GRPCProto_PdfFileInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.PdfFileInfo.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.JobInfo> __Marshaller_GRPCProto_JobInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.JobInfo.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Empty> __Marshaller_GRPCProto_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Empty.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.RejectJob> __Marshaller_GRPCProto_RejectJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.RejectJob.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.DoneJob> __Marshaller_GRPCProto_DoneJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.DoneJob.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::GRPCService.GRPCProto.PdfFileInfo, global::GRPCService.GRPCProto.JobInfo> __Method_SavePdfFileInfo = new grpc::Method<global::GRPCService.GRPCProto.PdfFileInfo, global::GRPCService.GRPCProto.JobInfo>(
+    static readonly grpc::Method<global::GRPCService.GRPCProto.PdfFileInfo, global::GRPCService.GRPCProto.Empty> __Method_SavePdfFileInfo = new grpc::Method<global::GRPCService.GRPCProto.PdfFileInfo, global::GRPCService.GRPCProto.Empty>(
         grpc::MethodType.Unary,
         __ServiceName,
         "SavePdfFileInfo",
         __Marshaller_GRPCProto_PdfFileInfo,
-        __Marshaller_GRPCProto_JobInfo);
+        __Marshaller_GRPCProto_Empty);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.RejectJob, global::GRPCService.GRPCProto.Empty> __Method_RejectJobCall = new grpc::Method<global::GRPCService.GRPCProto.RejectJob, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "RejectJobCall",
+        __Marshaller_GRPCProto_RejectJob,
+        __Marshaller_GRPCProto_Empty);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.DoneJob, global::GRPCService.GRPCProto.Empty> __Method_DoneJobCall = new grpc::Method<global::GRPCService.GRPCProto.DoneJob, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DoneJobCall",
+        __Marshaller_GRPCProto_DoneJob,
+        __Marshaller_GRPCProto_Empty);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -31,7 +47,17 @@ namespace GRPCService.GRPCProto {
     /// <summary>Base class for server-side implementations of DataBase</summary>
     public abstract partial class DataBaseBase
     {
-      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.JobInfo> SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> RejectJobCall(global::GRPCService.GRPCProto.RejectJob request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> DoneJobCall(global::GRPCService.GRPCProto.DoneJob request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -61,21 +87,53 @@ namespace GRPCService.GRPCProto {
       {
       }
 
-      public virtual global::GRPCService.GRPCProto.JobInfo SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::GRPCService.GRPCProto.Empty SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return SavePdfFileInfo(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::GRPCService.GRPCProto.JobInfo SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::CallOptions options)
+      public virtual global::GRPCService.GRPCProto.Empty SavePdfFileInfo(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_SavePdfFileInfo, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> SavePdfFileInfoAsync(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> SavePdfFileInfoAsync(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return SavePdfFileInfoAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> SavePdfFileInfoAsync(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> SavePdfFileInfoAsync(global::GRPCService.GRPCProto.PdfFileInfo request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_SavePdfFileInfo, null, options, request);
+      }
+      public virtual global::GRPCService.GRPCProto.Empty RejectJobCall(global::GRPCService.GRPCProto.RejectJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RejectJobCall(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty RejectJobCall(global::GRPCService.GRPCProto.RejectJob request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_RejectJobCall, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> RejectJobCallAsync(global::GRPCService.GRPCProto.RejectJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RejectJobCallAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> RejectJobCallAsync(global::GRPCService.GRPCProto.RejectJob request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RejectJobCall, null, options, request);
+      }
+      public virtual global::GRPCService.GRPCProto.Empty DoneJobCall(global::GRPCService.GRPCProto.DoneJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DoneJobCall(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty DoneJobCall(global::GRPCService.GRPCProto.DoneJob request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DoneJobCall, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> DoneJobCallAsync(global::GRPCService.GRPCProto.DoneJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DoneJobCallAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> DoneJobCallAsync(global::GRPCService.GRPCProto.DoneJob request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DoneJobCall, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override DataBaseClient NewInstance(ClientBaseConfiguration configuration)
@@ -89,7 +147,9 @@ namespace GRPCService.GRPCProto {
     public static grpc::ServerServiceDefinition BindService(DataBaseBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_SavePdfFileInfo, serviceImpl.SavePdfFileInfo).Build();
+          .AddMethod(__Method_SavePdfFileInfo, serviceImpl.SavePdfFileInfo)
+          .AddMethod(__Method_RejectJobCall, serviceImpl.RejectJobCall)
+          .AddMethod(__Method_DoneJobCall, serviceImpl.DoneJobCall).Build();
     }
 
   }

@@ -24,7 +24,9 @@ namespace DataBaseServer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Md5");
+                    b.Property<string>("Md5")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
                     b.Property<byte[]>("Version")
                         .IsConcurrencyToken()

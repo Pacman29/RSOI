@@ -18,10 +18,16 @@ namespace RSOI.Services.Impl
         public async Task CreatePdfFile(PdfFileInfo pdfFileInfo)
         {
             var result = await client.SavePdfFileInfoAsync(pdfFileInfo);
-            if (result.JobStatus != EnumJobStatus.Execute)
-                throw new Exception("not execute");
-        } 
+        }
 
+        public async Task DoneJob(Guid jobId)
+        {
+            var result = await client.DoneJobCallAsync(new DoneJob()
+            {
+                JobId = jobId.ToString()
+            });
+        }
+        
         public async void Dispose()
         {
             await channel.ShutdownAsync();

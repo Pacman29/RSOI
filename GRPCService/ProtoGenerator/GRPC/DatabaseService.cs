@@ -25,25 +25,31 @@ namespace GRPCService.GRPCProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChZkYXRhYmFzZV9zZXJ2aWNlLnByb3RvEglHUlBDUHJvdG8iBwoFRW1wdHki",
-            "LgoLUGRmRmlsZUluZm8SCwoDTUQ1GAEgASgJEhIKCkZpbGVMZW5ndGgYAiAB",
-            "KAMiNwoOQ29tbW9uUmVzcG9uc2USDwoHaXNFcnJvchgBIAEoCBIUCgxFcnJv",
-            "ck1lc3NhZ2UYAiABKAkiWgoeRGF0YWJhc2VDcmVhdGVGaWxlSW5mb1Jlc3Bv",
-            "bnNlEigKBWVycm9yGAEgASgLMhkuR1JQQ1Byb3RvLkNvbW1vblJlc3BvbnNl",
-            "Eg4KBmZpbGVJZBgCIAEoCSJWCgdKb2JJbmZvEisKCUpvYlN0YXR1cxgBIAEo",
-            "DjIYLkdSUENQcm90by5FbnVtSm9iU3RhdHVzEg0KBUpvYklkGAIgASgJEg8K",
-            "B01lc3NhZ2UYAyABKAkqMQoNRW51bUpvYlN0YXR1cxILCgdFWEVDVVRFEAAS",
-            "CAoERE9ORRABEgkKBUVSUk9SEAIySwoIRGF0YUJhc2USPwoPU2F2ZVBkZkZp",
-            "bGVJbmZvEhYuR1JQQ1Byb3RvLlBkZkZpbGVJbmZvGhIuR1JQQ1Byb3RvLkpv",
-            "YkluZm8iADJACgdHYXRlV2F5EjUKC1Bvc3RKb2JJbmZvEhIuR1JQQ1Byb3Rv",
-            "LkpvYkluZm8aEC5HUlBDUHJvdG8uRW1wdHkiAEIYqgIVR1JQQ1NlcnZpY2Uu",
-            "R1JQQ1Byb3RvYgZwcm90bzM="));
+            "PQoLUGRmRmlsZUluZm8SCwoDTUQ1GAEgASgJEhIKCkZpbGVMZW5ndGgYAiAB",
+            "KAMSDQoFSm9iSWQYAyABKAkiNwoOQ29tbW9uUmVzcG9uc2USDwoHaXNFcnJv",
+            "chgBIAEoCBIUCgxFcnJvck1lc3NhZ2UYAiABKAkiWgoeRGF0YWJhc2VDcmVh",
+            "dGVGaWxlSW5mb1Jlc3BvbnNlEigKBWVycm9yGAEgASgLMhkuR1JQQ1Byb3Rv",
+            "LkNvbW1vblJlc3BvbnNlEg4KBmZpbGVJZBgCIAEoCSIaCglSZWplY3RKb2IS",
+            "DQoFSm9iSWQYASABKAkiGAoHRG9uZUpvYhINCgVKb2JJZBgBIAEoCSJWCgdK",
+            "b2JJbmZvEisKCUpvYlN0YXR1cxgBIAEoDjIYLkdSUENQcm90by5FbnVtSm9i",
+            "U3RhdHVzEg0KBUpvYklkGAIgASgJEg8KB01lc3NhZ2UYAyABKAkqPwoNRW51",
+            "bUpvYlN0YXR1cxILCgdFWEVDVVRFEAASCAoERE9ORRABEgkKBUVSUk9SEAIS",
+            "DAoIUkVKRUNURUQQAzK7AQoIRGF0YUJhc2USPQoPU2F2ZVBkZkZpbGVJbmZv",
+            "EhYuR1JQQ1Byb3RvLlBkZkZpbGVJbmZvGhAuR1JQQ1Byb3RvLkVtcHR5IgAS",
+            "OQoNUmVqZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBD",
+            "UHJvdG8uRW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25l",
+            "Sm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgAyQAoHR2F0ZVdheRI1CgtQb3N0Sm9i",
+            "SW5mbxISLkdSUENQcm90by5Kb2JJbmZvGhAuR1JQQ1Byb3RvLkVtcHR5IgBC",
+            "GKoCFUdSUENTZXJ2aWNlLkdSUENQcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Empty), global::GRPCService.GRPCProto.Empty.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFileInfo), global::GRPCService.GRPCProto.PdfFileInfo.Parser, new[]{ "MD5", "FileLength" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFileInfo), global::GRPCService.GRPCProto.PdfFileInfo.Parser, new[]{ "MD5", "FileLength", "JobId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.CommonResponse), global::GRPCService.GRPCProto.CommonResponse.Parser, new[]{ "IsError", "ErrorMessage" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse), global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse.Parser, new[]{ "Error", "FileId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.RejectJob), global::GRPCService.GRPCProto.RejectJob.Parser, new[]{ "JobId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.DoneJob), global::GRPCService.GRPCProto.DoneJob.Parser, new[]{ "JobId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfo), global::GRPCService.GRPCProto.JobInfo.Parser, new[]{ "JobStatus", "JobId", "Message" }, null, null, null)
           }));
     }
@@ -55,6 +61,7 @@ namespace GRPCService.GRPCProto {
     [pbr::OriginalName("EXECUTE")] Execute = 0,
     [pbr::OriginalName("DONE")] Done = 1,
     [pbr::OriginalName("ERROR")] Error = 2,
+    [pbr::OriginalName("REJECTED")] Rejected = 3,
   }
 
   #endregion
@@ -188,6 +195,7 @@ namespace GRPCService.GRPCProto {
     public PdfFileInfo(PdfFileInfo other) : this() {
       mD5_ = other.mD5_;
       fileLength_ = other.fileLength_;
+      jobId_ = other.jobId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -218,6 +226,17 @@ namespace GRPCService.GRPCProto {
       }
     }
 
+    /// <summary>Field number for the "JobId" field.</summary>
+    public const int JobIdFieldNumber = 3;
+    private string jobId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string JobId {
+      get { return jobId_; }
+      set {
+        jobId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PdfFileInfo);
@@ -233,6 +252,7 @@ namespace GRPCService.GRPCProto {
       }
       if (MD5 != other.MD5) return false;
       if (FileLength != other.FileLength) return false;
+      if (JobId != other.JobId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -241,6 +261,7 @@ namespace GRPCService.GRPCProto {
       int hash = 1;
       if (MD5.Length != 0) hash ^= MD5.GetHashCode();
       if (FileLength != 0L) hash ^= FileLength.GetHashCode();
+      if (JobId.Length != 0) hash ^= JobId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -262,6 +283,10 @@ namespace GRPCService.GRPCProto {
         output.WriteRawTag(16);
         output.WriteInt64(FileLength);
       }
+      if (JobId.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(JobId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -275,6 +300,9 @@ namespace GRPCService.GRPCProto {
       }
       if (FileLength != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(FileLength);
+      }
+      if (JobId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(JobId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -293,6 +321,9 @@ namespace GRPCService.GRPCProto {
       if (other.FileLength != 0L) {
         FileLength = other.FileLength;
       }
+      if (other.JobId.Length != 0) {
+        JobId = other.JobId;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -310,6 +341,10 @@ namespace GRPCService.GRPCProto {
           }
           case 16: {
             FileLength = input.ReadInt64();
+            break;
+          }
+          case 26: {
+            JobId = input.ReadString();
             break;
           }
         }
@@ -638,6 +673,264 @@ namespace GRPCService.GRPCProto {
 
   }
 
+  public sealed partial class RejectJob : pb::IMessage<RejectJob> {
+    private static readonly pb::MessageParser<RejectJob> _parser = new pb::MessageParser<RejectJob>(() => new RejectJob());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RejectJob> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCService.GRPCProto.DatabaseServiceReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RejectJob() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RejectJob(RejectJob other) : this() {
+      jobId_ = other.jobId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RejectJob Clone() {
+      return new RejectJob(this);
+    }
+
+    /// <summary>Field number for the "JobId" field.</summary>
+    public const int JobIdFieldNumber = 1;
+    private string jobId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string JobId {
+      get { return jobId_; }
+      set {
+        jobId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RejectJob);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RejectJob other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (JobId != other.JobId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (JobId.Length != 0) hash ^= JobId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (JobId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(JobId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (JobId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(JobId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RejectJob other) {
+      if (other == null) {
+        return;
+      }
+      if (other.JobId.Length != 0) {
+        JobId = other.JobId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            JobId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DoneJob : pb::IMessage<DoneJob> {
+    private static readonly pb::MessageParser<DoneJob> _parser = new pb::MessageParser<DoneJob>(() => new DoneJob());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DoneJob> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCService.GRPCProto.DatabaseServiceReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DoneJob() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DoneJob(DoneJob other) : this() {
+      jobId_ = other.jobId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DoneJob Clone() {
+      return new DoneJob(this);
+    }
+
+    /// <summary>Field number for the "JobId" field.</summary>
+    public const int JobIdFieldNumber = 1;
+    private string jobId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string JobId {
+      get { return jobId_; }
+      set {
+        jobId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DoneJob);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DoneJob other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (JobId != other.JobId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (JobId.Length != 0) hash ^= JobId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (JobId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(JobId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (JobId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(JobId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DoneJob other) {
+      if (other == null) {
+        return;
+      }
+      if (other.JobId.Length != 0) {
+        JobId = other.JobId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            JobId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class JobInfo : pb::IMessage<JobInfo> {
     private static readonly pb::MessageParser<JobInfo> _parser = new pb::MessageParser<JobInfo>(() => new JobInfo());
     private pb::UnknownFieldSet _unknownFields;
@@ -646,7 +939,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.DatabaseServiceReflection.Descriptor.MessageTypes[4]; }
+      get { return global::GRPCService.GRPCProto.DatabaseServiceReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

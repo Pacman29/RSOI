@@ -1,17 +1,21 @@
 using System;
 using System.Threading.Tasks;
+using JobExecutor;
 using Microsoft.AspNetCore.Mvc;
 using Models.Requests;
+using RSOI.Jobs;
 
 namespace RSOI.Services.Impl
 {
     public class RecognizeService : IRecognizeService
     {
         private readonly IDataBaseService dataBaseService;
-        
+        private IJobExecutor _jobExecutor;
+
         public RecognizeService(IDataBaseService dataBaseService)
         {
             this.dataBaseService = dataBaseService;
+            this._jobExecutor = JobExecutor.JobExecutor.Instance;
         }
 
         public async Task<IActionResult> RecognizePdf(PdfFile pdfFile)
@@ -19,7 +23,14 @@ namespace RSOI.Services.Impl
             IActionResult result = null;
             try
             {
-                await dataBaseService.CreatePdfFile(await pdfFile.GetPdfFileInfo());
+                var job = new AddPdfToDatabaseJob(
+                    Guid.NewGuid(), 
+                    dataBaseService, 
+                    await pdfFile.GetPdfFileInfo()
+                    );
+                
+                _jobExecutor.AddJob(job);
+                
                 result = new OkResult();
             }
             catch (Exception e)

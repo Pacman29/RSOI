@@ -4,7 +4,9 @@ package GRPCProto;
 option csharp_namespace = "GRPCService.GRPCProto";
 
 service DataBase {
-    rpc SavePdfFileInfo (PdfFileInfo) returns (JobInfo) {}
+    rpc SavePdfFileInfo (PdfFileInfo) returns (Empty) {}
+    rpc RejectJobCall(RejectJob) returns (Empty) {}
+    rpc DoneJobCall(DoneJob) returns (Empty) {}
 }
 
 service GateWay {
@@ -17,6 +19,7 @@ message Empty {
 message PdfFileInfo {
     string MD5 = 1;
     int64 FileLength = 2;
+    string JobId = 3;
 }
 
 message CommonResponse {
@@ -33,6 +36,15 @@ enum EnumJobStatus {
     EXECUTE = 0;
     DONE = 1;
     ERROR = 2;
+    REJECTED = 3;
+}
+
+message RejectJob {
+    string JobId = 1;
+}
+
+message DoneJob {
+    string JobId = 1;
 }
 
 message JobInfo {
