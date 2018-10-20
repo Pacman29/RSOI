@@ -1,6 +1,8 @@
+using System;
+
 namespace DataBaseServer.Exceptions.DBExceptions
 {
-    public class DeleteException
+    public class DeleteException : Exception
     {
         
     }

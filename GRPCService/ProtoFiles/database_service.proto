@@ -1,10 +1,17 @@
 syntax = "proto3";
-package DataBaseProto;
+package GRPCProto;
 
-option csharp_namespace = "GRPCService.DataBaseProto";
+option csharp_namespace = "GRPCService.GRPCProto";
 
 service DataBase {
-    rpc SavePdfFileInfo (PdfFileInfo) returns (DatabaseCreateFileInfoResponse) {}
+    rpc SavePdfFileInfo (PdfFileInfo) returns (JobInfo) {}
+}
+
+service GateWay {
+    rpc PostJobInfo (JobInfo) returns (Empty) {}
+}
+
+message Empty {
 }
 
 message PdfFileInfo {
@@ -20,4 +27,16 @@ message CommonResponse {
 message DatabaseCreateFileInfoResponse {
     CommonResponse error = 1;
     string fileId = 2;   
+}
+
+enum EnumJobStatus {
+    EXECUTE = 0;
+    DONE = 1;
+    ERROR = 2;
+}
+
+message JobInfo {
+    EnumJobStatus JobStatus = 1; 
+    string JobId = 2;
+    string Message = 3;
 }

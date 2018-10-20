@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ProtoGenerator\DataBase" />
+      <Folder Include="ProtoGenerator\GRPC" />
     </ItemGroup>
 
 </Project>

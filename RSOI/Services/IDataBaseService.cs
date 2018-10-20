@@ -1,10 +1,11 @@
 using System;
-using GRPCService.DataBaseProto;
+using System.Threading.Tasks;
+using GRPCService.GRPCProto;
 
 namespace RSOI.Services
 {
     public interface IDataBaseService : IDisposable
     {
-        void CreatePdfFile(PdfFileInfo pdfFileInfo);
+        Task CreatePdfFile(PdfFileInfo pdfFileInfo);
     }
 }

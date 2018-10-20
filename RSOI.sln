@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseServer", "DataBaseS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRPCService", "GRPCService\GRPCService.csproj", "{87628FEF-B53B-4F79-A5CB-33D02A060304}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobExecutor", "JobExecutor\JobExecutor.csproj", "{4690635D-D0DE-4160-A0B3-62B902929C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{87628FEF-B53B-4F79-A5CB-33D02A060304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87628FEF-B53B-4F79-A5CB-33D02A060304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87628FEF-B53B-4F79-A5CB-33D02A060304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

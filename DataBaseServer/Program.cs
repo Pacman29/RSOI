@@ -1,6 +1,6 @@
 ﻿using System;
 using Grpc.Core;
-using GRPCService.DataBaseProto;
+using GRPCService.GRPCProto;
 
 namespace DataBaseServer
 {
@@ -10,6 +10,7 @@ namespace DataBaseServer
         
         static void Main(string[] args)
         {
+            
             server = new Server
             {
                 Services = {DataBase.BindService(new DataBaseServerGrpc())},

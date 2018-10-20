@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GRPCService.DataBaseProto;
+using GRPCService.GRPCProto;
 
 namespace DataBaseServer.DBO
 {

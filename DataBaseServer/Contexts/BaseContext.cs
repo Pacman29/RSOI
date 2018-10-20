@@ -3,28 +3,41 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataBaseServer.DBO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DataBaseServer.Contexts
 {
-    public class BaseContext<T> : DbContext where T : class, IEntity
+    public class BaseContext<T>: IContext<T> where T : class, IEntity 
     {
-        private DbSet<T> _dbSet;
-        
+        private DbSet<T> _dbSet { get; set; }
+        private DbContext _context;
+
+        public BaseContext(DbContext context, DbSet<T> dbSet)
+        {
+            _context = context;
+            _dbSet = dbSet;
+        }
+
         public async Task<List<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
         
-        public async Task AddAsync(T source)
+        public async Task<bool> AddAsync(T source)
         {
-            var result = await _dbSet.AddAsync(source);
-            if(result.State == EntityState.Added)
-                await SaveChangesAsync();
+            bool result;
+            var state = await _dbSet.AddAsync(source);
+            if (state.State == EntityState.Added)
+            {
+                await _context.SaveChangesAsync();
+                result = true;
+            }
             else
             {
-                throw 
+                result = false;
             }
+
+            return result;
         }
         
         public async Task<T> FindByIdAsync(int id)
@@ -32,15 +45,40 @@ namespace DataBaseServer.Contexts
             return await _dbSet.FindAsync(id);
         }
 
-        public async UpdateAsync(T source)
+        public async Task<bool> UpdateAsync(T source)
         {
+            bool result;
             source.changed = DateTime.Now;
-            return await _dbSet.UpdateAsync(source);
+            var state = _dbSet.Update(source);
+            if (state.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public async Task<bool> DeleteAsync(T source)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=rsoi_database;Username=rsoi;Password=rsoi");
+            bool result;
+            var state = _dbSet.Remove(source);
+            if (state.State == EntityState.Deleted)
+            {
+                await _context.SaveChangesAsync();
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
+       
     }
 }

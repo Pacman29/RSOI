@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GRPCService.DataBaseProto;
+using GRPCService.GRPCProto;
 using Microsoft.AspNetCore.Http;
 
 namespace Models.Requests

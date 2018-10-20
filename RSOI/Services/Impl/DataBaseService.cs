@@ -1,6 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Grpc.Core;
-using GRPCService.DataBaseProto;
+using GRPCService.GRPCProto;
 
 namespace RSOI.Services.Impl
 {
@@ -14,11 +15,11 @@ namespace RSOI.Services.Impl
             client = new DataBase.DataBaseClient(channel);
         }
 
-        public async void CreatePdfFile(PdfFileInfo pdfFileInfo)
+        public async Task CreatePdfFile(PdfFileInfo pdfFileInfo)
         {
             var result = await client.SavePdfFileInfoAsync(pdfFileInfo);
-            if (result.Error.IsError)
-                throw new Exception(result.Error.ErrorMessage);
+            if (result.JobStatus != EnumJobStatus.Execute)
+                throw new Exception("not execute");
         } 
 
         public async void Dispose()

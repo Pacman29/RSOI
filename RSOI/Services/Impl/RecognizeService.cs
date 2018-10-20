@@ -19,7 +19,7 @@ namespace RSOI.Services.Impl
             IActionResult result = null;
             try
             {
-                dataBaseService.CreatePdfFile(await pdfFile.GetPdfFileInfo());
+                await dataBaseService.CreatePdfFile(await pdfFile.GetPdfFileInfo());
                 result = new OkResult();
             }
             catch (Exception e)
