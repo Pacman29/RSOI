@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRPCService", "GRPCService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobExecutor", "JobExecutor\JobExecutor.csproj", "{4690635D-D0DE-4160-A0B3-62B902929C9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognizePdfServer", "RecognizePdfServer\RecognizePdfServer.csproj", "{055B2334-1DA9-48FA-9025-E283C7800125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4690635D-D0DE-4160-A0B3-62B902929C9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055B2334-1DA9-48FA-9025-E283C7800125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055B2334-1DA9-48FA-9025-E283C7800125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055B2334-1DA9-48FA-9025-E283C7800125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055B2334-1DA9-48FA-9025-E283C7800125}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

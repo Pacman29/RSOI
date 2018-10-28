@@ -8,6 +8,7 @@ namespace JobExecutor
     {
         public Guid? Guid { get; set; } = null;
         public BaseJob RootJob { get; set; }
+        public IJobExecutor Executor { get; set; }
 
         private EnumJobStatus _jobStatus;
         public EnumJobStatus JobStatus

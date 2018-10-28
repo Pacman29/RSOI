@@ -33,6 +33,7 @@ namespace JobExecutor
             if (job.Guid == null)
                 throw  new Exception("Job uid is null");
 
+            job.Executor = this;
             var guid = (Guid) job.Guid;
             try
             {
@@ -64,6 +65,7 @@ namespace JobExecutor
             if (job.Guid == null)
                 throw  new Exception("Job uid is null");
 
+            job.Executor = this;
             var guid = (Guid) job.Guid;
             try
             {

@@ -2,7 +2,7 @@
 using Grpc.Core;
 using GRPCService.GRPCProto;
 
-namespace DataBaseServer
+namespace RecognizePdfServer
 {
     public class Program
     {
@@ -12,11 +12,11 @@ namespace DataBaseServer
         {
             server = new Server
             {
-                Services = {DataBase.BindService(new DataBaseServerGrpc())},
-                Ports = {new ServerPort("0.0.0.0", 8080, ServerCredentials.Insecure)}
+                Services = {RecognizeService.BindService(new PdfRecognizeServerGrpc())},
+                Ports = {new ServerPort("0.0.0.0", 8081, ServerCredentials.Insecure)}
             };
             server.Start();
-            Console.WriteLine("DataBase server listening on port " + 8080);
+            Console.WriteLine("PdfServer listening on port " + 8081);
             Console.WriteLine("Press Ctrl+C  to stop the server...");
             Console.CancelKeyPress += new ConsoleCancelEventHandler(OnExit);
             while (true)
