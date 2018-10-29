@@ -66,7 +66,8 @@ enum EnumJobStatus {
 message PdfFileInfo {
     string MD5 = 1;
     int64 FileLength = 2;
-    string JobId = 3;
+    string Path = 3;
+    string JobId = 4;
 }
 
 message CommonResponse {

@@ -9,7 +9,7 @@ namespace DataBaseServer.Contexts
     {
         Task<List<T>> GetAllAsync();
 
-        Task<bool> AddAsync(T source);
+        Task<T> AddAsync(T source);
 
         Task<T> FindByIdAsync(int id);
 

@@ -32,14 +32,5 @@ namespace RSOI.Jobs
         {
             Console.WriteLine($"{this.Guid} job reject");
         }
-
-        public override void OnDone()
-        {
-            if(this.Guid != null)
-                Task.Run(async () =>
-                {
-                    _dataBaseService.DoneJob((Guid) this.Guid);
-                });
-        }
     }
 }

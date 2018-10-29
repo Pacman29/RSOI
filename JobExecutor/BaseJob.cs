@@ -11,7 +11,11 @@ namespace JobExecutor
         public BaseJob RootJob { get; set; }
         public IJobExecutor Executor { get; set; }
         public byte[] Bytes { get; set; }
-        
+
+        public Action<BaseJob> OnDone = null;
+        public Action<BaseJob> OnError = null;
+        public Action<BaseJob> OnReject = null;
+        public Action<BaseJob> OnExecute = null;
         
         private EnumJobStatus _jobStatus;
         public EnumJobStatus JobStatus
@@ -22,38 +26,20 @@ namespace JobExecutor
                 switch (value)
                 {
                     case EnumJobStatus.Done:
-                        OnDone();
+                        OnDone?.Invoke(this);
                         break;
                     case EnumJobStatus.Error:
-                        OnError();
+                        OnError?.Invoke(this);
                         break;
                     case EnumJobStatus.Rejected:
-                        OnReject();
+                        OnReject?.Invoke(this);
                         break;
                     case EnumJobStatus.Execute:
-                        OnExecute();
+                        OnExecute?.Invoke(this);
                         break;
                 }
                 this._jobStatus = value;
             }
-        }
-
-        public virtual void OnDone()
-        {
-            
-        }
-
-        public virtual void OnError()
-        {
-            
-        }
-        public virtual void OnReject() 
-        {
-            
-        }
-        public virtual void OnExecute()
-        {
-            
         }
         
         public virtual async Task ExecuteAsync()

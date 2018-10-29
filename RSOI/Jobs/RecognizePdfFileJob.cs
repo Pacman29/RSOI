@@ -12,13 +12,13 @@ namespace RSOI.Jobs
     public class RecognizePdfFileJob : BaseJob
     {
         private readonly byte[] _pdfFile;
-        private readonly Recognize.RecognizeClient _recognizeClient;
+        private readonly IRecognizeService _recognizeService;
         private int[] _pages;
 
-        public RecognizePdfFileJob(Guid jobId,Recognize.RecognizeClient recognizeClient, byte[] pdfFile, int[] pages, BaseJob rootJob = null)
+        public RecognizePdfFileJob(Guid jobId,IRecognizeService recognizeService, byte[] pdfFile, int[] pages, BaseJob rootJob = null)
         {
             this._pdfFile = pdfFile;
-            this._recognizeClient = recognizeClient;
+            this._recognizeService = recognizeService;
             this.Guid = jobId;
             this.RootJob = rootJob;
             this._pages = pages;
@@ -35,29 +35,12 @@ namespace RSOI.Jobs
                 JobId = ((Guid) guid).ToString(),
                 Pages = { _pages}
             };
-            await _recognizeClient.RecognizePdfAsync(pdfFile);
+            await _recognizeService.RecognizePdf(pdfFile);
         }
 
         public override async Task Reject()
         {
             Console.WriteLine($"{this.Guid} job reject");
-        }
-
-        public override void OnDone()
-        {
-            using (var compressedFileStream = new FileStream("zip.zip", FileMode.Create))
-            {
-                compressedFileStream.Write(this.Bytes);
-            }
-
-            if(this.Guid != null)
-                Task.Run(async () =>
-                {
-                    _recognizeClient.DoneJobCall(new DoneJob()
-                    {
-                        JobId = this.Guid.ToString()
-                    });
-                });
         }
     }
 }

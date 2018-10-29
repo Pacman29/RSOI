@@ -20,21 +20,23 @@ namespace DataBaseServer.DBO
         public long fileLength { get; set; }
         [Timestamp]
         public byte[] Version { get; set; }
+        
+        [StringLength(250)]
+        public string Path { get; set; }
 
         public FileInfo()
         {
             changed = DateTime.Now;
         }
-        
-        public FileInfo(string md5, long fileLength) : this()
-        {
-            Md5 = md5;
-            this.fileLength = fileLength;
-        }
 
-        public static FileInfo fromPdfFileInfo(PdfFileInfo pdfFileInfo)
+        public static FileInfo FromPdfFileInfo(PdfFileInfo pdfFileInfo)
         {
-            return new FileInfo(pdfFileInfo.MD5,pdfFileInfo.FileLength);
+            return new FileInfo()
+            {
+                Md5 = pdfFileInfo.MD5,
+                fileLength = pdfFileInfo.FileLength,
+                Path = pdfFileInfo.Path
+            };
         }
 
         

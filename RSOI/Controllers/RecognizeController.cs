@@ -9,7 +9,7 @@ namespace RSOI.Controllers
     [ApiController]
     public class RecognizeController : ControllerBase
     {
-        private IManagerService _managerService;
+        private readonly IManagerService _managerService;
 
         public RecognizeController(IManagerService managerService)
         {
@@ -26,7 +26,7 @@ namespace RSOI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostPdf([FromForm] PdfFile request)
         {
-            return await recognizeService.RecognizePdf(request);
+            return await _managerService.RecognizePdf(request);
         }
     }
 }

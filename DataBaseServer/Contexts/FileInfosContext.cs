@@ -7,12 +7,12 @@ namespace DataBaseServer.Contexts
 {
     public class FileInfosContext : DbContext, IContext<FileInfo>
     {
-        private BaseContext<FileInfo> baseContext;
+        private readonly BaseContext<FileInfo> _baseContext;
         private DbSet<FileInfo> FileInfos { get; set; }
         
         public FileInfosContext()
         {
-            baseContext = new BaseContext<FileInfo>(this, FileInfos);
+            _baseContext = new BaseContext<FileInfo>(this, FileInfos);
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,27 +22,27 @@ namespace DataBaseServer.Contexts
 
         public Task<List<FileInfo>> GetAllAsync()
         {
-            return baseContext.GetAllAsync();
+            return _baseContext.GetAllAsync();
         }
 
-        public Task<bool> AddAsync(FileInfo source)
+        public Task<FileInfo> AddAsync(FileInfo source)
         {
-            return baseContext.AddAsync(source);
+            return _baseContext.AddAsync(source);
         }
 
         public Task<FileInfo> FindByIdAsync(int id)
         {
-            return baseContext.FindByIdAsync(id);
+            return _baseContext.FindByIdAsync(id);
         }
 
         public Task<bool> UpdateAsync(FileInfo source)
         {
-            return baseContext.UpdateAsync(source);
+            return _baseContext.UpdateAsync(source);
         }
 
         public Task<bool> DeleteAsync(FileInfo source)
         {
-            return baseContext.DeleteAsync(source);
+            return _baseContext.DeleteAsync(source);
         }
     }
 }

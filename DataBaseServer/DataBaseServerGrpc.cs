@@ -4,11 +4,8 @@ using DataBaseServer.Contexts;
 using DataBaseServer.DBO;
 using DataBaseServer.Exceptions.DBExceptions;
 using DataBaseServer.Jobs;
-using DataBaseServer.Services;
 using Grpc.Core;
 using GRPCService.GRPCProto;
-using JobExecutor;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseServer
 {
@@ -16,13 +13,15 @@ namespace DataBaseServer
     {
         private readonly FileInfosContext _fileInfosContext;
         private readonly JobExecutor.IJobExecutor _jobExecutor;
-        private readonly IGateWayService _gateWayService;
-        
+        private readonly GateWay.GateWayClient _gateWay;
+        private readonly Channel _channel;
+
         public DataBaseServerGrpc() : base()
         {
             _fileInfosContext = new FileInfosContext();
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _gateWayService = new GateWayService("localhost:8001");
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            _gateWay = new GateWay.GateWayClient(_channel);
         }
 
         private Action<Guid> GetHandleJobOk()
@@ -30,8 +29,12 @@ namespace DataBaseServer
             return async (Guid guid) =>
             {
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
-                var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
-                await _gateWayService.SendJobInfo(jobInfo);
+                var job = _jobExecutor.GetJob(guid);
+                if (job.Bytes == null)
+                    await _gateWay.PostJobInfoAsync(job.GetJobInfo());
+                else
+                    await _gateWay.PostJobInfoWithBytesAsync(job.GetJobInfoWithBytes());
+
             };
         }
 
@@ -42,7 +45,7 @@ namespace DataBaseServer
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
-                await _gateWayService.SendJobInfo(jobInfo);
+                await _gateWay.PostJobInfoAsync(jobInfo);
             };
         } 
         
@@ -51,7 +54,7 @@ namespace DataBaseServer
             var result = new Empty();
             try
             {
-                var job = new AddPdfFileJob(_fileInfosContext, FileInfo.fromPdfFileInfo(request))
+                var job = new AddPdfFileJob(_fileInfosContext, FileInfo.FromPdfFileInfo(request))
                 {
                     Guid = new Guid(request.JobId)
                 };
@@ -61,7 +64,7 @@ namespace DataBaseServer
                     JobId = request.JobId
                 };
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWayService.SendJobInfo(jobInfo);
+                await _gateWay.PostJobInfoAsync(jobInfo);
             }
             catch (AddException e)
             {
@@ -104,9 +107,10 @@ namespace DataBaseServer
             return result;
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
             _fileInfosContext?.Dispose();
+            await _channel.ShutdownAsync();
         }
     }
 }

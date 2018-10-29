@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using JobExecutor;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,9 @@ namespace RSOI
             services.AddSingleton<IRecognizeService>(recognizeService);
             var fileService = new FileService("localhost:8082");
             services.AddSingleton<IFileService>(fileService);
+
+            var executor = JobExecutor.JobExecutor.Instance;
+            services.AddSingleton<IJobExecutor>(executor);
 
             services.AddSingleton<IManagerService, ManagerService>();
         }

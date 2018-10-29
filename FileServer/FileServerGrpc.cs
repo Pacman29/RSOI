@@ -10,16 +10,17 @@ using Path = GRPCService.GRPCProto.Path;
 
 namespace FileServer
 {
-    public class FileServerGrpc : GRPCService.GRPCProto.FileServer.FileServerBase
+    public class FileServerGrpc : GRPCService.GRPCProto.FileServer.FileServerBase, IDisposable
     {
         private readonly IJobExecutor _jobExecutor;
         private readonly GateWay.GateWayClient _gateWay;
+        private readonly Channel _channel;
 
         public FileServerGrpc()
         {
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            var channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
-            _gateWay = new GateWay.GateWayClient(channel);
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            _gateWay = new GateWay.GateWayClient(_channel);
         }
 
         private Action<Guid> GetHandleJobOk()
@@ -27,8 +28,11 @@ namespace FileServer
             return async (Guid guid) =>
             {
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
-                var jobInfoWithBytes = _jobExecutor.GetJob(guid).GetJobInfoWithBytes();
-                await _gateWay.PostJobInfoWithBytesAsync(jobInfoWithBytes);
+                var job = _jobExecutor.GetJob(guid);
+                if (job.Bytes == null)
+                    await _gateWay.PostJobInfoAsync(job.GetJobInfo());
+                else
+                    await _gateWay.PostJobInfoWithBytesAsync(job.GetJobInfoWithBytes());
             };
         }
 
@@ -59,7 +63,7 @@ namespace FileServer
                     JobStatus = EnumJobStatus.Execute, 
                     JobId = jobId
                 };
-                _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
                 await _gateWay.PostJobInfoAsync(jobInfo);
 
             }
@@ -103,6 +107,11 @@ namespace FileServer
         public override Task<Empty> DeleteFile(Path request, ServerCallContext context)
         {
             return base.DeleteFile(request, context);
+        }
+
+        public async void Dispose()
+        {
+           await _channel.ShutdownAsync();
         }
     }
 }

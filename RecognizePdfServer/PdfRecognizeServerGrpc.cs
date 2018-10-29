@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DataBaseServer.Services;
 using Grpc.Core;
 using GRPCService.GRPCProto;
 using JobExecutor;
@@ -15,12 +14,13 @@ namespace RecognizePdfServer
     {
         private readonly IJobExecutor _jobExecutor;
         private readonly GateWay.GateWayClient _gateWay;
+        private readonly Channel _channel;
 
         public PdfRecognizeServerGrpc()
         {
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            var channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
-            _gateWay = new GateWay.GateWayClient(channel);
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            _gateWay = new GateWay.GateWayClient(_channel);
         }
 
         private Action<Guid> GetHandleJobOk()
@@ -28,8 +28,11 @@ namespace RecognizePdfServer
             return async (Guid guid) =>
             {
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
-                var jobInfoWithBytes = _jobExecutor.GetJob(guid).GetJobInfoWithBytes();
-                await _gateWay.PostJobInfoWithBytesAsync(jobInfoWithBytes);
+                var job = _jobExecutor.GetJob(guid);
+                if (job.Bytes == null)
+                    await _gateWay.PostJobInfoAsync(job.GetJobInfo());
+                else
+                    await _gateWay.PostJobInfoWithBytesAsync(job.GetJobInfoWithBytes());
             };
         }
 
@@ -106,8 +109,9 @@ namespace RecognizePdfServer
             return result;
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
+           await _channel.ShutdownAsync();
         }
     }
 }
