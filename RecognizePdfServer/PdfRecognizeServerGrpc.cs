@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DataBaseServer.Services;
@@ -10,15 +11,16 @@ using RecognizePdfServer.Jobs;
 
 namespace RecognizePdfServer
 {
-    public class PdfRecognizeServerGrpc : RecognizeService.RecognizeServiceBase, IDisposable
+    public class PdfRecognizeServerGrpc : Recognize.RecognizeBase, IDisposable
     {
-        private IJobExecutor _jobExecutor;
-        private GateWayService _gateWayService;
+        private readonly IJobExecutor _jobExecutor;
+        private readonly GateWay.GateWayClient _gateWay;
 
         public PdfRecognizeServerGrpc()
         {
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _gateWayService = new GateWayService("localhost:8001");
+            var channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            _gateWay = new GateWay.GateWayClient(channel);
         }
 
         private Action<Guid> GetHandleJobOk()
@@ -26,8 +28,8 @@ namespace RecognizePdfServer
             return async (Guid guid) =>
             {
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
-                var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
-                await _gateWayService.SendJobInfo(jobInfo);
+                var jobInfoWithBytes = _jobExecutor.GetJob(guid).GetJobInfoWithBytes();
+                await _gateWay.PostJobInfoWithBytesAsync(jobInfoWithBytes);
             };
         }
 
@@ -38,28 +40,19 @@ namespace RecognizePdfServer
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
-                await _gateWayService.SendJobInfo(jobInfo);
+                await _gateWay.PostJobInfoAsync(jobInfo);
             };
         }
         
-        public override async Task<Empty> RecognizePdf(IAsyncStreamReader<PdfFile> requestStream, ServerCallContext context)
+        public override async Task<Empty> RecognizePdf(PdfFile request, ServerCallContext context)
         {
-            var memoryStream = new MemoryStream(requestStream.Current.Filelength);
-            var cancelToken = new CancellationToken();
-            var fileLength = 0;
-            var fileName = "";
-            var jobId = "";
-            while (await requestStream.MoveNext(cancelToken))
-            {
-                requestStream.Current.Bytes.WriteTo(memoryStream);
-                fileLength = requestStream.Current.Filelength;
-                fileName = requestStream.Current.Filename;
-                jobId = requestStream.Current.JobId;
-            }
+            var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
+            var pages = request.Pages.ToArray();
+            var jobId = request.JobId;
                 
             try
             {
-                var job = new RecognizePdfJob(memoryStream,fileLength,fileName)
+                var job = new RecognizePdfJob(memoryStream,pages)
                 {
                     Guid = new Guid(jobId)
                 };
@@ -68,9 +61,9 @@ namespace RecognizePdfServer
                     JobStatus = EnumJobStatus.Execute, 
                     JobId = jobId
                 };
-                _jobExecutor.AddJob(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWayService.SendJobInfo(jobInfo);
-                
+                _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
+                await _gateWay.PostJobInfoAsync(jobInfo);
+
             }
             catch (Exception e)
             {

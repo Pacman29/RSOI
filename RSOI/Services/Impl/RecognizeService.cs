@@ -1,46 +1,23 @@
-using System;
 using System.Threading.Tasks;
-using JobExecutor;
-using Microsoft.AspNetCore.Mvc;
-using Models.Requests;
-using RSOI.Jobs;
+using Grpc.Core;
+using GRPCService.GRPCProto;
 
 namespace RSOI.Services.Impl
 {
     public class RecognizeService : IRecognizeService
     {
-        private readonly IDataBaseService dataBaseService;
-        private IJobExecutor _jobExecutor;
-
-        public RecognizeService(IDataBaseService dataBaseService)
+        private readonly Channel _channel;
+        private Recognize.RecognizeClient Client { get; set; }
+        
+        public RecognizeService(string recognizeUri)
         {
-            this.dataBaseService = dataBaseService;
-            this._jobExecutor = JobExecutor.JobExecutor.Instance;
+            _channel = new Channel(recognizeUri, ChannelCredentials.Insecure);
+            Client = new Recognize.RecognizeClient(_channel);
         }
 
-        public async Task<IActionResult> RecognizePdf(PdfFile pdfFile)
+        public async Task RecognizePdf(PdfFile pdfFile)
         {
-            IActionResult result = null;
-            try
-            {
-                var job = new AddPdfToDatabaseJob(
-                    Guid.NewGuid(), 
-                    dataBaseService, 
-                    await pdfFile.GetPdfFileInfo()
-                    );
-                
-                _jobExecutor.AddJob(job);
-                
-                result = new OkResult();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                var error = new JsonResult(e);
-                result = error;
-            }
-
-            return result;
+            var result = await Client.RecognizePdfAsync(pdfFile);
         }
     }
 }

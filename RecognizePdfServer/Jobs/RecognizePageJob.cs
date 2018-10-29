@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using JobExecutor;
 using PDFiumSharp;
@@ -13,14 +14,14 @@ namespace RecognizePdfServer.Jobs
             _pdfPage = pdfPage;
         }
 
-        public override Task Execute()
+        public override Task ExecuteAsync()
         {
-            
+            throw new NotImplementedException();
         }
 
         public override Task Reject()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

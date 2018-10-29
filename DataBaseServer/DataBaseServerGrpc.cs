@@ -60,7 +60,7 @@ namespace DataBaseServer
                     JobStatus = EnumJobStatus.Execute, 
                     JobId = request.JobId
                 };
-                _jobExecutor.AddJob(job, GetHandleJobOk(), GetHandleJobError());
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
                 await _gateWayService.SendJobInfo(jobInfo);
             }
             catch (AddException e)

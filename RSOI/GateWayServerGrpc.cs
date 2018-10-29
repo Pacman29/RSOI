@@ -28,5 +28,24 @@ namespace RSOI
             _jobExecutor.SetJobStatus(new Guid(request.JobId),request.JobStatus);
             return new Empty();
         }
+        
+        public override async Task<Empty> PostJobInfoWithBytes(JobInfoWithBytes request, ServerCallContext context)
+        {
+            switch (request.JobInfo.JobStatus)
+            {
+                case EnumJobStatus.Execute: 
+                    Console.WriteLine($"{request.JobInfo.JobId} execute");
+                    break;
+                case EnumJobStatus.Done:
+                    Console.WriteLine($"{request.JobInfo.JobId} done");
+                    break;
+                case EnumJobStatus.Error:
+                    Console.WriteLine($"{request.JobInfo.JobId} error; {request.JobInfo.Message}");
+                    break;
+            }
+            
+            _jobExecutor.SetJobStatus(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
+            return new Empty();
+        }
     }
 }

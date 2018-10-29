@@ -1,0 +1,28 @@
+using System.Threading.Tasks;
+using Grpc.Core;
+using GRPCService.GRPCProto;
+
+namespace RSOI.Services.Impl
+{
+    public class FileService : IFileService
+    {
+        private readonly Channel _channel;
+        private FileServer.FileServerClient Client { get; set; }
+        
+        public FileService(string fileServerUri)
+        {
+            _channel = new Channel(fileServerUri, ChannelCredentials.Insecure);
+            Client = new FileServer.FileServerClient(_channel);
+        }
+        
+        public async Task SaveFile(File file)
+        {
+            var result = await Client.SaveFileAsync(file);
+        }
+
+        public async Task GetFile(Path path)
+        {
+            var result = await Client.GetFileAsync(path);
+        }
+    }
+}

@@ -9,11 +9,11 @@ namespace RSOI.Controllers
     [ApiController]
     public class RecognizeController : ControllerBase
     {
-        private readonly IRecognizeService recognizeService;
-        
-        public RecognizeController(IRecognizeService _recognizeService)
+        private IManagerService _managerService;
+
+        public RecognizeController(IManagerService managerService)
         {
-            recognizeService = _recognizeService;
+            _managerService = managerService;
         }
 
 

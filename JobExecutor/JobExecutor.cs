@@ -8,11 +8,44 @@ namespace JobExecutor
 {
     public  sealed class JobExecutor : IJobExecutor
     {
-        private readonly object balanceLock = new object();
-        private ConcurrentDictionary<Guid,BaseJob> jobs = new ConcurrentDictionary<Guid, BaseJob>();
-
+        private readonly object _balanceLock = new object();
+        private readonly ConcurrentDictionary<Guid,BaseJob> _jobs = new ConcurrentDictionary<Guid, BaseJob>();
+        private struct jobPack
+        {
+            public BaseJob Job;
+            public Action<Guid> OnOk;
+            public Action<Guid, Exception> OnError;
+        }
+        private readonly ConcurrentQueue<jobPack> _synchroniousJobs = new ConcurrentQueue<jobPack>();
+        private bool IsSynchroniousJobWork { get; set;}
+        
         private JobExecutor()
         {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    while (!_synchroniousJobs.IsEmpty)
+                    {
+                        IsSynchroniousJobWork = true;
+                        if (_synchroniousJobs.TryDequeue(out var jobPack) && jobPack.Job.Guid != null)
+                        {
+                            var guid = (Guid) jobPack.Job.Guid;
+                            try
+                            {
+                                await jobPack.Job.ExecuteAsync();
+                                jobPack.OnOk?.Invoke(guid);
+                            }
+                            catch (Exception e)
+                            {
+                                jobPack.OnError?.Invoke(guid, e);
+                            }
+                        }
+                    }
+                    IsSynchroniousJobWork = false;
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                }
+            });
         }
         
         public static JobExecutor Instance => Nested.instance;
@@ -27,8 +60,8 @@ namespace JobExecutor
 
             internal static readonly JobExecutor instance = new JobExecutor();
         }
-
-        public void AddJob(BaseJob job,Action<Guid> onOk,Action<Guid,Exception> onError)
+        
+        public void JobAsyncExecute(BaseJob job,Action<Guid> onOk,Action<Guid,Exception> onError)
         {
             if (job.Guid == null)
                 throw  new Exception("Job uid is null");
@@ -37,14 +70,14 @@ namespace JobExecutor
             var guid = (Guid) job.Guid;
             try
             {
-                var result = jobs.TryAdd(guid,job);
+                var result = _jobs.TryAdd(guid,job);
                 if (!result)
                     onError(guid,new Exception("job not added"));
                 Task.Run(async () =>
                 {
                     try
                     {
-                        await job.Execute();
+                        await job.ExecuteAsync();
                         onOk(guid);
                     }
                     catch(Exception e)
@@ -60,7 +93,7 @@ namespace JobExecutor
             }
         }
 
-        public void AddJob(BaseJob job)
+        public void JobAsyncExecute(BaseJob job)
         {
             if (job.Guid == null)
                 throw  new Exception("Job uid is null");
@@ -69,12 +102,12 @@ namespace JobExecutor
             var guid = (Guid) job.Guid;
             try
             {
-                var result = jobs.TryAdd(guid,job);
+                var result = _jobs.TryAdd(guid,job);
                 if (!result)
                     throw new Exception("job not added");
                 Task.Run(async () =>
                 {
-                    await job.Execute();
+                    await job.ExecuteAsync();
                 });
             }
             catch (Exception e)
@@ -84,11 +117,41 @@ namespace JobExecutor
             }
         }
 
+        public void JobExecute(BaseJob job, Action<Guid> onOk, Action<Guid, Exception> onError)
+        {
+            if (job.Guid == null)
+                throw  new Exception("Job uid is null");
+            var guid = (Guid) job.Guid;
+            job.Executor = this;
+            _synchroniousJobs.Enqueue(new jobPack()
+            {
+                Job = job,
+                OnError = onError,
+                OnOk = onOk
+            });
+            var result = _jobs.TryAdd(guid,job);
+            if (!result)
+                onError(guid,new Exception("job not added"));
+        }
+
+        public void JobExecute(BaseJob job)
+        {
+            if (job.Guid == null)
+                throw  new Exception("Job uid is null");
+            var guid = (Guid) job.Guid;
+            job.Executor = this;
+            _synchroniousJobs.Enqueue(new jobPack()
+            {
+                Job = job,
+            });
+            _jobs.TryAdd(guid,job);
+        }
+
         public BaseJob GetJob(Guid id)
         {
-            lock (balanceLock)
+            lock (_balanceLock)
             {
-                if (!jobs.TryGetValue(id, out var result))
+                if (!_jobs.TryGetValue(id, out var result))
                 {
                     throw new Exception("job not found");
                 }
@@ -99,9 +162,9 @@ namespace JobExecutor
         
         public BaseJob DeleteJob(Guid id)
         {
-            lock (balanceLock)
+            lock (_balanceLock)
             {
-                if (!jobs.Remove(id, out var result))
+                if (!_jobs.Remove(id, out var result))
                 {
                     throw new Exception("job not deleted");
                 }
@@ -125,9 +188,19 @@ namespace JobExecutor
             return job;
         }
 
+        public void SetJobStatus(Guid id, EnumJobStatus status, byte[] bytes)
+        {
+            lock (_balanceLock)
+            {
+                var job = this.GetJob(id);
+                job.Bytes = bytes;
+                job.JobStatus = status;
+            }
+        }
+
         public void SetJobStatus(Guid id, EnumJobStatus status)
         {
-            lock (balanceLock)
+            lock (_balanceLock)
             {
                 var job = this.GetJob(id);
                 job.JobStatus = status;

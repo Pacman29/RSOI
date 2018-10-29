@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Models.Requests;
+using PdfFile = GRPCService.GRPCProto.PdfFile;
 
 namespace RSOI.Services
 {
     public interface IRecognizeService
     {
-        Task<IActionResult> RecognizePdf(PdfFile pdfFile);
+        Task RecognizePdf(PdfFile pdfFile);
     }
 }

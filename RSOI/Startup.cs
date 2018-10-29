@@ -42,9 +42,14 @@ namespace RSOI
         
         private void ConfigureDependencyInjection(IServiceCollection services)
         {
-            services.AddSingleton<IRecognizeService, RecognizeService>();
             var dbService = new DataBaseService("localhost:8080");
             services.AddSingleton<IDataBaseService>(dbService);
+            var recognizeService = new RecognizeService("localhost:8081");
+            services.AddSingleton<IRecognizeService>(recognizeService);
+            var fileService = new FileService("localhost:8082");
+            services.AddSingleton<IFileService>(fileService);
+
+            services.AddSingleton<IManagerService, ManagerService>();
         }
 
     }

@@ -19,7 +19,7 @@ namespace RSOI.Jobs
             this.RootJob = rootJob;
         }
         
-        public override async Task Execute()
+        public override async Task ExecuteAsync()
         {
             var guid = this.Guid;
             if (guid == null)

@@ -9,22 +9,37 @@ service DataBase {
     rpc DoneJobCall(DoneJob) returns (Empty) {}
 }
 
-service RecognizeService {
-    rpc RecognizePdf (stream PdfFile) returns (Empty) {}
+service Recognize {
+    rpc RecognizePdf (PdfFile) returns (Empty) {}
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}
 }
 
-service GateWay {
-    rpc PostJobInfo (JobInfo) returns (Empty) {}
+service FileServer {
+    rpc SaveFile (File) returns (Empty) {}
+    rpc GetFile (Path) returns (Empty) {}
+    rpc DeleteFile (Path) returns (Empty) {}
 }
 
+service GateWay {
+    rpc PostJobInfo (JobInfo) returns (Empty) {}
+    rpc PostJobInfoWithBytes (JobInfoWithBytes) returns (Empty) {}
+}
+
+message Path {
+    string JobId = 1;
+    string path = 2;
+}
+
+message File {
+    Path filePath = 1;
+    bytes bytes = 2;
+}
 
 message PdfFile {
-    int32 filelength = 1;
-    string filename = 2;
-    string JobId = 3;
-    bytes bytes = 4;
+    string JobId = 1;
+    bytes bytes = 2;
+    repeated int32 pages = 3;
 }
 
 message Empty {
@@ -34,6 +49,11 @@ message JobInfo {
     EnumJobStatus JobStatus = 1; 
     string JobId = 2;
     string Message = 3;
+}
+
+message JobInfoWithBytes {
+    JobInfo jobInfo = 1;
+    bytes bytes = 2;
 }
 
 enum EnumJobStatus {

@@ -17,7 +17,7 @@ namespace DataBaseServer.Jobs
             _fileInfo = fileInfo;
         }
 
-        public override async Task Execute()
+        public override async Task ExecuteAsync()
         {
             var result = await _fileInfosContext.AddAsync(_fileInfo);
             if (!result)

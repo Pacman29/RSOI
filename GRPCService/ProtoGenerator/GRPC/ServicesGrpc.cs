@@ -153,9 +153,9 @@ namespace GRPCService.GRPCProto {
     }
 
   }
-  public static partial class RecognizeService
+  public static partial class Recognize
   {
-    static readonly string __ServiceName = "GRPCProto.RecognizeService";
+    static readonly string __ServiceName = "GRPCProto.Recognize";
 
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.PdfFile> __Marshaller_GRPCProto_PdfFile = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.PdfFile.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Empty> __Marshaller_GRPCProto_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Empty.Parser.ParseFrom);
@@ -163,7 +163,7 @@ namespace GRPCService.GRPCProto {
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.DoneJob> __Marshaller_GRPCProto_DoneJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.DoneJob.Parser.ParseFrom);
 
     static readonly grpc::Method<global::GRPCService.GRPCProto.PdfFile, global::GRPCService.GRPCProto.Empty> __Method_RecognizePdf = new grpc::Method<global::GRPCService.GRPCProto.PdfFile, global::GRPCService.GRPCProto.Empty>(
-        grpc::MethodType.ClientStreaming,
+        grpc::MethodType.Unary,
         __ServiceName,
         "RecognizePdf",
         __Marshaller_GRPCProto_PdfFile,
@@ -189,10 +189,10 @@ namespace GRPCService.GRPCProto {
       get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.Services[1]; }
     }
 
-    /// <summary>Base class for server-side implementations of RecognizeService</summary>
-    public abstract partial class RecognizeServiceBase
+    /// <summary>Base class for server-side implementations of Recognize</summary>
+    public abstract partial class RecognizeBase
     {
-      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> RecognizePdf(grpc::IAsyncStreamReader<global::GRPCService.GRPCProto.PdfFile> requestStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> RecognizePdf(global::GRPCService.GRPCProto.PdfFile request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -209,36 +209,44 @@ namespace GRPCService.GRPCProto {
 
     }
 
-    /// <summary>Client for RecognizeService</summary>
-    public partial class RecognizeServiceClient : grpc::ClientBase<RecognizeServiceClient>
+    /// <summary>Client for Recognize</summary>
+    public partial class RecognizeClient : grpc::ClientBase<RecognizeClient>
     {
-      /// <summary>Creates a new client for RecognizeService</summary>
+      /// <summary>Creates a new client for Recognize</summary>
       /// <param name="channel">The channel to use to make remote calls.</param>
-      public RecognizeServiceClient(grpc::Channel channel) : base(channel)
+      public RecognizeClient(grpc::Channel channel) : base(channel)
       {
       }
-      /// <summary>Creates a new client for RecognizeService that uses a custom <c>CallInvoker</c>.</summary>
+      /// <summary>Creates a new client for Recognize that uses a custom <c>CallInvoker</c>.</summary>
       /// <param name="callInvoker">The callInvoker to use to make remote calls.</param>
-      public RecognizeServiceClient(grpc::CallInvoker callInvoker) : base(callInvoker)
+      public RecognizeClient(grpc::CallInvoker callInvoker) : base(callInvoker)
       {
       }
       /// <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
-      protected RecognizeServiceClient() : base()
+      protected RecognizeClient() : base()
       {
       }
       /// <summary>Protected constructor to allow creation of configured clients.</summary>
       /// <param name="configuration">The client configuration.</param>
-      protected RecognizeServiceClient(ClientBaseConfiguration configuration) : base(configuration)
+      protected RecognizeClient(ClientBaseConfiguration configuration) : base(configuration)
       {
       }
 
-      public virtual grpc::AsyncClientStreamingCall<global::GRPCService.GRPCProto.PdfFile, global::GRPCService.GRPCProto.Empty> RecognizePdf(grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::GRPCService.GRPCProto.Empty RecognizePdf(global::GRPCService.GRPCProto.PdfFile request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
-        return RecognizePdf(new grpc::CallOptions(headers, deadline, cancellationToken));
+        return RecognizePdf(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncClientStreamingCall<global::GRPCService.GRPCProto.PdfFile, global::GRPCService.GRPCProto.Empty> RecognizePdf(grpc::CallOptions options)
+      public virtual global::GRPCService.GRPCProto.Empty RecognizePdf(global::GRPCService.GRPCProto.PdfFile request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncClientStreamingCall(__Method_RecognizePdf, null, options);
+        return CallInvoker.BlockingUnaryCall(__Method_RecognizePdf, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> RecognizePdfAsync(global::GRPCService.GRPCProto.PdfFile request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return RecognizePdfAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> RecognizePdfAsync(global::GRPCService.GRPCProto.PdfFile request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_RecognizePdf, null, options, request);
       }
       public virtual global::GRPCService.GRPCProto.Empty RejectJobCall(global::GRPCService.GRPCProto.RejectJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -273,20 +281,164 @@ namespace GRPCService.GRPCProto {
         return CallInvoker.AsyncUnaryCall(__Method_DoneJobCall, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
-      protected override RecognizeServiceClient NewInstance(ClientBaseConfiguration configuration)
+      protected override RecognizeClient NewInstance(ClientBaseConfiguration configuration)
       {
-        return new RecognizeServiceClient(configuration);
+        return new RecognizeClient(configuration);
       }
     }
 
     /// <summary>Creates service definition that can be registered with a server</summary>
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-    public static grpc::ServerServiceDefinition BindService(RecognizeServiceBase serviceImpl)
+    public static grpc::ServerServiceDefinition BindService(RecognizeBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_RecognizePdf, serviceImpl.RecognizePdf)
           .AddMethod(__Method_RejectJobCall, serviceImpl.RejectJobCall)
           .AddMethod(__Method_DoneJobCall, serviceImpl.DoneJobCall).Build();
+    }
+
+  }
+  public static partial class FileServer
+  {
+    static readonly string __ServiceName = "GRPCProto.FileServer";
+
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.File> __Marshaller_GRPCProto_File = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.File.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Empty> __Marshaller_GRPCProto_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Empty.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Path> __Marshaller_GRPCProto_Path = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Path.Parser.ParseFrom);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.File, global::GRPCService.GRPCProto.Empty> __Method_SaveFile = new grpc::Method<global::GRPCService.GRPCProto.File, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SaveFile",
+        __Marshaller_GRPCProto_File,
+        __Marshaller_GRPCProto_Empty);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.Path, global::GRPCService.GRPCProto.Empty> __Method_GetFile = new grpc::Method<global::GRPCService.GRPCProto.Path, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetFile",
+        __Marshaller_GRPCProto_Path,
+        __Marshaller_GRPCProto_Empty);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.Path, global::GRPCService.GRPCProto.Empty> __Method_DeleteFile = new grpc::Method<global::GRPCService.GRPCProto.Path, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DeleteFile",
+        __Marshaller_GRPCProto_Path,
+        __Marshaller_GRPCProto_Empty);
+
+    /// <summary>Service descriptor</summary>
+    public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
+    {
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.Services[2]; }
+    }
+
+    /// <summary>Base class for server-side implementations of FileServer</summary>
+    public abstract partial class FileServerBase
+    {
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> SaveFile(global::GRPCService.GRPCProto.File request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> GetFile(global::GRPCService.GRPCProto.Path request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> DeleteFile(global::GRPCService.GRPCProto.Path request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
+    /// <summary>Client for FileServer</summary>
+    public partial class FileServerClient : grpc::ClientBase<FileServerClient>
+    {
+      /// <summary>Creates a new client for FileServer</summary>
+      /// <param name="channel">The channel to use to make remote calls.</param>
+      public FileServerClient(grpc::Channel channel) : base(channel)
+      {
+      }
+      /// <summary>Creates a new client for FileServer that uses a custom <c>CallInvoker</c>.</summary>
+      /// <param name="callInvoker">The callInvoker to use to make remote calls.</param>
+      public FileServerClient(grpc::CallInvoker callInvoker) : base(callInvoker)
+      {
+      }
+      /// <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
+      protected FileServerClient() : base()
+      {
+      }
+      /// <summary>Protected constructor to allow creation of configured clients.</summary>
+      /// <param name="configuration">The client configuration.</param>
+      protected FileServerClient(ClientBaseConfiguration configuration) : base(configuration)
+      {
+      }
+
+      public virtual global::GRPCService.GRPCProto.Empty SaveFile(global::GRPCService.GRPCProto.File request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SaveFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty SaveFile(global::GRPCService.GRPCProto.File request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_SaveFile, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> SaveFileAsync(global::GRPCService.GRPCProto.File request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SaveFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> SaveFileAsync(global::GRPCService.GRPCProto.File request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_SaveFile, null, options, request);
+      }
+      public virtual global::GRPCService.GRPCProto.Empty GetFile(global::GRPCService.GRPCProto.Path request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty GetFile(global::GRPCService.GRPCProto.Path request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetFile, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> GetFileAsync(global::GRPCService.GRPCProto.Path request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> GetFileAsync(global::GRPCService.GRPCProto.Path request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetFile, null, options, request);
+      }
+      public virtual global::GRPCService.GRPCProto.Empty DeleteFile(global::GRPCService.GRPCProto.Path request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DeleteFile(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty DeleteFile(global::GRPCService.GRPCProto.Path request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DeleteFile, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> DeleteFileAsync(global::GRPCService.GRPCProto.Path request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DeleteFileAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> DeleteFileAsync(global::GRPCService.GRPCProto.Path request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DeleteFile, null, options, request);
+      }
+      /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
+      protected override FileServerClient NewInstance(ClientBaseConfiguration configuration)
+      {
+        return new FileServerClient(configuration);
+      }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    public static grpc::ServerServiceDefinition BindService(FileServerBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_SaveFile, serviceImpl.SaveFile)
+          .AddMethod(__Method_GetFile, serviceImpl.GetFile)
+          .AddMethod(__Method_DeleteFile, serviceImpl.DeleteFile).Build();
     }
 
   }
@@ -296,6 +448,7 @@ namespace GRPCService.GRPCProto {
 
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.JobInfo> __Marshaller_GRPCProto_JobInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.JobInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Empty> __Marshaller_GRPCProto_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Empty.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.JobInfoWithBytes> __Marshaller_GRPCProto_JobInfoWithBytes = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.JobInfoWithBytes.Parser.ParseFrom);
 
     static readonly grpc::Method<global::GRPCService.GRPCProto.JobInfo, global::GRPCService.GRPCProto.Empty> __Method_PostJobInfo = new grpc::Method<global::GRPCService.GRPCProto.JobInfo, global::GRPCService.GRPCProto.Empty>(
         grpc::MethodType.Unary,
@@ -304,16 +457,28 @@ namespace GRPCService.GRPCProto {
         __Marshaller_GRPCProto_JobInfo,
         __Marshaller_GRPCProto_Empty);
 
+    static readonly grpc::Method<global::GRPCService.GRPCProto.JobInfoWithBytes, global::GRPCService.GRPCProto.Empty> __Method_PostJobInfoWithBytes = new grpc::Method<global::GRPCService.GRPCProto.JobInfoWithBytes, global::GRPCService.GRPCProto.Empty>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "PostJobInfoWithBytes",
+        __Marshaller_GRPCProto_JobInfoWithBytes,
+        __Marshaller_GRPCProto_Empty);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.Services[2]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.Services[3]; }
     }
 
     /// <summary>Base class for server-side implementations of GateWay</summary>
     public abstract partial class GateWayBase
     {
       public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> PostJobInfo(global::GRPCService.GRPCProto.JobInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.Empty> PostJobInfoWithBytes(global::GRPCService.GRPCProto.JobInfoWithBytes request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -359,6 +524,22 @@ namespace GRPCService.GRPCProto {
       {
         return CallInvoker.AsyncUnaryCall(__Method_PostJobInfo, null, options, request);
       }
+      public virtual global::GRPCService.GRPCProto.Empty PostJobInfoWithBytes(global::GRPCService.GRPCProto.JobInfoWithBytes request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return PostJobInfoWithBytes(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.Empty PostJobInfoWithBytes(global::GRPCService.GRPCProto.JobInfoWithBytes request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_PostJobInfoWithBytes, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> PostJobInfoWithBytesAsync(global::GRPCService.GRPCProto.JobInfoWithBytes request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return PostJobInfoWithBytesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.Empty> PostJobInfoWithBytesAsync(global::GRPCService.GRPCProto.JobInfoWithBytes request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_PostJobInfoWithBytes, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override GateWayClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -371,7 +552,8 @@ namespace GRPCService.GRPCProto {
     public static grpc::ServerServiceDefinition BindService(GateWayBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_PostJobInfo, serviceImpl.PostJobInfo).Build();
+          .AddMethod(__Method_PostJobInfo, serviceImpl.PostJobInfo)
+          .AddMethod(__Method_PostJobInfoWithBytes, serviceImpl.PostJobInfoWithBytes).Build();
     }
 
   }

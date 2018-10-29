@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobExecutor", "JobExecutor\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognizePdfServer", "RecognizePdfServer\RecognizePdfServer.csproj", "{055B2334-1DA9-48FA-9025-E283C7800125}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer", "FileServer\FileServer.csproj", "{B00EF470-3692-4D18-BFE5-61757C61DA2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{055B2334-1DA9-48FA-9025-E283C7800125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{055B2334-1DA9-48FA-9025-E283C7800125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{055B2334-1DA9-48FA-9025-E283C7800125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B00EF470-3692-4D18-BFE5-61757C61DA2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B00EF470-3692-4D18-BFE5-61757C61DA2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B00EF470-3692-4D18-BFE5-61757C61DA2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B00EF470-3692-4D18-BFE5-61757C61DA2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
