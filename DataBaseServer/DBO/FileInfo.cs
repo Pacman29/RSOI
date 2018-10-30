@@ -8,20 +8,11 @@ namespace DataBaseServer.DBO
     [Table("FileInfos")]
     public class FileInfo : IEntity
     {
-        [Key]
         public int Id { get; set; }
-        public DateTime changed { get; set; }
-
-        [Required]
-        [StringLength(32)]
-        [Index(IsUnique = true)]
         public string Md5 { get; set; }
-        [Required]
+        public DateTime changed { get; set; }
         public long fileLength { get; set; }
-        [Timestamp]
-        public byte[] Version { get; set; }
-        
-        [StringLength(250)]
+        public DateTime Version { get; set; }
         public string Path { get; set; }
 
         public FileInfo()

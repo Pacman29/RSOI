@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataBaseServer.Migrations
 {
     [DbContext(typeof(FileInfosContext))]
-    [Migration("20181029215806_AddPdfFilePath")]
-    partial class AddPdfFilePath
+    [Migration("20181030081256_AddFilePath")]
+    partial class AddFilePath
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,17 +31,19 @@ namespace DataBaseServer.Migrations
                         .HasMaxLength(32);
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("Version");
 
                     b.Property<DateTime>("changed");
 
                     b.Property<long>("fileLength");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Md5")
+                        .IsUnique();
 
                     b.ToTable("FileInfos");
                 });

@@ -29,17 +29,19 @@ namespace DataBaseServer.Migrations
                         .HasMaxLength(32);
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<DateTime>("Version");
 
                     b.Property<DateTime>("changed");
 
                     b.Property<long>("fileLength");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Md5")
+                        .IsUnique();
 
                     b.ToTable("FileInfos");
                 });

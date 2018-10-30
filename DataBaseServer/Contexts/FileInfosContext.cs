@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Threading.Tasks;
 using DataBaseServer.DBO;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,38 @@ namespace DataBaseServer.Contexts
         public Task<bool> DeleteAsync(FileInfo source)
         {
             return _baseContext.DeleteAsync(source);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<FileInfo>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<FileInfo>()
+                .HasIndex(e => e.Md5)
+                .IsUnique(true);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Md5)
+                .IsRequired(true)
+                .HasMaxLength(32);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.changed);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.fileLength)
+                .IsRequired(true);
+            
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Version);
+            
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Path)
+                .IsRequired(true)
+                .HasMaxLength(250);
+            
         }
     }
 }
