@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GRPCService.GRPCProto;
 
@@ -61,6 +62,7 @@ namespace JobExecutor
             internal static readonly JobExecutor instance = new JobExecutor();
         }
         
+        //TODO: rewrite to one method
         public void JobAsyncExecute(BaseJob job,Action<Guid> onOk,Action<Guid,Exception> onError)
         {
             if (job.Guid == null)
@@ -204,6 +206,25 @@ namespace JobExecutor
             {
                 var job = this.GetJob(id);
                 job.JobStatus = status;
+            }
+        }
+
+        public void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status)
+        {
+            lock (_balanceLock)
+            {
+                var job = _jobs.FirstOrDefault(pair => pair.Value.ServiceGuid == id);
+                job.Value.JobStatus = status;
+            }
+        }
+        
+        public void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status, byte[] bytes)
+        {
+            lock (_balanceLock)
+            {
+                var job = _jobs.FirstOrDefault(pair => pair.Value.ServiceGuid == id);
+                job.Value.Bytes = bytes;
+                job.Value.JobStatus = status;
             }
         }
     }

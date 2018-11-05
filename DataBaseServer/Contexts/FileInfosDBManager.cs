@@ -34,7 +34,7 @@ namespace DataBaseServer.Contexts
             return _commonDbManager.FindByIdAsync(id);
         }
 
-        public Task<bool> UpdateAsync(FileInfo source)
+        public Task<FileInfo> UpdateAsync(FileInfo source)
         {
             return _commonDbManager.UpdateAsync(source);
         }

@@ -15,9 +15,9 @@ namespace RSOI.Services.Impl
             Client = new Recognize.RecognizeClient(_channel);
         }
 
-        public async Task RecognizePdf(PdfFile pdfFile)
+        public async Task<JobInfo> RecognizePdf(PdfFile pdfFile)
         {
-            var result = await Client.RecognizePdfAsync(pdfFile);
+            return await Client.RecognizePdfAsync(pdfFile);
         }
     }
 }

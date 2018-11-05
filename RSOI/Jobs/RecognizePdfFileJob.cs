@@ -13,7 +13,7 @@ namespace RSOI.Jobs
     {
         private readonly byte[] _pdfFile;
         private readonly IRecognizeService _recognizeService;
-        private int[] _pages;
+        private readonly int[] _pages;
 
         public RecognizePdfFileJob(Guid jobId,IRecognizeService recognizeService, byte[] pdfFile, int[] pages, BaseJob rootJob = null)
         {
@@ -32,10 +32,11 @@ namespace RSOI.Jobs
             var pdfFile = new PdfFile()
             {
                 Bytes = ByteString.CopyFrom(_pdfFile),
-                JobId = ((Guid) guid).ToString(),
                 Pages = { _pages}
             };
-            await _recognizeService.RecognizePdf(pdfFile);
+            var jobInfo = await _recognizeService.RecognizePdf(pdfFile);
+            this.ServiceGuid = new Guid(jobInfo.JobId);
+            this.JobStatus = jobInfo.JobStatus;
         }
 
         public override async Task Reject()

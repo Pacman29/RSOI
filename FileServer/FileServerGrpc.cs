@@ -47,25 +47,24 @@ namespace FileServer
             };
         }
         
-        public override async Task<Empty> SaveFile(File request, ServerCallContext context)
+        public override async Task<JobInfo> SaveFile(File request, ServerCallContext context)
         {
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
-            var jobId = request.FilePath.JobId;
-                
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };    
+            
             try
             {
                 var job = new SaveFileJob(request.FilePath.Path_, memoryStream)
                 {
-                    Guid = new Guid(jobId)
+                    Guid = guid
                 };
-                var jobInfo = new JobInfo
-                {
-                    JobStatus = EnumJobStatus.Execute, 
-                    JobId = jobId
-                };
+                
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWay.PostJobInfoAsync(jobInfo);
-
             }
             catch (Exception e)
             {
@@ -73,26 +72,25 @@ namespace FileServer
                 throw;
             }
             
-            return new Empty();
+            return jobInfo;
         }
 
-        public override async Task<Empty> GetFile(Path request, ServerCallContext context)
+        public override async Task<JobInfo> GetFile(Path request, ServerCallContext context)
         {
-            var jobId = request.JobId;
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
                 
             try
             {
                 var job = new GetFileJob(request.Path_)
                 {
-                    Guid = new Guid(jobId)
-                };
-                var jobInfo = new JobInfo
-                {
-                    JobStatus = EnumJobStatus.Execute, 
-                    JobId = jobId
+                    Guid = guid
                 };
                 _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWay.PostJobInfoAsync(jobInfo);
 
             }
             catch (Exception e)
@@ -100,11 +98,11 @@ namespace FileServer
                 Console.WriteLine(e);
                 throw;
             }
-            
-            return new Empty();
+
+            return jobInfo;
         }
 
-        public override Task<Empty> DeleteFile(Path request, ServerCallContext context)
+        public override Task<JobInfo> DeleteFile(Path request, ServerCallContext context)
         {
             return base.DeleteFile(request, context);
         }

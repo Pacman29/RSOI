@@ -13,7 +13,7 @@ namespace DataBaseServer.Contexts
 
         Task<T> FindByIdAsync(int id);
 
-        Task<bool> UpdateAsync(T source);
+        Task<T> UpdateAsync(T source);
 
         Task<bool> DeleteAsync(T source);
     }

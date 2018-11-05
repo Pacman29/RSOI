@@ -4,21 +4,24 @@ package GRPCProto;
 option csharp_namespace = "GRPCService.GRPCProto";
 
 service DataBase {
-    rpc SavePdfFileInfo (PdfFileInfo) returns (Empty) {}
+    rpc SavePdfFileInfo (PdfFileInfo) returns (JobInfo) {}
+    rpc UpdateOrCreateJob (JobInfo) returns (JobInfo) {} 
+    
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}
 }
 
 service Recognize {
-    rpc RecognizePdf (PdfFile) returns (Empty) {}
+    rpc RecognizePdf (PdfFile) returns (JobInfo) {}
+    
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}
 }
 
 service FileServer {
-    rpc SaveFile (File) returns (Empty) {}
-    rpc GetFile (Path) returns (Empty) {}
-    rpc DeleteFile (Path) returns (Empty) {}
+    rpc SaveFile (File) returns (JobInfo) {}
+    rpc GetFile (Path) returns (JobInfo) {}
+    rpc DeleteFile (Path) returns (JobInfo) {}
 }
 
 service GateWay {
@@ -27,7 +30,6 @@ service GateWay {
 }
 
 message Path {
-    string JobId = 1;
     string path = 2;
 }
 
@@ -37,7 +39,6 @@ message File {
 }
 
 message PdfFile {
-    string JobId = 1;
     bytes bytes = 2;
     repeated int32 pages = 3;
 }
@@ -67,8 +68,7 @@ message PdfFileInfo {
     string MD5 = 1;
     int64 FileLength = 2;
     string Path = 3;
-    string RootJobId = 4;
-    string JobId = 5;
+    string JobId = 4;
 }
 
 message CommonResponse {

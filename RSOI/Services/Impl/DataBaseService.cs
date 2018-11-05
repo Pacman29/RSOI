@@ -15,9 +15,9 @@ namespace RSOI.Services.Impl
             client = new DataBase.DataBaseClient(channel);
         }
 
-        public async Task CreatePdfFile(PdfFileInfo pdfFileInfo)
+        public async Task<JobInfo> CreatePdfFile(PdfFileInfo pdfFileInfo)
         {
-            var result = await client.SavePdfFileInfoAsync(pdfFileInfo);
+            return await client.SavePdfFileInfoAsync(pdfFileInfo);
         }
 
         public async Task DoneJob(Guid jobId)

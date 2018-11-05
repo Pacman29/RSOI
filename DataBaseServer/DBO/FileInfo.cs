@@ -28,7 +28,7 @@ namespace DataBaseServer.DBO
                 Md5 = pdfFileInfo.MD5,
                 fileLength = pdfFileInfo.FileLength,
                 Path = pdfFileInfo.Path,
-                JobGuidFk = pdfFileInfo.RootJobId
+                JobGuidFk = pdfFileInfo.JobId
             };
         }
 

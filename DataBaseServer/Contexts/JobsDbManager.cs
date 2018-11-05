@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataBaseServer.DBO;
+using GRPCService.GRPCProto;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseServer.Contexts
@@ -33,7 +34,7 @@ namespace DataBaseServer.Contexts
             return _commonDbManager.FindByIdAsync(id);
         }
 
-        public Task<bool> UpdateAsync(Job source)
+        public Task<Job> UpdateAsync(Job source)
         {
             return _commonDbManager.UpdateAsync(source);
         }
@@ -43,14 +44,16 @@ namespace DataBaseServer.Contexts
             return _commonDbManager.DeleteAsync(source);
         }
 
-        public async Task<Job> FindByGUID(string guid)
+        public async Task<Job> FindByGuid(string guid)
         {
-            return await Jobs.Where(job => job.GUID == guid).FirstAsync();
+            var res = await Jobs.Where(job => job.GUID == guid).FirstOrDefaultAsync();
+            return res;
         }
 
-        public async Task<bool> UpdateJobStatus(string guid, Job.JobStatusEnum status)
+        public async Task<Job> UpdateJobStatus(string guid, EnumJobStatus status)
         {
             var _job = await Jobs.Where(job => job.GUID == guid).FirstAsync();
+            _job.status = status;
             return await _commonDbManager.UpdateAsync(_job);
         }
     }

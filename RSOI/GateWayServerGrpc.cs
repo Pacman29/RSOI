@@ -25,7 +25,7 @@ namespace RSOI
                         Console.WriteLine($"{request.JobId} error; {request.Message}");
                         break;
             }
-            _jobExecutor.SetJobStatus(new Guid(request.JobId),request.JobStatus);
+            _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId),request.JobStatus);
             return new Empty();
         }
         
@@ -44,7 +44,7 @@ namespace RSOI
                     break;
             }
             
-            _jobExecutor.SetJobStatus(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
+            _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
             return new Empty();
         }
     }

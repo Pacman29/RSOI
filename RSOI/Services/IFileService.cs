@@ -5,7 +5,7 @@ namespace RSOI.Services
 {
     public interface IFileService
     {
-        Task SaveFile(File file);
-        Task GetFile(Path path);
+        Task<JobInfo> SaveFile(File file);
+        Task<JobInfo> GetFile(Path path);
     }
 }

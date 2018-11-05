@@ -8,6 +8,7 @@ namespace JobExecutor
     public class BaseJob
     {
         public Guid? Guid { get; set; } = null;
+        public Guid? ServiceGuid { get; set; } = null;
         public BaseJob RootJob { get; set; }
         public IJobExecutor Executor { get; set; }
         public byte[] Bytes { get; set; }

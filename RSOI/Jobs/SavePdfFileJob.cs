@@ -9,8 +9,8 @@ namespace RSOI.Jobs
 {
     public class SavePdfFileJob : BaseJob
     {
-        private IFileService _fileService;
-        private string _path;
+        private readonly IFileService _fileService;
+        private readonly string _path;
 
         public SavePdfFileJob(Guid jobId, IFileService fileService, byte[] bytes, string path, BaseJob root = null)
         {
@@ -24,15 +24,17 @@ namespace RSOI.Jobs
 
         public override async Task ExecuteAsync()
         {
-            await _fileService.SaveFile(new File()
+            var file = new File()
             {
                 Bytes = ByteString.CopyFrom(this.Bytes),
                 FilePath = new Path()
                 {
-                    JobId = this.Guid.ToString(),
                     Path_ = _path
                 }
-            });
+            };
+            var jobInfo = await _fileService.SaveFile(file);
+            this.ServiceGuid = new Guid(jobInfo.JobId);
+            this.JobStatus = jobInfo.JobStatus;
         }
 
         public override Task Reject()

@@ -15,14 +15,14 @@ namespace RSOI.Services.Impl
             Client = new FileServer.FileServerClient(_channel);
         }
         
-        public async Task SaveFile(File file)
+        public async Task<JobInfo> SaveFile(File file)
         {
-            var result = await Client.SaveFileAsync(file);
+            return await Client.SaveFileAsync(file);
         }
 
-        public async Task GetFile(Path path)
+        public async Task<JobInfo> GetFile(Path path)
         {
-            var result = await Client.GetFileAsync(path);
+            return await Client.GetFileAsync(path);
         }
     }
 }

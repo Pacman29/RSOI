@@ -15,10 +15,13 @@ namespace DataBaseServer
         private readonly JobExecutor.IJobExecutor _jobExecutor;
         private readonly GateWay.GateWayClient _gateWay;
         private readonly Channel _channel;
+        private readonly JobsDbManager _jobsDbManager;
 
         public DataBaseServerGrpc() : base()
         {
-            _fileInfosDbManager = new FileInfosDbManager( new BaseContext());
+            var context = new BaseContext();
+            _fileInfosDbManager = new FileInfosDbManager(context);
+            _jobsDbManager = new JobsDbManager(context);
             _jobExecutor= JobExecutor.JobExecutor.Instance;
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
             _gateWay = new GateWay.GateWayClient(_channel);
@@ -49,30 +52,45 @@ namespace DataBaseServer
             };
         } 
         
-        public override async Task<Empty> SavePdfFileInfo(PdfFileInfo request, ServerCallContext context)
+        public override async Task<JobInfo> SavePdfFileInfo(PdfFileInfo request, ServerCallContext context)
         {
-            var result = new Empty();
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
             try
             {
-                var job = new AddPdfFileJob(_fileInfosDbManager, FileInfo.FromPdfFileInfo(request))
-                {
-                    Guid = new Guid(request.JobId)
-                };
-                var jobInfo = new JobInfo
-                {
-                    JobStatus = EnumJobStatus.Execute, 
-                    JobId = request.JobId
-                };
+                var job = new AddPdfFileJob(_fileInfosDbManager, FileInfo.FromPdfFileInfo(request)) {Guid = guid};
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWay.PostJobInfoAsync(jobInfo);
             }
             catch (AddException e)
             {
                 Console.WriteLine(e);
             }
+            return jobInfo;
+        }
 
+        public override async Task<JobInfo> UpdateOrCreateJob(JobInfo request, ServerCallContext context)
+        {
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            try
+            {
+                var job = new UpdateOrCreateJobInfoJob(_jobsDbManager,request);
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
-            return result;
+            return jobInfo;
         }
 
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)

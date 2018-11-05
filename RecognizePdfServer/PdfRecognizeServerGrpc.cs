@@ -47,26 +47,25 @@ namespace RecognizePdfServer
             };
         }
         
-        public override async Task<Empty> RecognizePdf(PdfFile request, ServerCallContext context)
+        public override async Task<JobInfo> RecognizePdf(PdfFile request, ServerCallContext context)
         {
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var pages = request.Pages.ToArray();
-            var jobId = request.JobId;
-                
+
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            
             try
             {
                 var job = new RecognizePdfJob(memoryStream,pages)
                 {
-                    Guid = new Guid(jobId)
-                };
-                var jobInfo = new JobInfo
-                {
-                    JobStatus = EnumJobStatus.Execute, 
-                    JobId = jobId
+                    Guid = guid
                 };
                 _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
-                await _gateWay.PostJobInfoAsync(jobInfo);
-
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace RecognizePdfServer
                 throw;
             }
             
-            return new Empty();
+            return new JobInfo();
         }
         
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)

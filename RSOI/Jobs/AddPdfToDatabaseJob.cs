@@ -25,7 +25,9 @@ namespace RSOI.Jobs
             if (guid == null)
                 throw new Exception("job guid is null");
             _fileInfo.JobId = ((Guid) guid).ToString();
-            await _dataBaseService.CreatePdfFile(_fileInfo);
+            var jobInfo = await _dataBaseService.CreatePdfFile(_fileInfo);
+            this.ServiceGuid = new Guid(jobInfo.JobId);
+            this.JobStatus = jobInfo.JobStatus;
         }
 
         public override async Task Reject()

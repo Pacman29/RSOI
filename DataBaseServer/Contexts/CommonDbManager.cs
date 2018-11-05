@@ -26,6 +26,7 @@ namespace DataBaseServer.Contexts
         public async Task<T> AddAsync(T source)
         {
             T result = null;
+            source.changed = DateTime.Now;
             var state = await _dbSet.AddAsync(source);
             if (state.State == EntityState.Added)
             {
@@ -41,19 +42,15 @@ namespace DataBaseServer.Contexts
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(T source)
+        public async Task<T> UpdateAsync(T source)
         {
-            bool result;
+            T result = null; 
             source.changed = DateTime.Now;
             var state = _dbSet.Update(source);
             if (state.State == EntityState.Modified)
             {
                 await _context.SaveChangesAsync();
-                result = true;
-            }
-            else
-            {
-                result = false;
+                result = state.Entity;
             }
 
             return result;
