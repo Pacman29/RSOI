@@ -17,8 +17,6 @@ namespace DataBaseServer.Contexts
             _commonDbManager = new CommonDbManager<FileInfo>(context, FileInfos);
         }
 
-        
-
         public Task<List<FileInfo>> GetAllAsync()
         {
             return _commonDbManager.GetAllAsync();

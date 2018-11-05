@@ -31,42 +31,43 @@ namespace GRPCService.GRPCProto {
             "cxgBIAEoDjIYLkdSUENQcm90by5FbnVtSm9iU3RhdHVzEg0KBUpvYklkGAIg",
             "ASgJEg8KB01lc3NhZ2UYAyABKAkiRgoQSm9iSW5mb1dpdGhCeXRlcxIjCgdq",
             "b2JJbmZvGAEgASgLMhIuR1JQQ1Byb3RvLkpvYkluZm8SDQoFYnl0ZXMYAiAB",
-            "KAwiSwoLUGRmRmlsZUluZm8SCwoDTUQ1GAEgASgJEhIKCkZpbGVMZW5ndGgY",
-            "AiABKAMSDAoEUGF0aBgDIAEoCRINCgVKb2JJZBgEIAEoCSI3Cg5Db21tb25S",
-            "ZXNwb25zZRIPCgdpc0Vycm9yGAEgASgIEhQKDEVycm9yTWVzc2FnZRgCIAEo",
-            "CSJaCh5EYXRhYmFzZUNyZWF0ZUZpbGVJbmZvUmVzcG9uc2USKAoFZXJyb3IY",
-            "ASABKAsyGS5HUlBDUHJvdG8uQ29tbW9uUmVzcG9uc2USDgoGZmlsZUlkGAIg",
-            "ASgJIhoKCVJlamVjdEpvYhINCgVKb2JJZBgBIAEoCSIYCgdEb25lSm9iEg0K",
-            "BUpvYklkGAEgASgJKj8KDUVudW1Kb2JTdGF0dXMSCwoHRVhFQ1VURRAAEggK",
-            "BERPTkUQARIJCgVFUlJPUhACEgwKCFJFSkVDVEVEEAMy/AEKCERhdGFCYXNl",
-            "Ej8KD1NhdmVQZGZGaWxlSW5mbxIWLkdSUENQcm90by5QZGZGaWxlSW5mbxoS",
-            "LkdSUENQcm90by5Kb2JJbmZvIgASPQoRVXBkYXRlT3JDcmVhdGVKb2ISEi5H",
-            "UlBDUHJvdG8uSm9iSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASOQoNUmVq",
-            "ZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBDUHJvdG8u",
-            "RW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25lSm9iGhAu",
-            "R1JQQ1Byb3RvLkVtcHR5IgAytwEKCVJlY29nbml6ZRI4CgxSZWNvZ25pemVQ",
-            "ZGYSEi5HUlBDUHJvdG8uUGRmRmlsZRoSLkdSUENQcm90by5Kb2JJbmZvIgAS",
-            "OQoNUmVqZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBD",
-            "UHJvdG8uRW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25l",
-            "Sm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgAypgEKCkZpbGVTZXJ2ZXISMQoIU2F2",
-            "ZUZpbGUSDy5HUlBDUHJvdG8uRmlsZRoSLkdSUENQcm90by5Kb2JJbmZvIgAS",
-            "MAoHR2V0RmlsZRIPLkdSUENQcm90by5QYXRoGhIuR1JQQ1Byb3RvLkpvYklu",
-            "Zm8iABIzCgpEZWxldGVGaWxlEg8uR1JQQ1Byb3RvLlBhdGgaEi5HUlBDUHJv",
-            "dG8uSm9iSW5mbyIAMokBCgdHYXRlV2F5EjUKC1Bvc3RKb2JJbmZvEhIuR1JQ",
-            "Q1Byb3RvLkpvYkluZm8aEC5HUlBDUHJvdG8uRW1wdHkiABJHChRQb3N0Sm9i",
-            "SW5mb1dpdGhCeXRlcxIbLkdSUENQcm90by5Kb2JJbmZvV2l0aEJ5dGVzGhAu",
-            "R1JQQ1Byb3RvLkVtcHR5IgBCGKoCFUdSUENTZXJ2aWNlLkdSUENQcm90b2IG",
-            "cHJvdG8z"));
+            "KAwicwoIRmlsZUluZm8SKQoIZmlsZVR5cGUYASABKA4yFy5HUlBDUHJvdG8u",
+            "RW51bUZpbGVUeXBlEgsKA01ENRgCIAEoCRISCgpGaWxlTGVuZ3RoGAMgASgD",
+            "EgwKBFBhdGgYBCABKAkSDQoFSm9iSWQYBSABKAkiNwoOQ29tbW9uUmVzcG9u",
+            "c2USDwoHaXNFcnJvchgBIAEoCBIUCgxFcnJvck1lc3NhZ2UYAiABKAkiWgoe",
+            "RGF0YWJhc2VDcmVhdGVGaWxlSW5mb1Jlc3BvbnNlEigKBWVycm9yGAEgASgL",
+            "MhkuR1JQQ1Byb3RvLkNvbW1vblJlc3BvbnNlEg4KBmZpbGVJZBgCIAEoCSIa",
+            "CglSZWplY3RKb2ISDQoFSm9iSWQYASABKAkiGAoHRG9uZUpvYhINCgVKb2JJ",
+            "ZBgBIAEoCSo/Cg1FbnVtSm9iU3RhdHVzEgsKB0VYRUNVVEUQABIICgRET05F",
+            "EAESCQoFRVJST1IQAhIMCghSRUpFQ1RFRBADKiIKDEVudW1GaWxlVHlwZRIJ",
+            "CgVJbWFnZRAAEgcKA1BkZhABMvYBCghEYXRhQmFzZRI5CgxTYXZlRmlsZUlu",
+            "Zm8SEy5HUlBDUHJvdG8uRmlsZUluZm8aEi5HUlBDUHJvdG8uSm9iSW5mbyIA",
+            "Ej0KEVVwZGF0ZU9yQ3JlYXRlSm9iEhIuR1JQQ1Byb3RvLkpvYkluZm8aEi5H",
+            "UlBDUHJvdG8uSm9iSW5mbyIAEjkKDVJlamVjdEpvYkNhbGwSFC5HUlBDUHJv",
+            "dG8uUmVqZWN0Sm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgASNQoLRG9uZUpvYkNh",
+            "bGwSEi5HUlBDUHJvdG8uRG9uZUpvYhoQLkdSUENQcm90by5FbXB0eSIAMrcB",
+            "CglSZWNvZ25pemUSOAoMUmVjb2duaXplUGRmEhIuR1JQQ1Byb3RvLlBkZkZp",
+            "bGUaEi5HUlBDUHJvdG8uSm9iSW5mbyIAEjkKDVJlamVjdEpvYkNhbGwSFC5H",
+            "UlBDUHJvdG8uUmVqZWN0Sm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgASNQoLRG9u",
+            "ZUpvYkNhbGwSEi5HUlBDUHJvdG8uRG9uZUpvYhoQLkdSUENQcm90by5FbXB0",
+            "eSIAMqYBCgpGaWxlU2VydmVyEjEKCFNhdmVGaWxlEg8uR1JQQ1Byb3RvLkZp",
+            "bGUaEi5HUlBDUHJvdG8uSm9iSW5mbyIAEjAKB0dldEZpbGUSDy5HUlBDUHJv",
+            "dG8uUGF0aBoSLkdSUENQcm90by5Kb2JJbmZvIgASMwoKRGVsZXRlRmlsZRIP",
+            "LkdSUENQcm90by5QYXRoGhIuR1JQQ1Byb3RvLkpvYkluZm8iADKJAQoHR2F0",
+            "ZVdheRI1CgtQb3N0Sm9iSW5mbxISLkdSUENQcm90by5Kb2JJbmZvGhAuR1JQ",
+            "Q1Byb3RvLkVtcHR5IgASRwoUUG9zdEpvYkluZm9XaXRoQnl0ZXMSGy5HUlBD",
+            "UHJvdG8uSm9iSW5mb1dpdGhCeXRlcxoQLkdSUENQcm90by5FbXB0eSIAQhiq",
+            "AhVHUlBDU2VydmljZS5HUlBDUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), typeof(global::GRPCService.GRPCProto.EnumFileType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Path), global::GRPCService.GRPCProto.Path.Parser, new[]{ "Path_" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.File), global::GRPCService.GRPCProto.File.Parser, new[]{ "FilePath", "Bytes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFile), global::GRPCService.GRPCProto.PdfFile.Parser, new[]{ "Bytes", "Pages" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Empty), global::GRPCService.GRPCProto.Empty.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfo), global::GRPCService.GRPCProto.JobInfo.Parser, new[]{ "JobStatus", "JobId", "Message" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfoWithBytes), global::GRPCService.GRPCProto.JobInfoWithBytes.Parser, new[]{ "JobInfo", "Bytes" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFileInfo), global::GRPCService.GRPCProto.PdfFileInfo.Parser, new[]{ "MD5", "FileLength", "Path", "JobId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.FileInfo), global::GRPCService.GRPCProto.FileInfo.Parser, new[]{ "FileType", "MD5", "FileLength", "Path", "JobId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.CommonResponse), global::GRPCService.GRPCProto.CommonResponse.Parser, new[]{ "IsError", "ErrorMessage" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse), global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse.Parser, new[]{ "Error", "FileId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.RejectJob), global::GRPCService.GRPCProto.RejectJob.Parser, new[]{ "JobId" }, null, null, null),
@@ -82,6 +83,11 @@ namespace GRPCService.GRPCProto {
     [pbr::OriginalName("DONE")] Done = 1,
     [pbr::OriginalName("ERROR")] Error = 2,
     [pbr::OriginalName("REJECTED")] Rejected = 3,
+  }
+
+  public enum EnumFileType {
+    [pbr::OriginalName("Image")] Image = 0,
+    [pbr::OriginalName("Pdf")] Pdf = 1,
   }
 
   #endregion
@@ -978,11 +984,11 @@ namespace GRPCService.GRPCProto {
 
   }
 
-  public sealed partial class PdfFileInfo : pb::IMessage<PdfFileInfo> {
-    private static readonly pb::MessageParser<PdfFileInfo> _parser = new pb::MessageParser<PdfFileInfo>(() => new PdfFileInfo());
+  public sealed partial class FileInfo : pb::IMessage<FileInfo> {
+    private static readonly pb::MessageParser<FileInfo> _parser = new pb::MessageParser<FileInfo>(() => new FileInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PdfFileInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<FileInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -995,14 +1001,15 @@ namespace GRPCService.GRPCProto {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PdfFileInfo() {
+    public FileInfo() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PdfFileInfo(PdfFileInfo other) : this() {
+    public FileInfo(FileInfo other) : this() {
+      fileType_ = other.fileType_;
       mD5_ = other.mD5_;
       fileLength_ = other.fileLength_;
       path_ = other.path_;
@@ -1011,12 +1018,23 @@ namespace GRPCService.GRPCProto {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PdfFileInfo Clone() {
-      return new PdfFileInfo(this);
+    public FileInfo Clone() {
+      return new FileInfo(this);
+    }
+
+    /// <summary>Field number for the "fileType" field.</summary>
+    public const int FileTypeFieldNumber = 1;
+    private global::GRPCService.GRPCProto.EnumFileType fileType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::GRPCService.GRPCProto.EnumFileType FileType {
+      get { return fileType_; }
+      set {
+        fileType_ = value;
+      }
     }
 
     /// <summary>Field number for the "MD5" field.</summary>
-    public const int MD5FieldNumber = 1;
+    public const int MD5FieldNumber = 2;
     private string mD5_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string MD5 {
@@ -1027,7 +1045,7 @@ namespace GRPCService.GRPCProto {
     }
 
     /// <summary>Field number for the "FileLength" field.</summary>
-    public const int FileLengthFieldNumber = 2;
+    public const int FileLengthFieldNumber = 3;
     private long fileLength_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long FileLength {
@@ -1038,7 +1056,7 @@ namespace GRPCService.GRPCProto {
     }
 
     /// <summary>Field number for the "Path" field.</summary>
-    public const int PathFieldNumber = 3;
+    public const int PathFieldNumber = 4;
     private string path_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Path {
@@ -1049,7 +1067,7 @@ namespace GRPCService.GRPCProto {
     }
 
     /// <summary>Field number for the "JobId" field.</summary>
-    public const int JobIdFieldNumber = 4;
+    public const int JobIdFieldNumber = 5;
     private string jobId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string JobId {
@@ -1061,17 +1079,18 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PdfFileInfo);
+      return Equals(other as FileInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PdfFileInfo other) {
+    public bool Equals(FileInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (FileType != other.FileType) return false;
       if (MD5 != other.MD5) return false;
       if (FileLength != other.FileLength) return false;
       if (Path != other.Path) return false;
@@ -1082,6 +1101,7 @@ namespace GRPCService.GRPCProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (FileType != 0) hash ^= FileType.GetHashCode();
       if (MD5.Length != 0) hash ^= MD5.GetHashCode();
       if (FileLength != 0L) hash ^= FileLength.GetHashCode();
       if (Path.Length != 0) hash ^= Path.GetHashCode();
@@ -1099,20 +1119,24 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (FileType != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) FileType);
+      }
       if (MD5.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteString(MD5);
       }
       if (FileLength != 0L) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteInt64(FileLength);
       }
       if (Path.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Path);
       }
       if (JobId.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(JobId);
       }
       if (_unknownFields != null) {
@@ -1123,6 +1147,9 @@ namespace GRPCService.GRPCProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (FileType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) FileType);
+      }
       if (MD5.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(MD5);
       }
@@ -1142,9 +1169,12 @@ namespace GRPCService.GRPCProto {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PdfFileInfo other) {
+    public void MergeFrom(FileInfo other) {
       if (other == null) {
         return;
+      }
+      if (other.FileType != 0) {
+        FileType = other.FileType;
       }
       if (other.MD5.Length != 0) {
         MD5 = other.MD5;
@@ -1169,19 +1199,23 @@ namespace GRPCService.GRPCProto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
+          case 8: {
+            fileType_ = (global::GRPCService.GRPCProto.EnumFileType) input.ReadEnum();
+            break;
+          }
+          case 18: {
             MD5 = input.ReadString();
             break;
           }
-          case 16: {
+          case 24: {
             FileLength = input.ReadInt64();
             break;
           }
-          case 26: {
+          case 34: {
             Path = input.ReadString();
             break;
           }
-          case 34: {
+          case 42: {
             JobId = input.ReadString();
             break;
           }

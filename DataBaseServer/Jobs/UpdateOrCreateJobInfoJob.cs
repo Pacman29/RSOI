@@ -39,7 +39,10 @@ namespace DataBaseServer.Jobs
         {
             Job job = null;
             if (this._jobInfo.JobId == null)
+            {
+                _jobInfo.JobId = System.Guid.NewGuid().ToString();
                 job = await CreateJob();
+            }
             else
             {
                 var result = _jobsDbManager.FindByGuid(this._jobInfo.JobId);

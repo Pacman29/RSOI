@@ -26,9 +26,6 @@ namespace RSOI.Jobs
         
         public override async Task ExecuteAsync()
         {
-            var guid = this.Guid;
-            if (guid == null)
-                throw new Exception("job guid is null");
             var pdfFile = new PdfFile()
             {
                 Bytes = ByteString.CopyFrom(_pdfFile),

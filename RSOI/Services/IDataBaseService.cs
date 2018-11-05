@@ -6,7 +6,8 @@ namespace RSOI.Services
 {
     public interface IDataBaseService : IDisposable
     {
-        Task<JobInfo> CreatePdfFile(PdfFileInfo pdfFileInfo);
+        Task<JobInfo> CreateFileInfo(FileInfo pdfFileInfo);
+        Task<JobInfo> UpdateOrCreateJob(JobInfo jobInfo);
         Task DoneJob(Guid jobId);
     }
 }

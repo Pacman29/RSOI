@@ -21,8 +21,11 @@ namespace RSOI.Jobs
         private bool _isPdfInfoCreated = false;
         private bool _isPdfFileCreated = false;
         private bool _isPdfFileRecognized = false;
+        private bool _isJobCreated = false;
 
-        private object threadLock = new object();
+        public string JobId { get; set; } = null; 
+        
+        private readonly object threadLock3 = new object();
         
         public RecognizePdfRootJob(
             Guid guid,
@@ -40,10 +43,76 @@ namespace RSOI.Jobs
 
         private async Task Stage2()
         {
-            lock (threadLock)
+            Console.WriteLine($"Check st2 {_isJobCreated}");
+            if (_isJobCreated)
+            {
+                var pdfFileInfo = await _pdfFile.GetFileInfo();
+                pdfFileInfo.Path = $"{this.JobId}.pdf";
+
+                var bytes = await _pdfFile.ReadFile();
+        
+                var addFileToDatabaseJob = new AddFileInfoToDatabaseJob(
+                    System.Guid.NewGuid(),
+                    _dataBaseService,
+                    pdfFileInfo,
+                    this)
+                {
+                    OnDone = async (job) =>
+                    {
+                        var bf = new BinaryFormatter();
+                        using (var ms = new MemoryStream(job.Bytes))
+                        {
+                            _fileId = (int) bf.Deserialize(ms);
+                        }
+
+                        _isPdfInfoCreated = true;
+                        await Stage3();
+                    }
+                };
+
+
+                var savePdfFileJob = new SavePdfFileJob(
+                    System.Guid.NewGuid(),
+                    _fileService,
+                    bytes,
+                    pdfFileInfo.Path,
+                    this)
+                {
+                    OnDone = async (job) =>
+                    {
+                        _isPdfFileCreated = true; 
+                        await Stage3();
+                    }
+                };
+        
+                var recognizePdfFileJob = new RecognizePdfFileJob(
+                    System.Guid.NewGuid(),
+                    _recognizeService,
+                    bytes,
+                    new int[0],
+                    this
+                )
+                {
+                    OnDone = async (job) =>
+                    {
+                        this._archive = new MemoryStream(job.Bytes);
+                        this._isPdfFileRecognized = true;
+                        await Stage3();
+                    }
+                };
+        
+                this.Executor.JobAsyncExecute(addFileToDatabaseJob);
+                this.Executor.JobAsyncExecute(savePdfFileJob);
+                this.Executor.JobAsyncExecute(recognizePdfFileJob);
+            }
+        }
+        
+        private async Task Stage3()
+        {
+            lock (threadLock3)
             {
                 //TODO: delete this
-                Console.WriteLine($"Check st2 {_isPdfFileCreated} {_isPdfFileRecognized} {_isPdfInfoCreated}");
+                Console.WriteLine($"Check st3 {_isPdfFileCreated} {_isPdfFileRecognized} {_isPdfInfoCreated}");
                 if (_isPdfFileCreated && _isPdfFileRecognized && _isPdfInfoCreated)
                 {
                     var zipArch = new ZipArchive(_archive);
@@ -68,64 +137,23 @@ namespace RSOI.Jobs
         
         public override async Task ExecuteAsync()
         {
-            var pdfFileInfo = await _pdfFile.GetPdfFileInfo();
-            pdfFileInfo.Path = $"{Guid.ToString()}.pdf";
-
-            var bytes = await _pdfFile.ReadFile();
-            
-            var addFileToDatabaseJob = new AddPdfToDatabaseJob(
-                System.Guid.NewGuid(),
-                _dataBaseService,
-                pdfFileInfo,
-                this)
+            //Create job to database
+            var createJobToDatabaseJob = new CreateJobToDatabase(_dataBaseService)
             {
                 OnDone = async (job) =>
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    using (MemoryStream ms = new MemoryStream(job.Bytes))
+                    var bf = new BinaryFormatter();
+                    using (var ms = new MemoryStream(job.Bytes))
                     {
-                        _fileId = (int) bf.Deserialize(ms);
+                          JobId = (string) bf.Deserialize(ms);
                     }
 
-                    _isPdfInfoCreated = true;
+                    _isJobCreated = true;
                     await Stage2();
                 }
             };
 
-
-            var savePdfFileJob = new SavePdfFileJob(
-                System.Guid.NewGuid(),
-                _fileService,
-                bytes,
-                pdfFileInfo.Path,
-                this)
-            {
-                OnDone = async (job) =>
-                {
-                    _isPdfFileCreated = true; 
-                    await Stage2();
-                }
-            };
-            
-            var recognizePdfFileJob = new RecognizePdfFileJob(
-                System.Guid.NewGuid(),
-                _recognizeService,
-                bytes,
-                new int[0],
-                this
-                )
-            {
-                OnDone = async (job) =>
-                {
-                    this._archive = new MemoryStream(job.Bytes);
-                    this._isPdfFileRecognized = true;
-                    await Stage2();
-                }
-            };
-            
-            this.Executor.JobAsyncExecute(addFileToDatabaseJob);
-            this.Executor.JobAsyncExecute(savePdfFileJob);
-            this.Executor.JobAsyncExecute(recognizePdfFileJob);
+            this.Executor.JobAsyncExecute(createJobToDatabaseJob);
         }
 
         public override Task Reject()

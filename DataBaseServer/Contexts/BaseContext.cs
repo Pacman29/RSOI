@@ -29,10 +29,6 @@ namespace DataBaseServer.Contexts
                 .HasKey(e => e.Id);
 
             modelBuilder.Entity<FileInfo>()
-                .HasIndex(e => e.Md5)
-                .IsUnique(true);
-
-            modelBuilder.Entity<FileInfo>()
                 .Property(e => e.Md5)
                 .IsRequired(true)
                 .HasMaxLength(32);
@@ -41,11 +37,11 @@ namespace DataBaseServer.Contexts
                 .Property(e => e.changed);
 
             modelBuilder.Entity<FileInfo>()
-                .Property(e => e.fileLength)
+                .Property(e => e.FileLength)
                 .IsRequired(true);
             
             modelBuilder.Entity<FileInfo>()
-                .Property(e => e.Version);
+                .Property(e => e.FileType);
             
             modelBuilder.Entity<FileInfo>()
                 .Property(e => e.Path)

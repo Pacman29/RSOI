@@ -52,7 +52,7 @@ namespace DataBaseServer
             };
         } 
         
-        public override async Task<JobInfo> SavePdfFileInfo(PdfFileInfo request, ServerCallContext context)
+        public override async Task<JobInfo> SaveFileInfo(GRPCService.GRPCProto.FileInfo request, ServerCallContext context)
         {
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
@@ -62,7 +62,7 @@ namespace DataBaseServer
             };
             try
             {
-                var job = new AddPdfFileJob(_fileInfosDbManager, FileInfo.FromPdfFileInfo(request)) {Guid = guid};
+                var job = new AddPdfFileJob(_fileInfosDbManager, DBO.FileInfo.FromPdfFileInfo(request)) {Guid = guid};
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
             }
             catch (AddException e)
@@ -82,7 +82,7 @@ namespace DataBaseServer
             };
             try
             {
-                var job = new UpdateOrCreateJobInfoJob(_jobsDbManager,request);
+                var job = new UpdateOrCreateJobInfoJob(_jobsDbManager, request) {Guid = guid};
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
             }
             catch (Exception e)

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GRPCService.GRPCProto;
 using Microsoft.AspNetCore.Http;
+using FileInfo = GRPCService.GRPCProto.FileInfo;
 
 namespace Models.Requests
 {
@@ -14,7 +15,7 @@ namespace Models.Requests
         public long PageNo { get; set; } = 0;
         public IFormFile File { get; set; }
 
-        public async Task<PdfFileInfo> GetPdfFileInfo()
+        public async Task<FileInfo> GetFileInfo()
         {
             var sBuilder = new StringBuilder();
             using (var md5Hash = MD5.Create())
@@ -23,7 +24,12 @@ namespace Models.Requests
                 foreach (var data in hash)
                     sBuilder.Append(data.ToString("x2"));
             } 
-           return new PdfFileInfo {FileLength = File.Length, MD5 = sBuilder.ToString()};
+           return new FileInfo
+           {
+               FileLength = File.Length, 
+               MD5 = sBuilder.ToString(),
+               FileType = EnumFileType.Pdf
+           };
         }
         
         public async Task<byte[]> ReadFile()

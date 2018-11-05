@@ -1,8 +1,10 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using JobExecutor;
 using Microsoft.AspNetCore.Mvc;
 using Models.Requests;
+using Models.Responses;
 using RSOI.Jobs;
 
 namespace RSOI.Services.Impl
@@ -34,9 +36,17 @@ namespace RSOI.Services.Impl
                 _dataBaseService,
                 _recognizeService, 
                 _fileService);
-            
+
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
-            return new OkResult();
+            var spin = new SpinWait();
+
+            while (recognizePdfJob.JobId == null)
+                spin.SpinOnce();
+            
+            return new JsonResult(new JobInfo()
+            {
+                JobId = recognizePdfJob.JobId
+            });
         }
     }
 }

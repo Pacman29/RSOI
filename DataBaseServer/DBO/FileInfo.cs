@@ -10,9 +10,9 @@ namespace DataBaseServer.DBO
         public int Id { get; set; }
         public string Md5 { get; set; }
         public DateTime changed { get; set; }
-        public long fileLength { get; set; }
-        public DateTime Version { get; set; }
+        public long FileLength { get; set; }
         public string Path { get; set; }
+        public EnumFileType FileType { get; set; }
         public string JobGuidFk { get; set; }
         public Job Job { get; set; }
 
@@ -21,14 +21,15 @@ namespace DataBaseServer.DBO
             changed = DateTime.Now;
         }
 
-        public static FileInfo FromPdfFileInfo(PdfFileInfo pdfFileInfo)
+        public static FileInfo FromPdfFileInfo(GRPCService.GRPCProto.FileInfo fileInfo)
         {
             return new FileInfo()
             {
-                Md5 = pdfFileInfo.MD5,
-                fileLength = pdfFileInfo.FileLength,
-                Path = pdfFileInfo.Path,
-                JobGuidFk = pdfFileInfo.JobId
+                Md5 = fileInfo.MD5,
+                FileLength = fileInfo.FileLength,
+                Path = fileInfo.Path,
+                JobGuidFk = fileInfo.JobId,
+                FileType = fileInfo.FileType
             };
         }
 
