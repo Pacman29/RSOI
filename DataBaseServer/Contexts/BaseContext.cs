@@ -1,80 +1,79 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DataBaseServer.DBO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DataBaseServer.Contexts
 {
-    public class BaseContext<T>: IContext<T> where T : class, IEntity 
+    public sealed class BaseContext :  DbContext
     {
-        private DbSet<T> _dbSet { get; set; }
-        private DbContext _context;
+        public DbSet<FileInfo> FileInfos { get; set; }
+        public DbSet<Job> Jobs { get; set; }
 
-        public BaseContext(DbContext context, DbSet<T> dbSet)
+        public BaseContext()
         {
-            _context = context;
-            _dbSet = dbSet;
-        }
-
-        public async Task<List<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
+            
         }
         
-        public async Task<T> AddAsync(T source)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            T result = null;
-            var state = await _dbSet.AddAsync(source);
-            if (state.State == EntityState.Added)
-            {
-                await _context.SaveChangesAsync();
-                result = state.Entity;
-            }
-
-            return result;
+            DataBaseConnection.GetDatabaseConnection(optionsBuilder);
         }
         
-        public async Task<T> FindByIdAsync(int id)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            return await _dbSet.FindAsync(id);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<FileInfo>()
+                .ToTable("FileInfos");
+            
+            modelBuilder.Entity<FileInfo>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<FileInfo>()
+                .HasIndex(e => e.Md5)
+                .IsUnique(true);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Md5)
+                .IsRequired(true)
+                .HasMaxLength(32);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.changed);
+
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.fileLength)
+                .IsRequired(true);
+            
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Version);
+            
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.Path)
+                .IsRequired(true)
+                .HasMaxLength(250);
+
+            modelBuilder.Entity<FileInfo>()
+                .HasOne(e => e.Job)
+                .WithMany(j => j.fileInfos)
+                .HasForeignKey(e => e.JobGuidFk);
+
+            modelBuilder.Entity<Job>()
+                .ToTable("Jobs");
+            
+            modelBuilder.Entity<Job>()
+                .HasKey(e => e.GUID);
+            
+            modelBuilder.Entity<Job>()
+                .Property(e => e.GUID)
+                .IsRequired(true)
+                .HasMaxLength(36);
+            
+            modelBuilder.Entity<Job>()
+                .Property(e => e.changed);
+
+            modelBuilder.Entity<Job>()
+                .Property(e => e.status);
         }
-
-        public async Task<bool> UpdateAsync(T source)
-        {
-            bool result;
-            source.changed = DateTime.Now;
-            var state = _dbSet.Update(source);
-            if (state.State == EntityState.Modified)
-            {
-                await _context.SaveChangesAsync();
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
-            return result;
-        }
-
-        public async Task<bool> DeleteAsync(T source)
-        {
-            bool result;
-            var state = _dbSet.Remove(source);
-            if (state.State == EntityState.Deleted)
-            {
-                await _context.SaveChangesAsync();
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
-            return result;
-        }
-       
+        
     }
 }

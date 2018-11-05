@@ -5,7 +5,6 @@ using GRPCService.GRPCProto;
 
 namespace DataBaseServer.DBO
 {
-    [Table("FileInfos")]
     public class FileInfo : IEntity
     {
         public int Id { get; set; }
@@ -14,6 +13,8 @@ namespace DataBaseServer.DBO
         public long fileLength { get; set; }
         public DateTime Version { get; set; }
         public string Path { get; set; }
+        public string JobGuidFk { get; set; }
+        public Job Job { get; set; }
 
         public FileInfo()
         {
@@ -26,7 +27,8 @@ namespace DataBaseServer.DBO
             {
                 Md5 = pdfFileInfo.MD5,
                 fileLength = pdfFileInfo.FileLength,
-                Path = pdfFileInfo.Path
+                Path = pdfFileInfo.Path,
+                JobGuidFk = pdfFileInfo.RootJobId
             };
         }
 

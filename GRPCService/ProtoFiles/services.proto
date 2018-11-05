@@ -67,7 +67,8 @@ message PdfFileInfo {
     string MD5 = 1;
     int64 FileLength = 2;
     string Path = 3;
-    string JobId = 4;
+    string RootJobId = 4;
+    string JobId = 5;
 }
 
 message CommonResponse {

@@ -11,14 +11,14 @@ namespace DataBaseServer
 {
     public class DataBaseServerGrpc : DataBase.DataBaseBase, IDisposable
     {
-        private readonly FileInfosContext _fileInfosContext;
+        private readonly FileInfosDbManager _fileInfosDbManager;
         private readonly JobExecutor.IJobExecutor _jobExecutor;
         private readonly GateWay.GateWayClient _gateWay;
         private readonly Channel _channel;
 
         public DataBaseServerGrpc() : base()
         {
-            _fileInfosContext = new FileInfosContext();
+            _fileInfosDbManager = new FileInfosDbManager( new BaseContext());
             _jobExecutor= JobExecutor.JobExecutor.Instance;
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
             _gateWay = new GateWay.GateWayClient(_channel);
@@ -54,7 +54,7 @@ namespace DataBaseServer
             var result = new Empty();
             try
             {
-                var job = new AddPdfFileJob(_fileInfosContext, FileInfo.FromPdfFileInfo(request))
+                var job = new AddPdfFileJob(_fileInfosDbManager, FileInfo.FromPdfFileInfo(request))
                 {
                     Guid = new Guid(request.JobId)
                 };
@@ -109,7 +109,6 @@ namespace DataBaseServer
 
         public async void Dispose()
         {
-            _fileInfosContext?.Dispose();
             await _channel.ShutdownAsync();
         }
     }

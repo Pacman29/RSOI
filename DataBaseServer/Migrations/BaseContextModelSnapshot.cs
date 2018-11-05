@@ -3,17 +3,15 @@ using System;
 using DataBaseServer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DataBaseServer.Migrations
 {
-    [DbContext(typeof(FileInfosContext))]
-    [Migration("20181030081256_AddFilePath")]
-    partial class AddFilePath
+    [DbContext(typeof(BaseContext))]
+    partial class BaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +23,8 @@ namespace DataBaseServer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("JobGuidFk");
 
                     b.Property<string>("Md5")
                         .IsRequired()
@@ -42,10 +42,34 @@ namespace DataBaseServer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("JobGuidFk");
+
                     b.HasIndex("Md5")
                         .IsUnique();
 
                     b.ToTable("FileInfos");
+                });
+
+            modelBuilder.Entity("DataBaseServer.DBO.Job", b =>
+                {
+                    b.Property<string>("GUID")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime>("changed");
+
+                    b.Property<int>("status");
+
+                    b.HasKey("GUID");
+
+                    b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("DataBaseServer.DBO.FileInfo", b =>
+                {
+                    b.HasOne("DataBaseServer.DBO.Job", "Job")
+                        .WithMany("fileInfos")
+                        .HasForeignKey("JobGuidFk");
                 });
 #pragma warning restore 612, 618
         }

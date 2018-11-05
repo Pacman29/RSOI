@@ -5,7 +5,7 @@ using DataBaseServer.DBO;
 
 namespace DataBaseServer.Contexts
 {
-    public interface IContext<T> where T : class, IEntity 
+    public interface IDbManager<T> where T : class, IEntity 
     {
         Task<List<T>> GetAllAsync();
 
