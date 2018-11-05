@@ -11,6 +11,7 @@ namespace DataBaseServer.Contexts
     {
         private DbSet<T> _dbSet { get; set; }
         private DbContext _context;
+        private readonly object _threadLock = new object();
 
         public CommonDbManager(DbContext context, DbSet<T> dbSet)
         {
@@ -23,6 +24,7 @@ namespace DataBaseServer.Contexts
             return await _dbSet.ToListAsync();
         }
         
+
         public async Task<T> AddAsync(T source)
         {
             T result = null;
@@ -30,7 +32,10 @@ namespace DataBaseServer.Contexts
             var state = await _dbSet.AddAsync(source);
             if (state.State == EntityState.Added)
             {
-                await _context.SaveChangesAsync();
+                lock (_threadLock)
+                {
+                    _context.SaveChanges();
+                }
                 result = state.Entity;
             }
 
@@ -49,7 +54,10 @@ namespace DataBaseServer.Contexts
             var state = _dbSet.Update(source);
             if (state.State == EntityState.Modified)
             {
-                await _context.SaveChangesAsync();
+                lock (_threadLock)
+                {
+                    _context.SaveChanges();
+                }
                 result = state.Entity;
             }
 
@@ -62,7 +70,10 @@ namespace DataBaseServer.Contexts
             var state = _dbSet.Remove(source);
             if (state.State == EntityState.Deleted)
             {
-                await _context.SaveChangesAsync();
+                lock (_threadLock)
+                {
+                    _context.SaveChanges();
+                }
                 result = true;
             }
             else

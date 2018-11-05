@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataBaseServer.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20181105130645_addJobs")]
-    partial class addJobs
+    [Migration("20181105154325_addJob")]
+    partial class addJob
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,10 @@ namespace DataBaseServer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long>("FileLength");
+
+                    b.Property<int>("FileType");
+
                     b.Property<string>("JobGuidFk");
 
                     b.Property<string>("Md5")
@@ -36,11 +40,7 @@ namespace DataBaseServer.Migrations
                         .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<DateTime>("Version");
-
                     b.Property<DateTime>("changed");
-
-                    b.Property<long>("fileLength");
 
                     b.HasKey("Id");
 

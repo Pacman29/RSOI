@@ -125,13 +125,14 @@ namespace JobExecutor
                 throw  new Exception("Job uid is null");
             var guid = (Guid) job.Guid;
             job.Executor = this;
+            var result = _jobs.TryAdd(guid,job);
             _synchroniousJobs.Enqueue(new jobPack()
             {
                 Job = job,
                 OnError = onError,
                 OnOk = onOk
             });
-            var result = _jobs.TryAdd(guid,job);
+            
             if (!result)
                 onError(guid,new Exception("job not added"));
         }
@@ -209,22 +210,32 @@ namespace JobExecutor
             }
         }
 
-        public void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status)
+        public bool SetJobStatusByServiceGuid(Guid id, EnumJobStatus status)
         {
             lock (_balanceLock)
             {
                 var job = _jobs.FirstOrDefault(pair => pair.Value.ServiceGuid == id);
+                if (job.Value == null)
+                {
+                    return false;
+                }
                 job.Value.JobStatus = status;
+                return true;
             }
         }
         
-        public void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status, byte[] bytes)
+        public bool SetJobStatusByServiceGuid(Guid id, EnumJobStatus status, byte[] bytes)
         {
             lock (_balanceLock)
             {
                 var job = _jobs.FirstOrDefault(pair => pair.Value.ServiceGuid == id);
+                if(job.Value == null)
+                {
+                    return false;
+                }
                 job.Value.Bytes = bytes;
                 job.Value.JobStatus = status;
+                return true;
             }
         }
     }

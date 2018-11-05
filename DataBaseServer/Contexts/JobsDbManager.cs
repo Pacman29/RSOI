@@ -12,9 +12,11 @@ namespace DataBaseServer.Contexts
     {
         private readonly CommonDbManager<Job> _commonDbManager;
         private DbSet<Job> Jobs { get; set; }
+        private readonly BaseContext _baseContext;
 
         public JobsDbManager(BaseContext context)
         {
+            _baseContext = context;
             Jobs = context.Jobs;
             _commonDbManager = new CommonDbManager<Job>(context, Jobs);
         }
@@ -55,6 +57,28 @@ namespace DataBaseServer.Contexts
             var _job = await Jobs.Where(job => job.GUID == guid).FirstAsync();
             _job.status = status;
             return await _commonDbManager.UpdateAsync(_job);
+        }
+
+        public class JobAndFileInfoJoinEntity
+        {
+            public string Guid { get; set; }
+            public string Path { get; set; }
+            public long PageNo { get; set; }
+            public EnumFileType FileType { get; set; }
+            public EnumJobStatus JobStatus { get; set; }
+        }
+
+        public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, Func<JobAndFileInfoJoinEntity, bool> criteria)
+        {
+            var join = Jobs.Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk, (a, b) => new JobAndFileInfoJoinEntity()
+            {
+                Guid = a.GUID,
+                Path = b.Path,
+                PageNo = b.PageNo,
+                FileType = b.FileType,
+                JobStatus = a.status
+            }).Where(criteria).ToList();
+            return join;
         }
     }
 }

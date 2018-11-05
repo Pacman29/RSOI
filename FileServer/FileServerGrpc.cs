@@ -40,6 +40,7 @@ namespace FileServer
         {
             return async (Guid guid, Exception e) =>
             {
+                Console.WriteLine(e);
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();

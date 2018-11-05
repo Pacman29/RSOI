@@ -40,6 +40,7 @@ namespace RecognizePdfServer
         {
             return async (Guid guid, Exception e) =>
             {
+                Console.WriteLine(e);
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
@@ -73,7 +74,7 @@ namespace RecognizePdfServer
                 throw;
             }
             
-            return new JobInfo();
+            return jobInfo;
         }
         
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)

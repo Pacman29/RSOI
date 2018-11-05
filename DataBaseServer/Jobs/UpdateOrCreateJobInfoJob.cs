@@ -38,7 +38,7 @@ namespace DataBaseServer.Jobs
         public override async Task ExecuteAsync()
         {
             Job job = null;
-            if (this._jobInfo.JobId == null)
+            if (this._jobInfo.JobId.Length == 0)
             {
                 _jobInfo.JobId = System.Guid.NewGuid().ToString();
                 job = await CreateJob();

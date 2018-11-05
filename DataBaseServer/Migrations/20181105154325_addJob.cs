@@ -29,9 +29,9 @@ namespace DataBaseServer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Md5 = table.Column<string>(maxLength: 32, nullable: false),
                     changed = table.Column<DateTime>(nullable: false),
-                    fileLength = table.Column<long>(nullable: false),
-                    Version = table.Column<DateTime>(nullable: false),
+                    FileLength = table.Column<long>(nullable: false),
                     Path = table.Column<string>(maxLength: 250, nullable: false),
+                    FileType = table.Column<int>(nullable: false),
                     JobGuidFk = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -49,12 +49,6 @@ namespace DataBaseServer.Migrations
                 name: "IX_FileInfos_JobGuidFk",
                 table: "FileInfos",
                 column: "JobGuidFk");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FileInfos_Md5",
-                table: "FileInfos",
-                column: "Md5",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -16,7 +16,7 @@ namespace JobExecutor
         Task<BaseJob> DoneJobAsync(Guid id);
         void SetJobStatus(Guid id, EnumJobStatus status, byte[] bytes = null);
         void SetJobStatus(Guid id, EnumJobStatus status);
-        void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status);
-        void SetJobStatusByServiceGuid(Guid id, EnumJobStatus status, byte[] bytes = null);
+        bool SetJobStatusByServiceGuid(Guid id, EnumJobStatus status);
+        bool SetJobStatusByServiceGuid(Guid id, EnumJobStatus status, byte[] bytes = null);
     }
 }

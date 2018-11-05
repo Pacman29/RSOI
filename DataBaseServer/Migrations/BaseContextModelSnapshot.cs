@@ -24,6 +24,10 @@ namespace DataBaseServer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long>("FileLength");
+
+                    b.Property<int>("FileType");
+
                     b.Property<string>("JobGuidFk");
 
                     b.Property<string>("Md5")
@@ -34,11 +38,7 @@ namespace DataBaseServer.Migrations
                         .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<DateTime>("Version");
-
                     b.Property<DateTime>("changed");
-
-                    b.Property<long>("fileLength");
 
                     b.HasKey("Id");
 

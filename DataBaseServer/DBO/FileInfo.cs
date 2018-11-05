@@ -15,6 +15,7 @@ namespace DataBaseServer.DBO
         public EnumFileType FileType { get; set; }
         public string JobGuidFk { get; set; }
         public Job Job { get; set; }
+        public long PageNo { get; set; } 
 
         public FileInfo()
         {

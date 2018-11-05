@@ -53,6 +53,9 @@ namespace DataBaseServer.Contexts
                 .WithMany(j => j.fileInfos)
                 .HasForeignKey(e => e.JobGuidFk);
 
+            modelBuilder.Entity<FileInfo>()
+                .Property(e => e.PageNo);
+
             modelBuilder.Entity<Job>()
                 .ToTable("Jobs");
             

@@ -38,10 +38,9 @@ namespace RSOI.Services.Impl
                 _fileService);
 
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
-            var spin = new SpinWait();
 
             while (recognizePdfJob.JobId == null)
-                spin.SpinOnce();
+                await Task.Delay(TimeSpan.FromSeconds(1));
             
             return new JsonResult(new JobInfo()
             {

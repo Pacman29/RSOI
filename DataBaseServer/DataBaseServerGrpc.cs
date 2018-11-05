@@ -19,9 +19,8 @@ namespace DataBaseServer
 
         public DataBaseServerGrpc() : base()
         {
-            var context = new BaseContext();
-            _fileInfosDbManager = new FileInfosDbManager(context);
-            _jobsDbManager = new JobsDbManager(context);
+            _fileInfosDbManager = new FileInfosDbManager(new BaseContext());
+            _jobsDbManager = new JobsDbManager(new BaseContext());
             _jobExecutor= JobExecutor.JobExecutor.Instance;
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
             _gateWay = new GateWay.GateWayClient(_channel);
@@ -45,6 +44,7 @@ namespace DataBaseServer
         {
             return async (Guid guid, Exception e) =>
             {
+                Console.WriteLine(e);
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
@@ -62,7 +62,10 @@ namespace DataBaseServer
             };
             try
             {
-                var job = new AddPdfFileJob(_fileInfosDbManager, DBO.FileInfo.FromPdfFileInfo(request)) {Guid = guid};
+                var job = new AddPdfFileJob(_fileInfosDbManager, DBO.FileInfo.FromPdfFileInfo(request))
+                {
+                    Guid = guid
+                };
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
             }
             catch (AddException e)
@@ -82,7 +85,10 @@ namespace DataBaseServer
             };
             try
             {
-                var job = new UpdateOrCreateJobInfoJob(_jobsDbManager, request) {Guid = guid};
+                var job = new UpdateOrCreateJobInfoJob(_jobsDbManager, request)
+                {
+                    Guid = guid
+                };
                 _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
             }
             catch (Exception e)

@@ -26,6 +26,13 @@ namespace RSOI
                         break;
             }
             _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId),request.JobStatus);
+            var res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId), request.JobStatus);
+            while (res == false)
+            {
+                Console.WriteLine("status not set");
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId), request.JobStatus);
+            }
             return new Empty();
         }
         
@@ -44,7 +51,13 @@ namespace RSOI
                     break;
             }
             
-            _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
+            var res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
+            while (res == false)
+            {
+                Console.WriteLine("status not set");
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId), request.JobInfo.JobStatus, request.Bytes.ToByteArray());
+            }
             return new Empty();
         }
     }
