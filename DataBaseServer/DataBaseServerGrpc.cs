@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataBaseServer.Contexts;
 using DataBaseServer.DBO;
@@ -22,7 +23,9 @@ namespace DataBaseServer
             _fileInfosDbManager = new FileInfosDbManager(new BaseContext());
             _jobsDbManager = new JobsDbManager(new BaseContext());
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
         }
 
@@ -54,6 +57,7 @@ namespace DataBaseServer
         
         public override async Task<JobInfo> SaveFileInfo(GRPCService.GRPCProto.FileInfo request, ServerCallContext context)
         {
+            Console.WriteLine("Save File Info");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -62,7 +66,7 @@ namespace DataBaseServer
             };
             try
             {
-                var job = new AddPdfFileJob(_fileInfosDbManager, DBO.FileInfo.FromPdfFileInfo(request))
+                var job = new AddFileInfoJob(_fileInfosDbManager, DBO.FileInfo.FromGRPCFileInfo(request))
                 {
                     Guid = guid
                 };
@@ -77,6 +81,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> UpdateOrCreateJob(JobInfo request, ServerCallContext context)
         {
+            Console.WriteLine("Update or Create Job");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {

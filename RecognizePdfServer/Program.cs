@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Grpc.Core;
+using Grpc.Core.Logging;
 using GRPCService.GRPCProto;
 
 namespace RecognizePdfServer
@@ -10,12 +12,16 @@ namespace RecognizePdfServer
         
         static void Main(string[] args)
         {
-            server = new Server
+            GrpcEnvironment.SetLogger(new TextWriterLogger(Console.Out));
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+
+            server = new Server(channelOptions)
             {
                 Services = {Recognize.BindService(new PdfRecognizeServerGrpc())},
                 Ports = {new ServerPort("0.0.0.0", 8081, ServerCredentials.Insecure)}
             };
-            server.Start();
+            
             Console.WriteLine("PdfServer listening on port " + 8081);
             Console.WriteLine("Press Ctrl+C  to stop the server...");
             Console.CancelKeyPress += new ConsoleCancelEventHandler(OnExit);

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using JobExecutor;
@@ -20,6 +21,7 @@ namespace FileServer.Jobs
             using (var fileStream = new FileStream(_path, FileMode.OpenOrCreate))
             {
                 _stream.WriteTo(fileStream);
+                Console.WriteLine("File save");
             }
         }
 

@@ -1,4 +1,5 @@
 using DataBaseServer.DBO;
+using DataBaseServer.Exceptions.DBExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseServer.Contexts

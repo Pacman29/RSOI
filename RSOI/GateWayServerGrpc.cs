@@ -13,6 +13,7 @@ namespace RSOI
 
         public override async Task<Empty> PostJobInfo(JobInfo request, ServerCallContext context)
         {
+            Console.WriteLine("Post Job Info");
             switch (request.JobStatus)
             {
                     case EnumJobStatus.Execute: 
@@ -25,7 +26,6 @@ namespace RSOI
                         Console.WriteLine($"{request.JobId} error; {request.Message}");
                         break;
             }
-            _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId),request.JobStatus);
             var res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId), request.JobStatus);
             while (res == false)
             {
@@ -38,6 +38,7 @@ namespace RSOI
         
         public override async Task<Empty> PostJobInfoWithBytes(JobInfoWithBytes request, ServerCallContext context)
         {
+            Console.WriteLine("Post Job Info with Bytes");
             switch (request.JobInfo.JobStatus)
             {
                 case EnumJobStatus.Execute: 

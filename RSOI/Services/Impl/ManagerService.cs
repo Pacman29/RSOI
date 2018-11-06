@@ -40,7 +40,7 @@ namespace RSOI.Services.Impl
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
 
             while (recognizePdfJob.JobId == null)
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(10));
             
             return new JsonResult(new JobInfo()
             {

@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using FileServer.Jobs;
 using Grpc.Core;
+using Grpc.Core.Utils;
 using GRPCService.GRPCProto;
 using JobExecutor;
 using File = GRPCService.GRPCProto.File;
@@ -19,7 +21,9 @@ namespace FileServer
         public FileServerGrpc()
         {
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
         }
 
@@ -47,17 +51,18 @@ namespace FileServer
                 await _gateWay.PostJobInfoAsync(jobInfo);
             };
         }
-        
+
         public override async Task<JobInfo> SaveFile(File request, ServerCallContext context)
         {
+            Console.WriteLine("Save File");
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
                 JobStatus = EnumJobStatus.Execute, 
                 JobId = guid.ToString()
-            };    
-            
+            };
+
             try
             {
                 var job = new SaveFileJob(request.FilePath.Path_, memoryStream)
@@ -72,12 +77,13 @@ namespace FileServer
                 Console.WriteLine(e);
                 throw;
             }
-            
+
             return jobInfo;
         }
 
         public override async Task<JobInfo> GetFile(Path request, ServerCallContext context)
         {
+            Console.WriteLine("Get File");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {

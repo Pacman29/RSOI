@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Grpc.Core;
+using Grpc.Core.Logging;
 
 namespace FileServer
 {
@@ -9,7 +11,11 @@ namespace FileServer
         
         static void Main(string[] args)
         {
-            server = new Server
+            GrpcEnvironment.SetLogger(new ConsoleLogger());
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+
+            server = new Server(channelOptions)
             {
                 Services = {GRPCService.GRPCProto.FileServer.BindService(new FileServerGrpc())},
                 Ports = {new ServerPort("0.0.0.0", 8082, ServerCredentials.Insecure)}

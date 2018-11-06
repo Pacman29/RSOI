@@ -147,7 +147,8 @@ namespace RSOI.Jobs
                                 FileType = GRPCService.GRPCProto.EnumFileType.Image,
                                 JobId = JobId,
                                 MD5 = sBuilder.ToString(),
-                                Path = $"{JobId}_{image.FullName}"
+                                Path = $"{JobId}_{image.FullName}",
+                                PageNo = long.Parse(Path.GetFileNameWithoutExtension(image.Name))
                             };
                             var addFileToDatabaseJob = new AddFileInfoToDatabaseJob(
                                 System.Guid.NewGuid(),

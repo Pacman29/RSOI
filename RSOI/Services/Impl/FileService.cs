@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCService.GRPCProto;
@@ -11,7 +12,9 @@ namespace RSOI.Services.Impl
         
         public FileService(string fileServerUri)
         {
-            _channel = new Channel(fileServerUri, ChannelCredentials.Insecure);
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            _channel = new Channel(fileServerUri, ChannelCredentials.Insecure, channelOptions);
             Client = new FileServer.FileServerClient(_channel);
         }
         

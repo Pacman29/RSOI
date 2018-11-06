@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DataBaseServer\DataBaseServer.csproj" />
       <ProjectReference Include="..\GRPCService\GRPCService.csproj" />
       <ProjectReference Include="..\JobExecutor\JobExecutor.csproj" />
     </ItemGroup>

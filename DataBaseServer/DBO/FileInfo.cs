@@ -15,14 +15,14 @@ namespace DataBaseServer.DBO
         public EnumFileType FileType { get; set; }
         public string JobGuidFk { get; set; }
         public Job Job { get; set; }
-        public long PageNo { get; set; } 
+        public long PageNo { get; set; } = long.MaxValue;
 
         public FileInfo()
         {
             changed = DateTime.Now;
         }
 
-        public static FileInfo FromPdfFileInfo(GRPCService.GRPCProto.FileInfo fileInfo)
+        public static FileInfo FromGRPCFileInfo(GRPCService.GRPCProto.FileInfo fileInfo)
         {
             return new FileInfo()
             {
@@ -30,7 +30,8 @@ namespace DataBaseServer.DBO
                 FileLength = fileInfo.FileLength,
                 Path = fileInfo.Path,
                 JobGuidFk = fileInfo.JobId,
-                FileType = fileInfo.FileType
+                FileType = fileInfo.FileType,
+                PageNo = fileInfo.PageNo
             };
         }
 

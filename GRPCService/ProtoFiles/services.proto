@@ -39,8 +39,8 @@ message File {
 }
 
 message PdfFile {
-    bytes bytes = 2;
-    repeated int32 pages = 3;
+    bytes bytes = 1;
+    repeated int32 pages = 2;
 }
 
 message Empty {
@@ -75,6 +75,7 @@ message FileInfo {
     int64 FileLength = 3;
     string Path = 4;
     string JobId = 5;
+	int64 PageNo = 6;
 }
 
 message CommonResponse {

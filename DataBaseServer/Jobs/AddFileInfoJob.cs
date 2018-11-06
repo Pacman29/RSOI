@@ -8,12 +8,12 @@ using FileInfo = DataBaseServer.DBO.FileInfo;
 
 namespace DataBaseServer.Jobs
 {
-    public class AddPdfFileJob : BaseJob
+    public class AddFileInfoJob : BaseJob
     {
         private readonly FileInfosDbManager _fileInfosDbManager;
         private readonly FileInfo _fileInfo;
 
-        public AddPdfFileJob(FileInfosDbManager fileInfosDbManager, FileInfo fileInfo)
+        public AddFileInfoJob(FileInfosDbManager fileInfosDbManager, FileInfo fileInfo)
         {
             _fileInfosDbManager = fileInfosDbManager;
             _fileInfo = fileInfo;

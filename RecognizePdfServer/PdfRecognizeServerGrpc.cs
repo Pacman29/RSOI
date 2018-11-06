@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -19,7 +20,9 @@ namespace RecognizePdfServer
         public PdfRecognizeServerGrpc()
         {
             _jobExecutor= JobExecutor.JobExecutor.Instance;
-            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure);
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
         }
 
@@ -48,8 +51,11 @@ namespace RecognizePdfServer
             };
         }
         
+
+
         public override async Task<JobInfo> RecognizePdf(PdfFile request, ServerCallContext context)
         {
+            Console.WriteLine("RecognizePdf");
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var pages = request.Pages.ToArray();
 

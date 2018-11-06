@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Grpc.Core;
+using Grpc.Core.Logging;
 using GRPCService.GRPCProto;
 
 namespace DataBaseServer
@@ -10,7 +12,11 @@ namespace DataBaseServer
         
         static void Main(string[] args)
         {
-            server = new Server
+            GrpcEnvironment.SetLogger(new ConsoleLogger());
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            
+            server = new Server(channelOptions)
             {
                 Services = {DataBase.BindService(new DataBaseServerGrpc())},
                 Ports = {new ServerPort("0.0.0.0", 8080, ServerCredentials.Insecure)}

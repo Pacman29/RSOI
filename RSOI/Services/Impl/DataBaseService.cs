@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCService.GRPCProto;
@@ -11,7 +12,9 @@ namespace RSOI.Services.Impl
         private readonly DataBase.DataBaseClient client;
         public DataBaseService(string databaseUri)
         {
-            channel = new Channel(databaseUri, ChannelCredentials.Insecure);
+            var channelOptions = new List<ChannelOption>();
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            channel = new Channel(databaseUri, ChannelCredentials.Insecure,channelOptions);
             client = new DataBase.DataBaseClient(channel);
         }
 

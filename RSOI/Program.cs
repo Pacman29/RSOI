@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Grpc.Core.Logging;
 using GRPCService.GRPCProto;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -53,7 +54,11 @@ namespace RSOI_Gateway
 
             public NotifyGrpcServer(string host,int port)
             {
-                grpcServer = new Server
+                GrpcEnvironment.SetLogger(new ConsoleLogger());
+                var channelOptions = new List<ChannelOption>();
+                channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+
+                grpcServer = new Server(channelOptions)
                 {
                     Services = {GateWay.BindService(new GateWayServerGrpc())},
                     Ports = {new ServerPort(host, port, ServerCredentials.Insecure)}
