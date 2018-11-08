@@ -13,7 +13,7 @@ namespace RSOI.Services.Impl
         public DataBaseService(string databaseUri)
         {
             var channelOptions = new List<ChannelOption>();
-            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
             channel = new Channel(databaseUri, ChannelCredentials.Insecure,channelOptions);
             client = new DataBase.DataBaseClient(channel);
         }

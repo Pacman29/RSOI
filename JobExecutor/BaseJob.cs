@@ -13,10 +13,17 @@ namespace JobExecutor
         public IJobExecutor Executor { get; set; }
         public byte[] Bytes { get; set; }
 
-        public Action<BaseJob> OnDone = null;
-        public Action<BaseJob> OnError = null;
-        public Action<BaseJob> OnReject = null;
-        public Action<BaseJob> OnExecute = null;
+        //public Action<BaseJob> OnDone = null;
+        //public Action<BaseJob> OnError = null;
+        //public Action<BaseJob> OnReject = null;
+        //public Action<BaseJob> OnExecute = null;
+
+        public delegate void JobEvent(BaseJob job);
+
+        public event JobEvent OnDone;
+        public event JobEvent OnError;
+        public event JobEvent OnReject;
+        public event JobEvent OnExecute;
         
         private EnumJobStatus _jobStatus;
         public EnumJobStatus JobStatus

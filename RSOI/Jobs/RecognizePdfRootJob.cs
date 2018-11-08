@@ -59,24 +59,23 @@ namespace RSOI.Jobs
                 pdfFileInfo.JobId = JobId;
 
                 var bytes = await _pdfFile.ReadFile();
-        
+
                 var addFileToDatabaseJob = new AddFileInfoToDatabaseJob(
                     System.Guid.NewGuid(),
                     _dataBaseService,
                     pdfFileInfo,
-                    this)
-                {
-                    OnDone = async (job) =>
-                    {
-                        var bf = new BinaryFormatter();
-                        using (var ms = new MemoryStream(job.Bytes))
-                        {
-                            _fileId = (int) bf.Deserialize(ms);
-                        }
+                    this);
 
-                        _isPdfInfoCreated = true;
-                        await Stage3();
+                addFileToDatabaseJob.OnDone += async (job) =>
+                {
+                    var bf = new BinaryFormatter();
+                    using (var ms = new MemoryStream(job.Bytes))
+                    {
+                        _fileId = (int) bf.Deserialize(ms);
                     }
+
+                    _isPdfInfoCreated = true;
+                    await Stage3();
                 };
 
 
@@ -85,34 +84,30 @@ namespace RSOI.Jobs
                     _fileService,
                     bytes,
                     pdfFileInfo.Path,
-                    this)
+                    this);
+                savePdfFileJob.OnDone += async (job) =>
                 {
-                    OnDone = async (job) =>
-                    {
-                        _isPdfFileCreated = true; 
-                        await Stage3();
-                    }
+                    _isPdfFileCreated = true;
+                    await Stage3();
                 };
-        
+
                 var recognizePdfFileJob = new RecognizePdfFileJob(
                     System.Guid.NewGuid(),
                     _recognizeService,
                     bytes,
-                    new int[0],
+                    new List<int>(),
                     this
-                )
+                );
+                recognizePdfFileJob.OnDone += async (job) =>
                 {
-                    OnDone = async (job) =>
-                    {
-                        this._archive = new MemoryStream(job.Bytes);
-                        this._isPdfFileRecognized = true;
-                        await Stage3();
-                    }
+                    this._archive = new MemoryStream(job.Bytes);
+                    this._isPdfFileRecognized = true;
+                    await Stage3();
                 };
         
+                this.Executor.JobAsyncExecute(recognizePdfFileJob);
                 this.Executor.JobAsyncExecute(addFileToDatabaseJob);
                 this.Executor.JobAsyncExecute(savePdfFileJob);
-                this.Executor.JobAsyncExecute(recognizePdfFileJob);
             }
         }
 
@@ -154,13 +149,11 @@ namespace RSOI.Jobs
                                 System.Guid.NewGuid(),
                                 _dataBaseService,
                                 fileInfo,
-                                this)
+                                this);
+                            addFileToDatabaseJob.OnDone += async (job) =>
                             {
-                                OnDone = async (job) =>
-                                {
-                                    imageStates.Add((Guid)job.Guid);
-                                    await Stage4();
-                                }
+                                imageStates.Add((Guid) job.Guid);
+                                await Stage4();
                             };
 
                             var savePdfFileJob = new SaveImageFileJob(
@@ -168,13 +161,11 @@ namespace RSOI.Jobs
                                 _fileService,
                                 ms.ToArray(),
                                 fileInfo.Path,
-                                this)
+                                this);
+                            savePdfFileJob.OnDone += async (job) =>
                             {
-                                OnDone = async (job) =>
-                                {
-                                    imageStates.Add((Guid)job.Guid);
-                                    await Stage4();
-                                }
+                                imageStates.Add((Guid) job.Guid);
+                                await Stage4();
                             };
                             this.Executor.JobAsyncExecute(addFileToDatabaseJob);
                             this.Executor.JobAsyncExecute(savePdfFileJob);
@@ -197,10 +188,10 @@ namespace RSOI.Jobs
                     GRPCService.GRPCProto.EnumJobStatus.Done)
                 {
                     Guid = System.Guid.NewGuid(),
-                    OnDone = (job) =>
-                    {
-                        this.JobStatus = GRPCService.GRPCProto.EnumJobStatus.Done;
-                    },
+                };
+                updateJobToDatabase.OnDone += (job) =>
+                {
+                    this.JobStatus = GRPCService.GRPCProto.EnumJobStatus.Done;
                 };
                 this.Executor.JobAsyncExecute(updateJobToDatabase);
             }
@@ -213,19 +204,18 @@ namespace RSOI.Jobs
             var createJobToDatabaseJob = new CreateJobToDatabase(_dataBaseService)
             {
                 Guid = System.Guid.NewGuid(),
-                OnDone = async (job) =>
-                {
-                    var bf = new BinaryFormatter();
-                    using (var ms = new MemoryStream(job.Bytes))
-                    {
-                          JobId = (string) bf.Deserialize(ms);
-                    }
-
-                    _isJobCreated = true;
-                    await Stage2();
-                }
             };
+            createJobToDatabaseJob.OnDone += async (job) =>
+            {
+                var bf = new BinaryFormatter();
+                using (var ms = new MemoryStream(job.Bytes))
+                {
+                    JobId = (string) bf.Deserialize(ms);
+                }
 
+                _isJobCreated = true;
+                await Stage2();
+            };
             this.Executor.JobAsyncExecute(createJobToDatabaseJob);
         }
 

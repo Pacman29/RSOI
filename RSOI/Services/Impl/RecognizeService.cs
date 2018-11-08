@@ -14,7 +14,7 @@ namespace RSOI.Services.Impl
         public RecognizeService(string recognizeUri)
         {
             var channelOptions = new List<ChannelOption>();
-            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
+            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
             _channel = new Channel(recognizeUri, ChannelCredentials.Insecure,channelOptions);
             Client = new Recognize.RecognizeClient(_channel);
         }

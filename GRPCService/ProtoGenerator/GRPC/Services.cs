@@ -26,8 +26,8 @@ namespace GRPCService.GRPCProto {
           string.Concat(
             "Cg5zZXJ2aWNlcy5wcm90bxIJR1JQQ1Byb3RvIhQKBFBhdGgSDAoEcGF0aBgC",
             "IAEoCSI4CgRGaWxlEiEKCGZpbGVQYXRoGAEgASgLMg8uR1JQQ1Byb3RvLlBh",
-            "dGgSDQoFYnl0ZXMYAiABKAwiJwoHUGRmRmlsZRINCgVieXRlcxgBIAEoDBIN",
-            "CgVwYWdlcxgCIAMoBSIHCgVFbXB0eSJWCgdKb2JJbmZvEisKCUpvYlN0YXR1",
+            "dGgSDQoFYnl0ZXMYAiABKAwiJwoHUGRmRmlsZRINCgVwYWdlcxgBIAMoBRIN",
+            "CgVieXRlcxgCIAEoDCIHCgVFbXB0eSJWCgdKb2JJbmZvEisKCUpvYlN0YXR1",
             "cxgBIAEoDjIYLkdSUENQcm90by5FbnVtSm9iU3RhdHVzEg0KBUpvYklkGAIg",
             "ASgJEg8KB01lc3NhZ2UYAyABKAkiRgoQSm9iSW5mb1dpdGhCeXRlcxIjCgdq",
             "b2JJbmZvGAEgASgLMhIuR1JQQ1Byb3RvLkpvYkluZm8SDQoFYnl0ZXMYAiAB",
@@ -64,7 +64,7 @@ namespace GRPCService.GRPCProto {
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), typeof(global::GRPCService.GRPCProto.EnumFileType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Path), global::GRPCService.GRPCProto.Path.Parser, new[]{ "Path_" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.File), global::GRPCService.GRPCProto.File.Parser, new[]{ "FilePath", "Bytes" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFile), global::GRPCService.GRPCProto.PdfFile.Parser, new[]{ "Bytes", "Pages" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.PdfFile), global::GRPCService.GRPCProto.PdfFile.Parser, new[]{ "Pages", "Bytes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Empty), global::GRPCService.GRPCProto.Empty.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfo), global::GRPCService.GRPCProto.JobInfo.Parser, new[]{ "JobStatus", "JobId", "Message" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfoWithBytes), global::GRPCService.GRPCProto.JobInfoWithBytes.Parser, new[]{ "JobInfo", "Bytes" }, null, null, null),
@@ -411,8 +411,8 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public PdfFile(PdfFile other) : this() {
-      bytes_ = other.bytes_;
       pages_ = other.pages_.Clone();
+      bytes_ = other.bytes_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -421,8 +421,18 @@ namespace GRPCService.GRPCProto {
       return new PdfFile(this);
     }
 
+    /// <summary>Field number for the "pages" field.</summary>
+    public const int PagesFieldNumber = 1;
+    private static readonly pb::FieldCodec<int> _repeated_pages_codec
+        = pb::FieldCodec.ForInt32(10);
+    private readonly pbc::RepeatedField<int> pages_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<int> Pages {
+      get { return pages_; }
+    }
+
     /// <summary>Field number for the "bytes" field.</summary>
-    public const int BytesFieldNumber = 1;
+    public const int BytesFieldNumber = 2;
     private pb::ByteString bytes_ = pb::ByteString.Empty;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString Bytes {
@@ -430,16 +440,6 @@ namespace GRPCService.GRPCProto {
       set {
         bytes_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
-    }
-
-    /// <summary>Field number for the "pages" field.</summary>
-    public const int PagesFieldNumber = 2;
-    private static readonly pb::FieldCodec<int> _repeated_pages_codec
-        = pb::FieldCodec.ForInt32(18);
-    private readonly pbc::RepeatedField<int> pages_ = new pbc::RepeatedField<int>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<int> Pages {
-      get { return pages_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -455,16 +455,16 @@ namespace GRPCService.GRPCProto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Bytes != other.Bytes) return false;
       if(!pages_.Equals(other.pages_)) return false;
+      if (Bytes != other.Bytes) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Bytes.Length != 0) hash ^= Bytes.GetHashCode();
       hash ^= pages_.GetHashCode();
+      if (Bytes.Length != 0) hash ^= Bytes.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -478,11 +478,11 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      pages_.WriteTo(output, _repeated_pages_codec);
       if (Bytes.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteBytes(Bytes);
       }
-      pages_.WriteTo(output, _repeated_pages_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -491,10 +491,10 @@ namespace GRPCService.GRPCProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      size += pages_.CalculateSize(_repeated_pages_codec);
       if (Bytes.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Bytes);
       }
-      size += pages_.CalculateSize(_repeated_pages_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -506,10 +506,10 @@ namespace GRPCService.GRPCProto {
       if (other == null) {
         return;
       }
+      pages_.Add(other.pages_);
       if (other.Bytes.Length != 0) {
         Bytes = other.Bytes;
       }
-      pages_.Add(other.pages_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -521,13 +521,13 @@ namespace GRPCService.GRPCProto {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
-            Bytes = input.ReadBytes();
+          case 10:
+          case 8: {
+            pages_.AddEntriesFrom(input, _repeated_pages_codec);
             break;
           }
-          case 18:
-          case 16: {
-            pages_.AddEntriesFrom(input, _repeated_pages_codec);
+          case 18: {
+            Bytes = input.ReadBytes();
             break;
           }
         }

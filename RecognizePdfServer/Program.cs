@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Grpc.Core;
-using Grpc.Core.Logging;
+using GRPCService;
 using GRPCService.GRPCProto;
+using File = System.IO.File;
+using FileInfo = System.IO.FileInfo;
+using Path = System.IO.Path;
 
 namespace RecognizePdfServer
 {
@@ -10,20 +15,17 @@ namespace RecognizePdfServer
     {
         private static Server server = null;
         
+        
         static void Main(string[] args)
         {
-            GrpcEnvironment.SetLogger(new TextWriterLogger(Console.Out));
-            var channelOptions = new List<ChannelOption>();
-            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
-
-            server = new Server(channelOptions)
-            {
-                Services = {Recognize.BindService(new PdfRecognizeServerGrpc())},
-                Ports = {new ServerPort("0.0.0.0", 8081, ServerCredentials.Insecure)}
-            };
-            
+            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH",
+                Environment.GetEnvironmentVariable("LD_LIBRARY_PATH") + 
+                "\"/home/pacman29/Рабочий стол/RSOI/RecognizePdfServer/bin/Debug/netcoreapp2.1\":");
+            server = GrpcServerCreator.Create("0.0.0.0", 8081, Recognize.BindService(new PdfRecognizeServerGrpc()));
+            server.Start();
             Console.WriteLine("PdfServer listening on port " + 8081);
             Console.WriteLine("Press Ctrl+C  to stop the server...");
+            Console.WriteLine(Environment.GetEnvironmentVariable("LD_LIBRARY_PATH"));
             Console.CancelKeyPress += new ConsoleCancelEventHandler(OnExit);
             while (true)
                 Console.ReadKey(true);

@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using Google.Protobuf.Collections;
 using GRPCService.GRPCProto;
 using JobExecutor;
 using RSOI.Services;
@@ -13,9 +15,9 @@ namespace RSOI.Jobs
     {
         private readonly byte[] _pdfFile;
         private readonly IRecognizeService _recognizeService;
-        private readonly int[] _pages;
+        private readonly List<int> _pages;
 
-        public RecognizePdfFileJob(Guid jobId,IRecognizeService recognizeService, byte[] pdfFile, int[] pages, BaseJob rootJob = null)
+        public RecognizePdfFileJob(Guid jobId,IRecognizeService recognizeService, byte[] pdfFile, List<int> pages, BaseJob rootJob = null)
         {
             this._pdfFile = pdfFile;
             this._recognizeService = recognizeService;
@@ -29,7 +31,7 @@ namespace RSOI.Jobs
             var pdfFile = new PdfFile()
             {
                 Bytes = ByteString.CopyFrom(_pdfFile),
-                Pages = { _pages}
+                Pages = {_pages}
             };
             var jobInfo = await _recognizeService.RecognizePdf(pdfFile);
             this.ServiceGuid = new Guid(jobInfo.JobId);

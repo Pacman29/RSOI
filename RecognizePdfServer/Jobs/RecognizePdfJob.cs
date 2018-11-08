@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using System.Threading.Tasks;
 using JobExecutor;
 using PDFiumSharp;
@@ -35,6 +37,7 @@ namespace RecognizePdfServer.Jobs
             try
             {
                 var zipMemoryStream = new MemoryStream();
+
                 using (var archive = new ZipArchive(zipMemoryStream, ZipArchiveMode.Create, true))
                 using (var doc = new PdfDocument(_stream.ToArray()))
                 {

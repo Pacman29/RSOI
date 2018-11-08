@@ -39,8 +39,8 @@ message File {
 }
 
 message PdfFile {
-    bytes bytes = 1;
-    repeated int32 pages = 2;
+    repeated int32 pages = 1;
+    bytes bytes = 2;
 }
 
 message Empty {

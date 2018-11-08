@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Grpc.Core;
 using Grpc.Core.Logging;
+using GRPCService;
 using GRPCService.GRPCProto;
 
 namespace DataBaseServer
@@ -12,15 +13,7 @@ namespace DataBaseServer
         
         static void Main(string[] args)
         {
-            GrpcEnvironment.SetLogger(new ConsoleLogger());
-            var channelOptions = new List<ChannelOption>();
-            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
-            
-            server = new Server(channelOptions)
-            {
-                Services = {DataBase.BindService(new DataBaseServerGrpc())},
-                Ports = {new ServerPort("0.0.0.0", 8080, ServerCredentials.Insecure)}
-            };
+            server = GrpcServerCreator.Create("0.0.0.0", 8080, DataBase.BindService(new DataBaseServerGrpc()));
             server.Start();
             Console.WriteLine("DataBase server listening on port " + 8080);
             Console.WriteLine("Press Ctrl+C  to stop the server...");
