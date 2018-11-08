@@ -6,22 +6,19 @@ using RSOI.Services;
 
 namespace RSOI.Jobs
 {
-    public class AddFileInfoToDatabaseJob : BaseJob
+    public class AddFileInfoToDatabaseJob : GateWayJob
     {
-        private FileInfo _fileInfo;
-        private IDataBaseService _dataBaseService;
+        private readonly FileInfo _fileInfo;
+        public IDataBaseService DataBaseService { get; set; }
 
-        public AddFileInfoToDatabaseJob(Guid jobId,IDataBaseService dataBaseService, FileInfo fileInfo, BaseJob rootJob = null)
+        public AddFileInfoToDatabaseJob(FileInfo fileInfo)
         {
             this._fileInfo = fileInfo;
-            this._dataBaseService = dataBaseService;
-            this.Guid = jobId;
-            this.RootJob = rootJob;
         }
         
         public override async Task ExecuteAsync()
         {
-            var jobInfo = await _dataBaseService.CreateFileInfo(_fileInfo);
+            var jobInfo = await DataBaseService.CreateFileInfo(this._fileInfo);
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
         }

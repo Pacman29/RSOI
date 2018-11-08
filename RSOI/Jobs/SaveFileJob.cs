@@ -1,40 +1,36 @@
-﻿using Google.Protobuf;
+using System;
+using System.Threading.Tasks;
+using Google.Protobuf;
 using GRPCService.GRPCProto;
 using JobExecutor;
 using RSOI.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PdfFile = Models.Requests.PdfFile;
 
 namespace RSOI.Jobs
 {
-    public class SaveImageFileJob : BaseJob
+    public class SaveFileJob : GateWayJob
     {
-        private readonly IFileService _fileService;
+        public IFileService FileService { get; set; }
         private readonly string _path;
+        private readonly byte[] _bytes;
 
-        public SaveImageFileJob(Guid jobId, IFileService fileService, byte[] bytes, string path, BaseJob root = null)
+        public SaveFileJob(byte[] bytes, string path)
         {
-            this.Guid = jobId;
-            this.RootJob = root;
-            this._fileService = fileService;
-            this.Bytes = bytes;
             this._path = path;
+            this._bytes = bytes;
         }
-
 
         public override async Task ExecuteAsync()
         {
             var file = new File()
             {
-                Bytes = ByteString.CopyFrom(this.Bytes),
+                Bytes = ByteString.CopyFrom(this._bytes),
                 FilePath = new Path()
                 {
                     Path_ = _path
                 }
             };
-            var jobInfo = await _fileService.SaveFile(file);
+            var jobInfo = await FileService.SaveFile(file);
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
         }

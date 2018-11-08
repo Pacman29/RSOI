@@ -8,22 +8,21 @@ using System.Threading.Tasks;
 
 namespace RSOI.Jobs
 {
-    public class UpdateJobToDatabase : BaseJob
+    public class UpdateJobToDatabase : GateWayJob
     {
-        private IDataBaseService _dataBaseService;
+        public IDataBaseService DataBaseService { get; set; }
         private readonly string jobId;
         private readonly EnumJobStatus status;
 
-        public UpdateJobToDatabase(IDataBaseService dataBaseService, string JobId, EnumJobStatus status)
+        public UpdateJobToDatabase(string JobId, EnumJobStatus status)
         {
-            _dataBaseService = dataBaseService;
             jobId = JobId;
             this.status = status;
         }
 
         public override async Task ExecuteAsync()
         {
-            var jobInfo = await _dataBaseService.UpdateOrCreateJob(new JobInfo()
+            var jobInfo = await DataBaseService.UpdateOrCreateJob(new JobInfo()
             {
                 JobId = jobId,
                 JobStatus = status

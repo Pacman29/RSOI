@@ -11,18 +11,15 @@ using RSOI.Services;
 
 namespace RSOI.Jobs
 {
-    public class RecognizePdfFileJob : BaseJob
+    public class RecognizePdfFileJob : GateWayJob
     {
         private readonly byte[] _pdfFile;
-        private readonly IRecognizeService _recognizeService;
+        public IRecognizeService RecognizeService { get; set; }
         private readonly List<int> _pages;
 
-        public RecognizePdfFileJob(Guid jobId,IRecognizeService recognizeService, byte[] pdfFile, List<int> pages, BaseJob rootJob = null)
+        public RecognizePdfFileJob(byte[] pdfFile, List<int> pages)
         {
             this._pdfFile = pdfFile;
-            this._recognizeService = recognizeService;
-            this.Guid = jobId;
-            this.RootJob = rootJob;
             this._pages = pages;
         }
         
@@ -33,7 +30,7 @@ namespace RSOI.Jobs
                 Bytes = ByteString.CopyFrom(_pdfFile),
                 Pages = {_pages}
             };
-            var jobInfo = await _recognizeService.RecognizePdf(pdfFile);
+            var jobInfo = await RecognizeService.RecognizePdf(pdfFile);
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
         }

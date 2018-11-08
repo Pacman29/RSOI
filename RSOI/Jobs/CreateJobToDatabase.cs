@@ -6,18 +6,13 @@ using RSOI.Services;
 
 namespace RSOI.Jobs
 {
-    public class CreateJobToDatabase : BaseJob
+    public class CreateJobToDatabase : GateWayJob
     {
-        private IDataBaseService _dataBaseService;
-
-        public CreateJobToDatabase(IDataBaseService dataBaseService)
-        {
-            _dataBaseService = dataBaseService;
-        }
+        public IDataBaseService DataBaseService { get; set; }
 
         public override async Task ExecuteAsync()
         {
-            var jobInfo = await _dataBaseService.UpdateOrCreateJob(new JobInfo());
+            var jobInfo = await DataBaseService.UpdateOrCreateJob(new JobInfo());
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RSOI.Jobs;
 using RSOI.Services;
 using RSOI.Services.Impl;
 
@@ -42,7 +43,8 @@ namespace RSOI
         }
         
         private void ConfigureDependencyInjection(IServiceCollection services)
-        {
+        {            
+            
             var dbService = new DataBaseService("localhost:8080");
             services.AddSingleton<IDataBaseService>(dbService);
             var recognizeService = new RecognizeService("localhost:8081");
@@ -54,6 +56,7 @@ namespace RSOI
             services.AddSingleton<IJobExecutor>(executor);
 
             services.AddSingleton<IManagerService, ManagerService>();
+            services.AddSingleton<IGateWayJobsFabric, GateWayJobsFabric>();
         }
 
     }

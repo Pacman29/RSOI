@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 using JobExecutor;
@@ -11,40 +13,33 @@ namespace RSOI.Services.Impl
 {
     public class ManagerService : IManagerService
     {
-        private readonly IRecognizeService _recognizeService;
-        private readonly IDataBaseService _dataBaseService;
-        private readonly IFileService _fileService;
-
+        private readonly IGateWayJobsFabric _gateWayJobsFabric;
         private readonly IJobExecutor _jobExecutor;
         
-        public ManagerService(IRecognizeService recognizeService, 
-            IFileService fileService, 
-            IDataBaseService dataBaseService, 
+        public ManagerService(IGateWayJobsFabric gateWayJobsFabric, 
             IJobExecutor jobExecutor)
         {
-            _fileService = fileService;
-            _recognizeService = recognizeService;
-            _dataBaseService = dataBaseService;
+            _gateWayJobsFabric = gateWayJobsFabric;
             _jobExecutor = jobExecutor;
         }
 
         public async Task<IActionResult> RecognizePdf(PdfFile pdfFileModel)
         {
-            var recognizePdfJob = new RecognizePdfRootJob(
-                Guid.NewGuid(), 
-                pdfFileModel, 
-                _dataBaseService,
-                _recognizeService, 
-                _fileService);
-
+            var recognizePdfJob = this._gateWayJobsFabric.GetRecognizePdfJob(pdfFileModel);
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
 
-            while (recognizePdfJob.JobId == null)
+            while (recognizePdfJob.Bytes == null)
                 await Task.Delay(TimeSpan.FromSeconds(10));
+            
+            
+            string jobId;
+            var bf = new BinaryFormatter();
+            using (var ms = new MemoryStream(recognizePdfJob.Bytes))
+                jobId = (string) bf.Deserialize(ms);
             
             return new JsonResult(new JobInfo()
             {
-                JobId = recognizePdfJob.JobId
+                JobId = jobId
             });
         }
     }

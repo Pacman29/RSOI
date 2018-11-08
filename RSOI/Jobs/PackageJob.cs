@@ -14,14 +14,25 @@ namespace RSOI.Jobs
         public PackageJob(GateWayJob[] jobs)
         {
             foreach (var job in jobs)
-            {
-                if (job.Guid == null) continue;
-                _jobs.TryAdd((Guid) job.Guid, job);
-                job.OnDone += async j => { CheckCompleat(); };
-
-            }
+                SetEventAndAdd(job);
         }
 
+        public PackageJob(GateWayJob job) : this(new GateWayJob[]{job}) {}
+        public PackageJob() : this(new GateWayJob[0]) {}
+
+        private void SetEventAndAdd(GateWayJob job)
+        {
+            if (job.Guid == null)
+                return;
+            _jobs.TryAdd((Guid) job.Guid, job);
+            job.OnDone += async j => { CheckCompleat(); };
+        }
+
+        public void AddJob(GateWayJob job)
+        {
+            SetEventAndAdd(job);
+        }
+        
         private void CheckCompleat()
         {
             if (_jobs.All(pair => pair.Value.JobStatus == EnumJobStatus.Done))

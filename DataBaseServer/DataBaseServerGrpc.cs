@@ -24,7 +24,7 @@ namespace DataBaseServer
             _jobsDbManager = new JobsDbManager(new BaseContext());
             _jobExecutor= JobExecutor.JobExecutor.Instance;
             var channelOptions = new List<ChannelOption>();
-            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
         }

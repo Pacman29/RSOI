@@ -7,123 +7,79 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using GRPCService.GRPCProto;
 using JobExecutor;
 using RSOI.Services;
+using Path = System.IO.Path;
 using PdfFile = Models.Requests.PdfFile;
 
 namespace RSOI.Jobs
 {
-    public class RecognizePdfRootJob : BaseJob
+    public class RecognizePdfRootJob : GateWayJob
     {
 
-        private readonly PdfFile _pdfFile;
-        private readonly IDataBaseService _dataBaseService;
-        private readonly IRecognizeService _recognizeService;
-        private readonly IFileService _fileService;
-        private int? _fileId = null;
-        private MemoryStream _archive = null;
-        private bool _isPdfInfoCreated = false;
-        private bool _isPdfFileCreated = false;
-        private bool _isPdfFileRecognized = false;
-        private bool _isJobCreated = false;
-
-        private int imageStatesCount = 0;
-        private readonly ConcurrentBag<Guid> imageStates = new ConcurrentBag<Guid>();
-
-        public string JobId { get; set; } = null; 
-        
-        private readonly object threadLock3 = new object();
-        private readonly object threadLock4 = new object();
-
-        public RecognizePdfRootJob(
-            Guid guid,
-            PdfFile pdfFile,
-            IDataBaseService dataBaseService,
-            IRecognizeService recognizeService,
-            IFileService fileService)
+        public new byte[] Bytes
         {
-            _pdfFile = pdfFile;
-            Guid = guid;
-            _fileService = fileService;
-            _recognizeService = recognizeService;
-            _dataBaseService = dataBaseService;
-        }
-
-        private async Task Stage2()
-        {
-            Console.WriteLine($"Check st2 {_isJobCreated}");
-            if (_isJobCreated)
+            get
             {
-                var pdfFileInfo = await _pdfFile.GetFileInfo();
-                pdfFileInfo.Path = $"{this.JobId}.pdf";
-                pdfFileInfo.JobId = JobId;
-
-                var bytes = await _pdfFile.ReadFile();
-
-                var addFileToDatabaseJob = new AddFileInfoToDatabaseJob(
-                    System.Guid.NewGuid(),
-                    _dataBaseService,
-                    pdfFileInfo,
-                    this);
-
-                addFileToDatabaseJob.OnDone += async (job) =>
+                lock (_threadLock)
                 {
-                    var bf = new BinaryFormatter();
-                    using (var ms = new MemoryStream(job.Bytes))
-                    {
-                        _fileId = (int) bf.Deserialize(ms);
-                    }
-
-                    _isPdfInfoCreated = true;
-                    await Stage3();
-                };
-
-
-                var savePdfFileJob = new SavePdfFileJob(
-                    System.Guid.NewGuid(),
-                    _fileService,
-                    bytes,
-                    pdfFileInfo.Path,
-                    this);
-                savePdfFileJob.OnDone += async (job) =>
+                    return base.Bytes;
+                }
+            }
+            set
+            {
+                lock (_threadLock)
                 {
-                    _isPdfFileCreated = true;
-                    await Stage3();
-                };
-
-                var recognizePdfFileJob = new RecognizePdfFileJob(
-                    System.Guid.NewGuid(),
-                    _recognizeService,
-                    bytes,
-                    new List<int>(),
-                    this
-                );
-                recognizePdfFileJob.OnDone += async (job) =>
-                {
-                    this._archive = new MemoryStream(job.Bytes);
-                    this._isPdfFileRecognized = true;
-                    await Stage3();
-                };
-        
-                this.Executor.JobAsyncExecute(recognizePdfFileJob);
-                this.Executor.JobAsyncExecute(addFileToDatabaseJob);
-                this.Executor.JobAsyncExecute(savePdfFileJob);
+                    base.Bytes = value;
+                }
             }
         }
+        
+        private readonly object _threadLock = new object();
+        private readonly PdfFile _pdfFile;
+        public IGateWayJobsFabric GateWayJobsFabric { get; set; }
 
-        private async Task Stage3()
+        public RecognizePdfRootJob(PdfFile pdfFile)
         {
-            lock (threadLock3)
+            _pdfFile = pdfFile;
+        }
+
+
+        public override async Task ExecuteAsync()
+        {
+            //Create job to database
+            var createJobToDatabaseJob = GateWayJobsFabric.GetCreateJobToDatabase();
+           
+            createJobToDatabaseJob.RunNext(async (job) =>
             {
-                //TODO: delete this
-                Console.WriteLine($"Check st3 {_isPdfFileCreated} {_isPdfFileRecognized} {_isPdfInfoCreated}");
-                if (_isPdfFileCreated && _isPdfFileRecognized && _isPdfInfoCreated)
+                string jobId;
+                var bf = new BinaryFormatter();
+                using (var ms = new MemoryStream(job.Bytes))
+                    jobId = (string) bf.Deserialize(ms);
+
+                this.Bytes = job.Bytes;
+                
+                var pdfFileInfo = await _pdfFile.GetFileInfo();
+                pdfFileInfo.Path = $"{jobId}.pdf";
+                pdfFileInfo.JobId = jobId;
+                var pdfPackageJob = GateWayJobsFabric.GetPackageJob();
+                var addPdfToDatabaseJob = 
+                    GateWayJobsFabric.GetAddFileInfoToDatabaseJob(pdfFileInfo);
+                pdfPackageJob.AddJob(addPdfToDatabaseJob);
+                var savePdfFileJob = 
+                    GateWayJobsFabric.GetSaveFileJob(await _pdfFile.ReadFile(), pdfFileInfo.Path);
+                pdfPackageJob.AddJob(savePdfFileJob);
+                var recognizePdfFileJob =
+                    GateWayJobsFabric.GetRecognizePdfFileJob(await _pdfFile.ReadFile(), new List<int>());
+                pdfPackageJob.AddJob(recognizePdfFileJob);
+                
+                recognizePdfFileJob.RunNext(async (recPdfJob) =>
                 {
-                    var zipArch = new ZipArchive(_archive);
-                    imageStatesCount = 2 * zipArch.Entries.Count;
+                    var imagesPackageJob = GateWayJobsFabric.GetPackageJob();
+                    var zipArch = new ZipArchive(new MemoryStream(recPdfJob.Bytes));
                     foreach (var image in zipArch.Entries)
                     {
-
                         using (var ms = new MemoryStream())
                         {
                             image.Open().CopyTo(ms);
@@ -140,82 +96,28 @@ namespace RSOI.Jobs
                             {
                                 FileLength = ms.Length,
                                 FileType = GRPCService.GRPCProto.EnumFileType.Image,
-                                JobId = JobId,
+                                JobId = jobId,
                                 MD5 = sBuilder.ToString(),
-                                Path = $"{JobId}_{image.FullName}",
+                                Path = $"{jobId}_{image.FullName}",
                                 PageNo = long.Parse(Path.GetFileNameWithoutExtension(image.Name))
                             };
-                            var addFileToDatabaseJob = new AddFileInfoToDatabaseJob(
-                                System.Guid.NewGuid(),
-                                _dataBaseService,
-                                fileInfo,
-                                this);
-                            addFileToDatabaseJob.OnDone += async (job) =>
-                            {
-                                imageStates.Add((Guid) job.Guid);
-                                await Stage4();
-                            };
+                            var addImageFileToDatabaseJob = 
+                                GateWayJobsFabric.GetAddFileInfoToDatabaseJob(fileInfo);
 
-                            var savePdfFileJob = new SaveImageFileJob(
-                                System.Guid.NewGuid(),
-                                _fileService,
-                                ms.ToArray(),
-                                fileInfo.Path,
-                                this);
-                            savePdfFileJob.OnDone += async (job) =>
-                            {
-                                imageStates.Add((Guid) job.Guid);
-                                await Stage4();
-                            };
-                            this.Executor.JobAsyncExecute(addFileToDatabaseJob);
-                            this.Executor.JobAsyncExecute(savePdfFileJob);
+                            var saveImageFileJob =
+                                GateWayJobsFabric.GetSaveFileJob(ms.ToArray(), fileInfo.Path);
                             
+                            imagesPackageJob.AddJob(addImageFileToDatabaseJob);
+                            imagesPackageJob.AddJob(saveImageFileJob);
                         }
                     }
-                }
-            }
-        }
 
-        private async Task Stage4()
-        {
-            lock (threadLock4)
-            {
-                if (imageStates.Count != imageStatesCount)
-                    return;
-                var updateJobToDatabase = new UpdateJobToDatabase(
-                    _dataBaseService,
-                    this.JobId,
-                    GRPCService.GRPCProto.EnumJobStatus.Done)
-                {
-                    Guid = System.Guid.NewGuid(),
-                };
-                updateJobToDatabase.OnDone += (job) =>
-                {
-                    this.JobStatus = GRPCService.GRPCProto.EnumJobStatus.Done;
-                };
-                this.Executor.JobAsyncExecute(updateJobToDatabase);
-            }
-        }
-
-
-        public override async Task ExecuteAsync()
-        {
-            //Create job to database
-            var createJobToDatabaseJob = new CreateJobToDatabase(_dataBaseService)
-            {
-                Guid = System.Guid.NewGuid(),
-            };
-            createJobToDatabaseJob.OnDone += async (job) =>
-            {
-                var bf = new BinaryFormatter();
-                using (var ms = new MemoryStream(job.Bytes))
-                {
-                    JobId = (string) bf.Deserialize(ms);
-                }
-
-                _isJobCreated = true;
-                await Stage2();
-            };
+                    var updateStatusJob = GateWayJobsFabric.GetUpdateJobToDatabase(jobId, EnumJobStatus.Done);
+                    imagesPackageJob.RunNext(updateStatusJob);
+                    return imagesPackageJob;
+                });
+                return pdfPackageJob;
+            });
             this.Executor.JobAsyncExecute(createJobToDatabaseJob);
         }
 
