@@ -1,40 +1,17 @@
-using System;
-using System.Collections.Concurrent;
+using GRPCService.GRPCProto;
+using Models.Responses;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using GRPCService.GRPCProto;
-using JobExecutor;
-using RSOI.Services;
 using Path = System.IO.Path;
 using PdfFile = Models.Requests.PdfFile;
 
 namespace RSOI.Jobs
 {
-    public class RecognizePdfHighOrderJob : GateWayJob
+    public class RecognizePdfHighOrderJob : GateWayJob<Models.Responses.JobInfo>
     {
-
-        public new byte[] Bytes
-        {
-            get
-            {
-                lock (_threadLock)
-                {
-                    return base.Bytes;
-                }
-            }
-            set
-            {
-                lock (_threadLock)
-                {
-                    base.Bytes = value;
-                }
-            }
-        }
         
         private readonly object _threadLock = new object();
         private readonly PdfFile _pdfFile;
@@ -50,19 +27,17 @@ namespace RSOI.Jobs
         {
             //Create job to database
             var createJobToDatabaseJob = GateWayJobsFabric.GetCreateJobToDatabase();
-            createJobToDatabaseJob.OnDone += async (job) =>
+            createJobToDatabaseJob.OnHaveResult += async result =>
             {
-                this.Bytes = job.Bytes;
-                this.InvokeOnHaveResult();
+                this.InvokeOnHaveResult(new Models.Responses.JobInfo()
+                {
+                    JobId = result,
+                    JobStatus = EnumJobStatus.Execute
+                });
             };
            
-            createJobToDatabaseJob.RunNext(async (job) =>
-            {
-                string jobId;
-                var bf = new BinaryFormatter();
-                using (var ms = new MemoryStream(job.Bytes))
-                    jobId = (string) bf.Deserialize(ms);
-                
+            createJobToDatabaseJob.RunNextOnHaveResult(async (jobId) =>
+            {              
                 var pdfFileInfo = await _pdfFile.GetFileInfo();
                 pdfFileInfo.Path = $"{jobId}.pdf";
                 pdfFileInfo.JobId = jobId;
@@ -77,11 +52,10 @@ namespace RSOI.Jobs
                     GateWayJobsFabric.GetRecognizePdfFileJob(await _pdfFile.ReadFile(), new List<int>());
                 pdfPackageJob.AddJob(recognizePdfFileJob);
                 
-                recognizePdfFileJob.RunNext(async (recPdfJob) =>
+                recognizePdfFileJob.RunNextOnHaveResult(async (zipImgs) =>
                 {
                     var imagesPackageJob = GateWayJobsFabric.GetPackageJob();
-                    var zipArch = new ZipArchive(new MemoryStream(recPdfJob.Bytes));
-                    foreach (var image in zipArch.Entries)
+                    foreach (var image in zipImgs.Entries)
                     {
                         using (var ms = new MemoryStream())
                         {
@@ -116,7 +90,7 @@ namespace RSOI.Jobs
                     }
 
                     var updateStatusJob = GateWayJobsFabric.GetUpdateJobToDatabase(jobId, EnumJobStatus.Done);
-                    imagesPackageJob.RunNext(updateStatusJob);
+                    imagesPackageJob.RunNextOnDone(updateStatusJob);
                     return imagesPackageJob;
                 });
                 return pdfPackageJob;

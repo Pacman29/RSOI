@@ -8,7 +8,7 @@ using PdfFile = Models.Requests.PdfFile;
 
 namespace RSOI.Jobs
 {
-    public class SaveFileJob : GateWayJob
+    public class SaveFileJob : GateWayJob<byte[]>
     {
         public IFileService FileService { get; set; }
         private readonly string _path;
@@ -18,6 +18,11 @@ namespace RSOI.Jobs
         {
             this._path = path;
             this._bytes = bytes;
+
+            this.OnDone += async job =>
+            {
+                this.InvokeOnHaveResult(job.Bytes);
+            };
         }
 
         public override async Task ExecuteAsync()

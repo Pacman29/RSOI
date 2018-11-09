@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DataBaseServer.Migrations
 {
-    public partial class addJob : Migration
+    public partial class addPageNo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,8 @@ namespace DataBaseServer.Migrations
                     FileLength = table.Column<long>(nullable: false),
                     Path = table.Column<string>(maxLength: 250, nullable: false),
                     FileType = table.Column<int>(nullable: false),
-                    JobGuidFk = table.Column<string>(nullable: true)
+                    JobGuidFk = table.Column<string>(nullable: true),
+                    PageNo = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {

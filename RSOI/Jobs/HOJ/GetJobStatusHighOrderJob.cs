@@ -1,9 +1,10 @@
+using Models.Responses;
 using System;
 using System.Threading.Tasks;
 
 namespace RSOI.Jobs
 {
-    public class GetJobStatusHighOrderJob : GateWayJob
+    public class GetJobStatusHighOrderJob : GateWayJob<JobInfo>
     {
         
         public GetJobStatusHighOrderJob(string JobId)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RSOI.Jobs
 {
-    public class UpdateJobToDatabase : GateWayJob
+    public class UpdateJobToDatabase : GateWayJob<string>
     {
         public IDataBaseService DataBaseService { get; set; }
         private readonly string jobId;
@@ -18,6 +18,11 @@ namespace RSOI.Jobs
         {
             jobId = JobId;
             this.status = status;
+
+            this.OnDone += async job =>
+            {
+                this.InvokeOnHaveResult(BytesDeserializer<string>.Deserialize(job));
+            };
         }
 
         public override async Task ExecuteAsync()

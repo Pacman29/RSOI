@@ -11,7 +11,7 @@ using RSOI.Services;
 
 namespace RSOI.Jobs
 {
-    public class RecognizePdfFileJob : GateWayJob
+    public class RecognizePdfFileJob : GateWayJob<ZipArchive>
     {
         private readonly byte[] _pdfFile;
         public IRecognizeService RecognizeService { get; set; }
@@ -21,6 +21,11 @@ namespace RSOI.Jobs
         {
             this._pdfFile = pdfFile;
             this._pages = pages;
+
+            this.OnDone += async job =>
+            {
+                this.InvokeOnHaveResult(new ZipArchive(new MemoryStream(job.Bytes)));
+            };
         }
         
         public override async Task ExecuteAsync()

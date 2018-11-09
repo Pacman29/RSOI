@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataBaseServer.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20181105154325_addJob")]
-    partial class addJob
+    [Migration("20181109105627_addPageNo")]
+    partial class addPageNo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,8 @@ namespace DataBaseServer.Migrations
                     b.Property<string>("Md5")
                         .IsRequired()
                         .HasMaxLength(32);
+
+                    b.Property<long>("PageNo");
 
                     b.Property<string>("Path")
                         .IsRequired()

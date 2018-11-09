@@ -25,27 +25,20 @@ namespace RSOI.Services.Impl
 
         public async Task<IActionResult> RecognizePdf(PdfFile pdfFileModel)
         {
-            var tcs = new TaskCompletionSource<string>();
+            var tcs = new TaskCompletionSource<JobInfo>();
             var task = tcs.Task;
             
             var recognizePdfJob = this._gateWayJobsFabric.GetRecognizePdfHighOrderJob(pdfFileModel);
             
-            recognizePdfJob.OnHaveResult += (job) =>
+            recognizePdfJob.OnHaveResult += async (jobInfo) =>
             {
-                string jobId;
-                var bf = new BinaryFormatter();
-                using (var ms = new MemoryStream(recognizePdfJob.Bytes))
-                    jobId = (string) bf.Deserialize(ms);
-                tcs.SetResult(jobId);
+                tcs.SetResult(jobInfo);
             };
             
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
            
             
-            return new JsonResult(new JobInfo()
-            {
-                JobId = task.Result
-            });
+            return new JsonResult(task.Result);
         }
 
         public async Task<IActionResult> GetJobStatus(string JobId)
