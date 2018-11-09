@@ -8,7 +8,7 @@ namespace RSOI.Jobs
     {
         UpdateJobToDatabase GetUpdateJobToDatabase(string JobId, EnumJobStatus status);
         SaveFileJob GetSaveFileJob(byte[] bytes, string path);
-        RecognizePdfRootJob GetRecognizePdfJob(PdfFile pdfFile);
+        RecognizePdfHighOrderJob GetRecognizePdfHighOrderJob(PdfFile pdfFile);
         RecognizePdfFileJob GetRecognizePdfFileJob(byte[] pdfFile, List<int> pages);
         CreateJobToDatabase GetCreateJobToDatabase();
         AddFileInfoToDatabaseJob GetAddFileInfoToDatabaseJob(FileInfo fileInfo);

@@ -15,7 +15,7 @@ using PdfFile = Models.Requests.PdfFile;
 
 namespace RSOI.Jobs
 {
-    public class RecognizePdfRootJob : GateWayJob
+    public class RecognizePdfHighOrderJob : GateWayJob
     {
 
         public new byte[] Bytes
@@ -40,7 +40,7 @@ namespace RSOI.Jobs
         private readonly PdfFile _pdfFile;
         public IGateWayJobsFabric GateWayJobsFabric { get; set; }
 
-        public RecognizePdfRootJob(PdfFile pdfFile)
+        public RecognizePdfHighOrderJob(PdfFile pdfFile)
         {
             _pdfFile = pdfFile;
         }
@@ -50,6 +50,11 @@ namespace RSOI.Jobs
         {
             //Create job to database
             var createJobToDatabaseJob = GateWayJobsFabric.GetCreateJobToDatabase();
+            createJobToDatabaseJob.OnDone += async (job) =>
+            {
+                this.Bytes = job.Bytes;
+                this.InvokeOnHaveResult();
+            };
            
             createJobToDatabaseJob.RunNext(async (job) =>
             {
@@ -57,8 +62,6 @@ namespace RSOI.Jobs
                 var bf = new BinaryFormatter();
                 using (var ms = new MemoryStream(job.Bytes))
                     jobId = (string) bf.Deserialize(ms);
-
-                this.Bytes = job.Bytes;
                 
                 var pdfFileInfo = await _pdfFile.GetFileInfo();
                 pdfFileInfo.Path = $"{jobId}.pdf";

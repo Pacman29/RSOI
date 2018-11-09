@@ -48,9 +48,9 @@ namespace RSOI.Jobs
             });
         }
 
-        public RecognizePdfRootJob GetRecognizePdfJob(PdfFile pdfFile)
+        public RecognizePdfHighOrderJob GetRecognizePdfHighOrderJob(PdfFile pdfFile)
         {
-            return IdSetter<RecognizePdfRootJob>.SetJobGuid(new RecognizePdfRootJob(pdfFile)
+            return IdSetter<RecognizePdfHighOrderJob>.SetJobGuid(new RecognizePdfHighOrderJob(pdfFile)
             {
                 GateWayJobsFabric = this
             });

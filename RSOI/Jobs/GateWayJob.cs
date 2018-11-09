@@ -34,5 +34,13 @@ namespace RSOI.Jobs
             return this;
         }
         
+        public delegate void GateWayJobEvent(GateWayJob job);
+
+        public event GateWayJobEvent OnHaveResult;
+
+        public void InvokeOnHaveResult()
+        {
+            this.OnHaveResult?.Invoke(this);
+        }
     }
 }

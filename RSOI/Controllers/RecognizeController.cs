@@ -28,5 +28,12 @@ namespace RSOI.Controllers
         {
             return await _managerService.RecognizePdf(request);
         }
+
+        [HttpGet]
+        [Route("{JobId:Guid}")]
+        public async Task<IActionResult> GetJobStatus([FromRoute] string JobId)
+        {
+            return await _managerService.GetJobStatus(JobId);
+        }
     }
 }
