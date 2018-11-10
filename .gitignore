@@ -393,3 +393,8 @@ ASALocalRun/
 
 /bin
 /obj
+
+*.pdf
+*.png
+*.jpg
+*.jpeg
