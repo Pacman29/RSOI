@@ -27,5 +27,13 @@ namespace RSOI.Services.Impl
         {
             return await Client.GetFileAsync(path);
         }
+        
+        public async Task<JobInfo> GetFiles(IEnumerable<string> paths)
+        {
+            return await Client.GetFilesAsync(new Paths()
+            {
+                FilePaths = {paths}
+            });
+        }
     }
 }

@@ -91,7 +91,24 @@ namespace RSOI.Services.Impl
 
         public async Task<IActionResult> GetImages(string jobId, int firstPage, int count)
         {
-            throw new NotImplementedException();
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            var getImagesJob = _gateWayJobsFabric.GetImagesHighOrderJob(jobId, firstPage, count);
+            getImagesJob.OnHaveResult += async bytesZip =>
+            {
+                if (bytesZip == null)
+                {
+                    tcs.SetResult(new ConflictResult());
+                }
+                else
+                {
+                    var result = new FileContentResult(bytesZip,"application/zip");
+                    tcs.SetResult(result);
+                }
+            };
+            this._jobExecutor.JobAsyncExecute(getImagesJob);
+            return task.Result;
         }
     }
 }

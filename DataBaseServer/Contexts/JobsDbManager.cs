@@ -69,7 +69,8 @@ namespace DataBaseServer.Contexts
             public EnumJobStatus JobStatus { get; set; }
         }
 
-        public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, Func<JobAndFileInfoJoinEntity, bool> criteria = null)
+        public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, 
+            Func<IQueryable<JobAndFileInfoJoinEntity>,IQueryable<JobAndFileInfoJoinEntity>> criteria = null)
         {
             var join = Jobs.Where(job => job.GUID == guid).Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk,
                 (a, b) => new JobAndFileInfoJoinEntity()
@@ -80,7 +81,7 @@ namespace DataBaseServer.Contexts
                     FileType = b.FileType,
                     JobStatus = a.status
                 });
-            var res = criteria != null ? join.Where(criteria).ToList() : join.ToList();     
+            var res = criteria != null ? criteria(join).ToList() : join.ToList();     
             return res;
         }
     }

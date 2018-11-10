@@ -31,7 +31,7 @@ namespace RSOI.Controllers
 
         [HttpGet]
         [Route("{jobId}/images")]
-        public async Task<IActionResult> GetImages(string jobId, ImagesRequestModel model)
+        public async Task<IActionResult> GetImages(string jobId,[FromQuery] ImagesRequestModel model)
         {
             return await _managerService.GetImages(jobId, model.FirstPage, model.Count);
         }

@@ -27,6 +27,7 @@ namespace RecognizePdfServer.Jobs
             using (var bitmap = new PDFiumBitmap((int) page.Width, (int) page.Height, true))
             using (var entryStream = entry.Open())
             {
+                bitmap.Fill(new PDFiumSharp.Types.FPDF_COLOR(255, 255, 255));
                 page.Render(bitmap);
                 bitmap.Save(entryStream);
             }

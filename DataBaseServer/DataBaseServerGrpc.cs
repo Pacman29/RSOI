@@ -127,6 +127,30 @@ namespace DataBaseServer
             }
             return jobInfo;
         }
+        
+        public override async Task<JobInfo> GetImagesInfo(ImagesInfo request, ServerCallContext context)
+        {
+            Console.WriteLine("Get Images Info");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            try
+            {
+                var job = new GetImagesInfo(_jobsDbManager, request.JobId, request.FirstPageNo, request.Count)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return jobInfo;
+        }
 
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)
         {

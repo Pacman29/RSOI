@@ -102,9 +102,33 @@ namespace RSOI.Jobs
             });
         }
         
+        public GetImagesHighOrderJob GetImagesHighOrderJob(string jobId, int pageNo, int count)
+        {
+            return IdSetter<GetImagesHighOrderJob>.SetJobGuid(new GetImagesHighOrderJob(jobId, pageNo, count)
+            {
+                GateWayJobsFabric = this
+            });
+        }
+        
         public GetFileJob GetFileJob(string path)
         {
             return IdSetter<GetFileJob>.SetJobGuid(new GetFileJob(path)
+            {
+                FileService = this.FileService
+            });
+        }
+
+        public GetImagesInfoJob GetImagesInfoJob(string jobId, int pageNo, int count)
+        {
+            return IdSetter<GetImagesInfoJob>.SetJobGuid(new GetImagesInfoJob(jobId, pageNo, count)
+            {
+                DataBaseService = this.DataBaseService
+            });
+        }
+
+        public GetFilesJob GetFilesJob(List<string> paths)
+        {
+            return IdSetter<GetFilesJob>.SetJobGuid(new GetFilesJob(paths)
             {
                 FileService = this.FileService
             });

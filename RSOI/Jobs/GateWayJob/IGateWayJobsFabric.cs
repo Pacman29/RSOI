@@ -16,5 +16,8 @@ namespace RSOI.Jobs
         GetJobStatusHighOrderJob GetJobStatusHighOrderJob(string jobId);
         GetPdfFileHighOrderJob GetPdfFileHighOrderJob(string jobId);
         GetFileJob GetFileJob(string path);
+        GetImagesHighOrderJob GetImagesHighOrderJob(string jobId, int pageNo, int count);
+        GetImagesInfoJob GetImagesInfoJob(string jobId, int pageNo, int count);
+        GetFilesJob GetFilesJob(List<string> paths);
     }
 }

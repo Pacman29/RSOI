@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using FileServer.Jobs;
 using Grpc.Core;
@@ -94,6 +95,34 @@ namespace FileServer
             try
             {
                 var job = new GetFileJob(request.Path_)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return jobInfo;
+        }
+
+        public override async Task<JobInfo> GetFiles(Paths request, ServerCallContext context)
+        {
+            Console.WriteLine("Get Files");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+                
+            try
+            {
+                var job = new GetFilesJob(request.FilePaths.ToList())
                 {
                     Guid = guid
                 };

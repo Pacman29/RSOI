@@ -7,6 +7,7 @@ service DataBase {
     rpc SaveFileInfo (FileInfo) returns (JobInfo) {}
     rpc UpdateOrCreateJob (JobInfo) returns (JobInfo) {} 
     rpc GetJobInfo (JobInfo) returns (JobInfo) {}
+    rpc GetImagesInfo (ImagesInfo) returns (JobInfo) {}
     
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}
@@ -22,6 +23,7 @@ service Recognize {
 service FileServer {
     rpc SaveFile (File) returns (JobInfo) {}
     rpc GetFile (Path) returns (JobInfo) {}
+    rpc GetFiles (Paths) returns (JobInfo) {}
     rpc DeleteFile (Path) returns (JobInfo) {}
 }
 
@@ -30,8 +32,12 @@ service GateWay {
     rpc PostJobInfoWithBytes (JobInfoWithBytes) returns (Empty) {}
 }
 
+message Paths {
+    repeated string filePaths = 1;
+}
+
 message Path {
-    string path = 2;
+    string path = 1;
 }
 
 message File {
@@ -87,6 +93,12 @@ message CommonResponse {
 message DatabaseCreateFileInfoResponse {
     CommonResponse error = 1;
     string fileId = 2;   
+}
+
+message ImagesInfo {
+    string JobId = 1;
+    int64 FirstPageNo = 2;
+    int64 Count = 3;
 }
 
 message RejectJob {

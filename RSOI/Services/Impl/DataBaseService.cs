@@ -43,7 +43,17 @@ namespace RSOI.Services.Impl
                 JobId = jobId.ToString()
             });
         }
-        
+
+        public async Task<JobInfo> ImagesInfo(string jobId, long firstPageNo, long count)
+        {
+            return await client.GetImagesInfoAsync(new ImagesInfo()
+            {
+                Count = count,
+                FirstPageNo = firstPageNo,
+                JobId = jobId
+            });
+        }
+
         public async void Dispose()
         {
             await channel.ShutdownAsync();
