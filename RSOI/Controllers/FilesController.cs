@@ -35,5 +35,12 @@ namespace RSOI.Controllers
         {
             return await _managerService.GetImages(jobId, model.FirstPage, model.Count);
         }
+        
+        [HttpGet]
+        [Route("{jobId}/image")]
+        public async Task<IActionResult> GetImage(string jobId,[FromQuery] ImageRequestModel model)
+        {
+            return await _managerService.GetImage(jobId, model.PageNo);
+        }
     }
 }

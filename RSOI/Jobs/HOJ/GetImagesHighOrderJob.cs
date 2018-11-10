@@ -26,20 +26,37 @@ namespace RSOI.Jobs
             var getJobsStatusHOJ = GateWayJobsFabric.GetJobStatusHighOrderJob(this._jobId);
             getJobsStatusHOJ.OnHaveResult += async (jobInfo) =>
             {
-                if (jobInfo.JobStatus != "Done")
+                if (jobInfo == null)
                 {
-                    this.InvokeOnHaveResult(null);
+                    this.InvokeOnHaveError(new JobError()
+                    {
+                        Message = "id is incorrect",
+                        StatusCode = 400
+                    });
                 }
                 else
                 {
-                    var getImagesInfoJob = GateWayJobsFabric.GetImagesInfoJob(this._jobId, this._pageNo, this._count);
-                    getImagesInfoJob.RunNextOnHaveResult(async images =>
+                    if (jobInfo.JobStatus != "Done")
                     {
-                        var getFilesJob = GateWayJobsFabric.GetFilesJob(images.Images.Select(img => img.Path).ToList());
-                        getFilesJob.OnHaveResult += async zip => { this.InvokeOnHaveResult(zip); };
-                        return getFilesJob;
-                    });
-                    this.Executor.JobAsyncExecute(getImagesInfoJob);
+                        this.InvokeOnHaveError(new JobError()
+                        {
+                            Message = "Job execute",
+                            StatusCode = 409
+                        });
+                    }
+                    else
+                    {
+                        var getImagesInfoJob =
+                            GateWayJobsFabric.GetImagesInfoJob(this._jobId, this._pageNo, this._count);
+                        getImagesInfoJob.RunNextOnHaveResult(async images =>
+                        {
+                            var getFilesJob =
+                                GateWayJobsFabric.GetFilesJob(images.Images.Select(img => img.Path).ToList());
+                            getFilesJob.OnHaveResult += async zip => { this.InvokeOnHaveResult(zip); };
+                            return getFilesJob;
+                        });
+                        this.Executor.JobAsyncExecute(getImagesInfoJob);
+                    }
                 }
             };
             this.Executor.JobAsyncExecute(getJobsStatusHOJ);

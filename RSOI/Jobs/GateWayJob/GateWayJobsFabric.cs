@@ -126,6 +126,14 @@ namespace RSOI.Jobs
             });
         }
 
+        public GetImageHighOrderJob GetImageHighOrderJob(string jobId, long pageNo)
+        {
+            return IdSetter<GetImageHighOrderJob>.SetJobGuid(new GetImageHighOrderJob(jobId, pageNo)
+            {
+                GateWayJobsFabric = this
+            });
+        }
+        
         public GetFilesJob GetFilesJob(List<string> paths)
         {
             return IdSetter<GetFilesJob>.SetJobGuid(new GetFilesJob(paths)

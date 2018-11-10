@@ -73,5 +73,17 @@ namespace RSOI.Jobs
             if (onOnHaveResult != null) 
                 await onOnHaveResult.Invoke(result);
         }
+        
+        public delegate Task GateWayJobErrorEvent(JobError result);
+        
+        public event GateWayJobErrorEvent OnHaveError;
+
+        public async void InvokeOnHaveError(JobError result)
+        {
+            var onOnHaveResult = this.OnHaveError;
+            if (onOnHaveResult != null) 
+                await onOnHaveResult.Invoke(result);
+        }
+
     }
 }

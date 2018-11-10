@@ -26,6 +26,7 @@ namespace RSOI.Jobs
             var jobInfo = await DataBaseService.GetJobInfo(this._jobId);
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
+            
         }
     }
 }

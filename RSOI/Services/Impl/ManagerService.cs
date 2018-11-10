@@ -58,7 +58,15 @@ namespace RSOI.Services.Impl
                 }
                 else
                 {
-                    tcs.SetResult(new NotFoundResult());
+                    var jobError = new JobError()
+                    {
+                        Message = "jobId is incorrect",
+                        StatusCode = 400
+                    };
+                    tcs.SetResult(new ObjectResult(jobError)
+                    {
+                        StatusCode = jobError.StatusCode
+                    });
                 }
                 
             };
@@ -75,15 +83,14 @@ namespace RSOI.Services.Impl
             var getPdfFileJob = _gateWayJobsFabric.GetPdfFileHighOrderJob(jobId);
             getPdfFileJob.OnHaveResult += async bytesPdf =>
             {
-                if (bytesPdf == null)
+                tcs.SetResult(new FileContentResult(bytesPdf,"application/pdf"));
+            };
+            getPdfFileJob.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
                 {
-                    tcs.SetResult(new ConflictResult());
-                }
-                else
-                {
-                    var result = new FileContentResult(bytesPdf,"application/pdf");
-                    tcs.SetResult(result);
-                }
+                    StatusCode = jobError.StatusCode
+                });
             };
             this._jobExecutor.JobAsyncExecute(getPdfFileJob);
             return task.Result;
@@ -97,17 +104,39 @@ namespace RSOI.Services.Impl
             var getImagesJob = _gateWayJobsFabric.GetImagesHighOrderJob(jobId, firstPage, count);
             getImagesJob.OnHaveResult += async bytesZip =>
             {
-                if (bytesZip == null)
-                {
-                    tcs.SetResult(new ConflictResult());
-                }
-                else
-                {
-                    var result = new FileContentResult(bytesZip,"application/zip");
-                    tcs.SetResult(result);
-                }
+                tcs.SetResult(new FileContentResult(bytesZip,"application/zip")); 
             };
+            getImagesJob.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
+                {
+                    StatusCode = jobError.StatusCode
+                });
+            };
+            
             this._jobExecutor.JobAsyncExecute(getImagesJob);
+            return task.Result;
+        }
+        
+        public async Task<IActionResult> GetImage(string jobId, long pageNo)
+        {
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            var getImageJob = _gateWayJobsFabric.GetImageHighOrderJob(jobId, pageNo);
+            getImageJob.OnHaveResult += async bytesImg =>
+            {
+                tcs.SetResult(new FileContentResult(bytesImg,"image/jpeg"));
+            };
+            getImageJob.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
+                {
+                    StatusCode = jobError.StatusCode
+                });
+            };
+            
+            this._jobExecutor.JobAsyncExecute(getImageJob);
             return task.Result;
         }
     }

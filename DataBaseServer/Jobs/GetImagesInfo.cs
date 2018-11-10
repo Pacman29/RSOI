@@ -37,7 +37,7 @@ namespace DataBaseServer.Jobs
                 var images = new ImagesResponseModel();
                 foreach (var img in files)
                 {
-                    images.Images.Add(new ImagesResponseModel.ImageResponseModel()
+                    images.Images.Add(new ImageResponseModel()
                     {
                         PageNo = img.PageNo,
                         Path = img.Path

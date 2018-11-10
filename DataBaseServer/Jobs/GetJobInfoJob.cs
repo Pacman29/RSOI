@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DataBaseServer.Contexts;
 using GRPCService.GRPCProto;
 using JobExecutor;
+using Models.Responses;
 using JobInfo = Models.Responses.JobInfo;
 
 namespace DataBaseServer.Jobs
@@ -34,8 +35,12 @@ namespace DataBaseServer.Jobs
                 if (files[0].JobStatus == EnumJobStatus.Done)
                 {
                     jobInfo.PdfPath = files.First(fileInfo => fileInfo.FileType == EnumFileType.Pdf).Path;
-                    jobInfo.ImagePath = files.Where(fileInfo => fileInfo.FileType == EnumFileType.Image)
-                        .Select(fileInfo => fileInfo.Path).ToArray();
+                    jobInfo.Images = files.Where(fileInfo => fileInfo.FileType == EnumFileType.Image)
+                        .Select(fileInfo => new ImageResponseModel()
+                        {
+                            PageNo = fileInfo.PageNo,
+                            Path = fileInfo.Path
+                        }).ToList();
                 }
                 var formatter = new BinaryFormatter();
                 using (var ms = new MemoryStream())
