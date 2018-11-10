@@ -8,7 +8,7 @@ namespace RSOI.Services
     {
         Task<JobInfo> CreateFileInfo(FileInfo pdfFileInfo);
         Task<JobInfo> UpdateOrCreateJob(JobInfo jobInfo);
-        Task<Empty> GetJobInfo(string jobId);
+        Task<JobInfo> GetJobInfo(string jobId);
         Task DoneJob(Guid jobId);
     }
 }

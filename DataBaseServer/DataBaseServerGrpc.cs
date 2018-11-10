@@ -104,11 +104,15 @@ namespace DataBaseServer
             return jobInfo;
         }
 
-        public override async Task<Empty> GetJobInfo(JobInfo request, ServerCallContext context)
+        public override async Task<JobInfo> GetJobInfo(JobInfo request, ServerCallContext context)
         {
             Console.WriteLine("Get Job Info");
-            var result = new Empty();
             var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
             try
             {
                 var job = new GetJobInfoJob(_jobsDbManager, request.JobId)
@@ -121,7 +125,7 @@ namespace DataBaseServer
             {
                 Console.WriteLine(e);
             }
-            return result;
+            return jobInfo;
         }
 
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)

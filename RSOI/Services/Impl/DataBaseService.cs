@@ -36,9 +36,9 @@ namespace RSOI.Services.Impl
             });
         }
 
-        public async Task GetJobInfo(Guid jobId)
+        public async Task<JobInfo>  GetJobInfo(string jobId)
         {
-            var result = await client.GetJobInfo(new JobInfo()
+            return await client.GetJobInfoAsync(new JobInfo()
             {
                 JobId = jobId.ToString()
             });

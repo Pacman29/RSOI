@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using DataBaseServer.DBO;
 using GRPCService.GRPCProto;
@@ -68,17 +69,19 @@ namespace DataBaseServer.Contexts
             public EnumJobStatus JobStatus { get; set; }
         }
 
-        public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, Func<JobAndFileInfoJoinEntity, bool> criteria)
+        public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, Func<JobAndFileInfoJoinEntity, bool> criteria = null)
         {
-            var join = Jobs.Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk, (a, b) => new JobAndFileInfoJoinEntity()
-            {
-                Guid = a.GUID,
-                Path = b.Path,
-                PageNo = b.PageNo,
-                FileType = b.FileType,
-                JobStatus = a.status
-            }).Where(criteria).ToList();
-            return join;
+            var join = Jobs.Where(job => job.GUID == guid).Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk,
+                (a, b) => new JobAndFileInfoJoinEntity()
+                {
+                    Guid = a.GUID,
+                    Path = b.Path,
+                    PageNo = b.PageNo,
+                    FileType = b.FileType,
+                    JobStatus = a.status
+                });
+            var res = criteria != null ? join.Where(criteria).ToList() : join.ToList();     
+            return res;
         }
     }
 }

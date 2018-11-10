@@ -41,13 +41,28 @@ namespace RSOI.Services.Impl
             return new JsonResult(task.Result);
         }
 
-        public async Task<IActionResult> GetJobStatus(string JobId)
+        public async Task<IActionResult> GetJobStatus(string jobId)
         {
-            return new JsonResult(new JobInfo()
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            var getJobInfo = this._gateWayJobsFabric.GetJobStatusHighOrderJob(jobId);
+            
+            getJobInfo.OnHaveResult += async (jobInfo) =>
             {
-                JobId = JobId,
+                if (jobInfo != null)
+                {
+                    tcs.SetResult(new JsonResult(jobInfo));
+                }
+                else
+                {
+                    tcs.SetResult(new NotFoundResult());
+                }
                 
-            });
+            };
+            
+            this._jobExecutor.JobAsyncExecute(getJobInfo);
+            return task.Result;
         }
     }
 }

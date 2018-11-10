@@ -11,9 +11,16 @@ namespace JobExecutor
         public static TResult Deserialize(BaseJob job)
         {
             TResult res;
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream(job.Bytes))
-                res = (TResult)bf.Deserialize(ms);
+            if (job.Bytes != null)
+            {
+                var bf = new BinaryFormatter();
+                using (var ms = new MemoryStream(job.Bytes))
+                    res = (TResult)bf.Deserialize(ms);
+            }
+            else
+            {
+                res = default(TResult);
+            }
             return res;
         }
     }

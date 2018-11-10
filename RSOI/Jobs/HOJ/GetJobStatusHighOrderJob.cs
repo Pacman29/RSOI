@@ -1,6 +1,7 @@
 using Models.Responses;
 using System;
 using System.Threading.Tasks;
+using JobExecutor;
 using RSOI.Services;
 
 namespace RSOI.Jobs
@@ -13,11 +14,18 @@ namespace RSOI.Jobs
         public GetJobStatusHighOrderJob(string JobId)
         {
             this._jobId = JobId;
+            
+            this.OnDone += async job =>
+            {
+                this.InvokeOnHaveResult(BytesDeserializer<JobInfo>.Deserialize(job));
+            };
         }
         
         public override async Task ExecuteAsync()
         {
-            await DataBaseService.GetJobInfo(this._jobId);
+            var jobInfo = await DataBaseService.GetJobInfo(this._jobId);
+            this.ServiceGuid = new Guid(jobInfo.JobId);
+            this.JobStatus = jobInfo.JobStatus;
         }
     }
 }

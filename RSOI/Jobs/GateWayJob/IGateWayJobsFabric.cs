@@ -13,5 +13,6 @@ namespace RSOI.Jobs
         CreateJobToDatabase GetCreateJobToDatabase();
         AddFileInfoToDatabaseJob GetAddFileInfoToDatabaseJob(FileInfo fileInfo);
         PackageJob GetPackageJob();
+        GetJobStatusHighOrderJob GetJobStatusHighOrderJob(string jobId);
     }
 }

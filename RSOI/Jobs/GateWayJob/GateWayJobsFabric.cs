@@ -85,5 +85,13 @@ namespace RSOI.Jobs
         {
             return IdSetter<PackageJob>.SetJobGuid(new PackageJob());
         }
+
+        public GetJobStatusHighOrderJob GetJobStatusHighOrderJob(string jobId)
+        {
+            return IdSetter<GetJobStatusHighOrderJob>.SetJobGuid(new GetJobStatusHighOrderJob(jobId)
+            {
+                DataBaseService = this.DataBaseService
+            });
+        }
     }
 }

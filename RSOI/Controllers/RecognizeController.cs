@@ -30,10 +30,10 @@ namespace RSOI.Controllers
         }
 
         [HttpGet]
-        [Route("{JobId:Guid}")]
-        public async Task<IActionResult> GetJobStatus([FromRoute] string JobId)
+        [Route("{jobId}")]
+        public async Task<IActionResult> GetJobStatus([FromRoute] string jobId)
         {
-            return await _managerService.GetJobStatus(JobId);
+            return await _managerService.GetJobStatus(jobId);
         }
     }
 }

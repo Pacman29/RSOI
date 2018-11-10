@@ -33,7 +33,7 @@ namespace RSOI.Jobs
                 this.InvokeOnHaveResult(new Models.Responses.JobInfo()
                 {
                     JobId = result,
-                    JobStatus = EnumJobStatus.Execute
+                    JobStatus = EnumJobStatus.Execute.ToString()
                 });
             };
             

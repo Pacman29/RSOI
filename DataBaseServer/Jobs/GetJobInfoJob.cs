@@ -22,19 +22,19 @@ namespace DataBaseServer.Jobs
 
         public override async Task ExecuteAsync()
         {
-            var job = await _jobDbManager.FindByGuid(this._jobId);
-            if (job != null)
+            var files = await _jobDbManager.FindInJobAndFileInfoJoin(this._jobId);
+            if (files.Count > 0)
             {
                 var jobInfo = new JobInfo
                 {
-                    JobId = job.GUID,
-                    JobStatus = job.status
+                    JobId = files[0].Guid,
+                    JobStatus = files[0].JobStatus.ToString()
                 };
                 
-                if (job.status == EnumJobStatus.Done)
+                if (files[0].JobStatus == EnumJobStatus.Done)
                 {
-                    jobInfo.PdfPath = job.fileInfos.First(fileInfo => fileInfo.FileType == EnumFileType.Pdf).Path;
-                    jobInfo.ImagePath = job.fileInfos.Where(fileInfo => fileInfo.FileType == EnumFileType.Image)
+                    jobInfo.PdfPath = files.First(fileInfo => fileInfo.FileType == EnumFileType.Pdf).Path;
+                    jobInfo.ImagePath = files.Where(fileInfo => fileInfo.FileType == EnumFileType.Image)
                         .Select(fileInfo => fileInfo.Path).ToArray();
                 }
                 var formatter = new BinaryFormatter();
