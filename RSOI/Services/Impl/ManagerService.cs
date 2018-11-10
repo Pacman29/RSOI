@@ -139,5 +139,24 @@ namespace RSOI.Services.Impl
             this._jobExecutor.JobAsyncExecute(getImageJob);
             return task.Result;
         }
+
+        public async Task<IActionResult> DeleteJob(string jobId)
+        {
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            
+            
+            return task.Result;
+        }
+
+        public async Task<IActionResult> UpdateJob(string jobId, PdfFile pdfFileModel)
+        {
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+
+            return task.Result;
+        }
     }
 }

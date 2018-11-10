@@ -73,6 +73,12 @@ namespace DataBaseServer.Contexts
 
             modelBuilder.Entity<Job>()
                 .Property(e => e.status);
+
+            modelBuilder.Entity<Job>()
+                .HasMany(e => e.fileInfos)
+                .WithOne(fi => fi.Job)
+                .HasForeignKey(fi => fi.JobGuidFk)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         
     }

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DataBaseServer.Migrations
 {
-    public partial class addPageNo : Migration
+    public partial class addNavigation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace DataBaseServer.Migrations
                         column: x => x.JobGuidFk,
                         principalTable: "Jobs",
                         principalColumn: "GUID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

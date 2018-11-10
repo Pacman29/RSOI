@@ -11,5 +11,7 @@ namespace RSOI.Services
         Task<IActionResult> GetPdf(string jobId);
         Task<IActionResult> GetImages(string jobId, int firstPage, int count);
         Task<IActionResult> GetImage(string jobId, long pageNo);
+        Task<IActionResult> DeleteJob(string jobId);
+        Task<IActionResult> UpdateJob(string jobId, PdfFile pdfFileModel);
     }
 }

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataBaseServer.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20181109105627_addPageNo")]
-    partial class addPageNo
+    [Migration("20181110225845_addNavigation")]
+    partial class addNavigation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,8 @@ namespace DataBaseServer.Migrations
                 {
                     b.HasOne("DataBaseServer.DBO.Job", "Job")
                         .WithMany("fileInfos")
-                        .HasForeignKey("JobGuidFk");
+                        .HasForeignKey("JobGuidFk")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

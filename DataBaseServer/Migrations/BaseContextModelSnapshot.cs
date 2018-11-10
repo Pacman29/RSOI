@@ -68,7 +68,8 @@ namespace DataBaseServer.Migrations
                 {
                     b.HasOne("DataBaseServer.DBO.Job", "Job")
                         .WithMany("fileInfos")
-                        .HasForeignKey("JobGuidFk");
+                        .HasForeignKey("JobGuidFk")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

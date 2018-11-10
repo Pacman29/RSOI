@@ -35,5 +35,19 @@ namespace RSOI.Controllers
         {
             return await _managerService.GetJobStatus(jobId);
         }
+        
+        [HttpDelete]
+        [Route("{jobId}")]
+        public async Task<IActionResult> DeleteJob([FromRoute] string jobId)
+        {
+            return await _managerService.DeleteJob(jobId);
+        }
+        
+        [HttpPatch]
+        [Route("{jobId}")]
+        public async Task<IActionResult> UpdateJob([FromRoute] string jobId, [FromForm] PdfFile request)
+        {
+            return await _managerService.UpdateJob(jobId, request);
+        }
     }
 }
