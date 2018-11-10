@@ -69,7 +69,9 @@ namespace RSOI.Jobs
 
         public async void InvokeOnHaveResult(TResult result)
         {
-            await this.OnHaveResult?.Invoke(result);
+            var onOnHaveResult = this.OnHaveResult;
+            if (onOnHaveResult != null) 
+                await onOnHaveResult.Invoke(result);
         }
     }
 }

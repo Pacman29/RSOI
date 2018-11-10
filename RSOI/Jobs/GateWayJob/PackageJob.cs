@@ -11,7 +11,7 @@ namespace RSOI.Jobs
     {
         private ConcurrentDictionary<Guid, BaseJob> _jobs = new ConcurrentDictionary<Guid, BaseJob>();
         private int completeCounter = 0;
-        private readonly object threadLock;
+        private readonly object threadLock = new object();
 
         public PackageJob(BaseJob[] jobs)
         {
@@ -26,6 +26,10 @@ namespace RSOI.Jobs
         {
             lock(threadLock)
                 completeCounter++;
+
+            if (job.Guid != null) 
+                _jobs.TryAdd((Guid) job.Guid, job);
+
             job.OnDone += async j => 
             {
                 lock(threadLock)

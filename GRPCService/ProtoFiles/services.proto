@@ -6,6 +6,7 @@ option csharp_namespace = "GRPCService.GRPCProto";
 service DataBase {
     rpc SaveFileInfo (FileInfo) returns (JobInfo) {}
     rpc UpdateOrCreateJob (JobInfo) returns (JobInfo) {} 
+    rpc GetJobInfo (JobInfo) returns (Empty) {}
     
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}

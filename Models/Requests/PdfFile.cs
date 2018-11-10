@@ -11,6 +11,7 @@ namespace Models.Requests
 {
     public class PdfFile
     {
+        private object threadLock = new object();
         public long Dpi { get; set; } = 300;
         public long PageNo { get; set; } = 0;
         public IFormFile File { get; set; }
@@ -34,16 +35,13 @@ namespace Models.Requests
         
         public async Task<byte[]> ReadFile()
         {
-            var s = this.File.OpenReadStream();
-            var buffer = new byte[s.Length];
-            using (MemoryStream ms = new MemoryStream())
+            lock (threadLock)
             {
-                int read;
-                while ((read = await s.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    await ms.WriteAsync(buffer, 0, read);
+                    this.File.CopyTo(ms);
+                    return ms.ToArray();
                 }
-                return ms.ToArray();
             }
         } 
     }

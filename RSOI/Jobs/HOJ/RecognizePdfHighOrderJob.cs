@@ -25,6 +25,7 @@ namespace RSOI.Jobs
 
         public override async Task ExecuteAsync()
         {
+            
             //Create job to database
             var createJobToDatabaseJob = GateWayJobsFabric.GetCreateJobToDatabase();
             createJobToDatabaseJob.OnHaveResult += async result =>
@@ -35,10 +36,12 @@ namespace RSOI.Jobs
                     JobStatus = EnumJobStatus.Execute
                 });
             };
+            
+            var pdfFileInfo = await _pdfFile.GetFileInfo();
+            var bytes = await _pdfFile.ReadFile();
            
             createJobToDatabaseJob.RunNextOnHaveResult(async (jobId) =>
             {              
-                var pdfFileInfo = await _pdfFile.GetFileInfo();
                 pdfFileInfo.Path = $"{jobId}.pdf";
                 pdfFileInfo.JobId = jobId;
                 var pdfPackageJob = GateWayJobsFabric.GetPackageJob();
@@ -46,10 +49,10 @@ namespace RSOI.Jobs
                     GateWayJobsFabric.GetAddFileInfoToDatabaseJob(pdfFileInfo);
                 pdfPackageJob.AddJob(addPdfToDatabaseJob);
                 var savePdfFileJob = 
-                    GateWayJobsFabric.GetSaveFileJob(await _pdfFile.ReadFile(), pdfFileInfo.Path);
+                    GateWayJobsFabric.GetSaveFileJob(bytes, pdfFileInfo.Path);
                 pdfPackageJob.AddJob(savePdfFileJob);
                 var recognizePdfFileJob =
-                    GateWayJobsFabric.GetRecognizePdfFileJob(await _pdfFile.ReadFile(), new List<int>());
+                    GateWayJobsFabric.GetRecognizePdfFileJob(bytes, new List<int>());
                 pdfPackageJob.AddJob(recognizePdfFileJob);
                 
                 recognizePdfFileJob.RunNextOnHaveResult(async (zipImgs) =>

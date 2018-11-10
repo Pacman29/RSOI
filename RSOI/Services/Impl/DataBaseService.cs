@@ -35,6 +35,14 @@ namespace RSOI.Services.Impl
                 JobId = jobId.ToString()
             });
         }
+
+        public async Task GetJobInfo(Guid jobId)
+        {
+            var result = await client.GetJobInfo(new JobInfo()
+            {
+                JobId = jobId.ToString()
+            });
+        }
         
         public async void Dispose()
         {

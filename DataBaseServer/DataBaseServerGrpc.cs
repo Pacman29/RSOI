@@ -104,6 +104,26 @@ namespace DataBaseServer
             return jobInfo;
         }
 
+        public override async Task<Empty> GetJobInfo(JobInfo request, ServerCallContext context)
+        {
+            Console.WriteLine("Get Job Info");
+            var result = new Empty();
+            var guid = Guid.NewGuid();
+            try
+            {
+                var job = new GetJobInfoJob(_jobsDbManager, request.JobId)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return result;
+        }
+
         public override async Task<Empty> RejectJobCall(RejectJob request, ServerCallContext context)
         {
             var result = new Empty();
