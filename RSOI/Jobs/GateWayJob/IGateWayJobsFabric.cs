@@ -14,5 +14,7 @@ namespace RSOI.Jobs
         AddFileInfoToDatabaseJob GetAddFileInfoToDatabaseJob(FileInfo fileInfo);
         PackageJob GetPackageJob();
         GetJobStatusHighOrderJob GetJobStatusHighOrderJob(string jobId);
+        GetPdfFileHighOrderJob GetPdfFileHighOrderJob(string jobId);
+        GetFileJob GetFileJob(string path);
     }
 }

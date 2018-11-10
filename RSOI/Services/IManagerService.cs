@@ -8,5 +8,7 @@ namespace RSOI.Services
     {
         Task<IActionResult> RecognizePdf(PdfFile pdfFileModel);
         Task<IActionResult> GetJobStatus(string jobId);
+        Task<IActionResult> GetPdf(string jobId);
+        Task<IActionResult> GetImages(string jobId, int firstPage, int count);
     }
 }

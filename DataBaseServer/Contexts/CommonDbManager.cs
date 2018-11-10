@@ -28,17 +28,17 @@ namespace DataBaseServer.Contexts
         public async Task<T> AddAsync(T source)
         {
             T result = null;
-            source.changed = DateTime.Now;
-            var state = await _dbSet.AddAsync(source);
-            if (state.State == EntityState.Added)
+            lock (_threadLock)
             {
-                lock (_threadLock)
+                source.changed = DateTime.Now;
+                var state = _dbSet.Add(source);
+                if (state.State == EntityState.Added)
                 {
                     _context.SaveChanges();
+                    result = state.Entity;
                 }
-                result = state.Entity;
-            }
 
+            }
             return result;
         }
         
@@ -50,17 +50,16 @@ namespace DataBaseServer.Contexts
         public async Task<T> UpdateAsync(T source)
         {
             T result = null; 
-            source.changed = DateTime.Now;
-            var state = _dbSet.Update(source);
-            if (state.State == EntityState.Modified)
+            lock (_threadLock)
             {
-                lock (_threadLock)
+                source.changed = DateTime.Now;
+                var state = _dbSet.Update(source);
+                if (state.State == EntityState.Modified)
                 {
                     _context.SaveChanges();
+                    result = state.Entity;
                 }
-                result = state.Entity;
             }
-
             return result;
         }
 

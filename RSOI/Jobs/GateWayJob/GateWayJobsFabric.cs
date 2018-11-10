@@ -93,5 +93,21 @@ namespace RSOI.Jobs
                 DataBaseService = this.DataBaseService
             });
         }
+
+        public GetPdfFileHighOrderJob GetPdfFileHighOrderJob(string jobId)
+        {
+            return IdSetter<GetPdfFileHighOrderJob>.SetJobGuid(new GetPdfFileHighOrderJob(jobId)
+            {
+                GateWayJobsFabric = this
+            });
+        }
+        
+        public GetFileJob GetFileJob(string path)
+        {
+            return IdSetter<GetFileJob>.SetJobGuid(new GetFileJob(path)
+            {
+                FileService = this.FileService
+            });
+        }
     }
 }

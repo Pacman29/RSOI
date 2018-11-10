@@ -1,10 +1,12 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 using JobExecutor;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Models.Requests;
 using Models.Responses;
 using RSOI.Jobs;
@@ -25,20 +27,20 @@ namespace RSOI.Services.Impl
 
         public async Task<IActionResult> RecognizePdf(PdfFile pdfFileModel)
         {
-            var tcs = new TaskCompletionSource<JobInfo>();
+            var tcs = new TaskCompletionSource<IActionResult>();
             var task = tcs.Task;
             
             var recognizePdfJob = this._gateWayJobsFabric.GetRecognizePdfHighOrderJob(pdfFileModel);
             
             recognizePdfJob.OnHaveResult += async (jobInfo) =>
             {
-                tcs.SetResult(jobInfo);
+                tcs.SetResult(new JsonResult(jobInfo));
             };
             
             this._jobExecutor.JobAsyncExecute(recognizePdfJob);
            
             
-            return new JsonResult(task.Result);
+            return task.Result;
         }
 
         public async Task<IActionResult> GetJobStatus(string jobId)
@@ -63,6 +65,33 @@ namespace RSOI.Services.Impl
             
             this._jobExecutor.JobAsyncExecute(getJobInfo);
             return task.Result;
+        }
+
+        public async Task<IActionResult> GetPdf(string jobId)
+        {
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            var getPdfFileJob = _gateWayJobsFabric.GetPdfFileHighOrderJob(jobId);
+            getPdfFileJob.OnHaveResult += async bytesPdf =>
+            {
+                if (bytesPdf == null)
+                {
+                    tcs.SetResult(new ConflictResult());
+                }
+                else
+                {
+                    var result = new FileContentResult(bytesPdf,"application/pdf");
+                    tcs.SetResult(result);
+                }
+            };
+            this._jobExecutor.JobAsyncExecute(getPdfFileJob);
+            return task.Result;
+        }
+
+        public async Task<IActionResult> GetImages(string jobId, int firstPage, int count)
+        {
+            throw new NotImplementedException();
         }
     }
 }
