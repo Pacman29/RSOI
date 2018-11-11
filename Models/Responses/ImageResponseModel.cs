@@ -7,5 +7,6 @@ namespace Models.Responses
     {
         public long PageNo { get; set; }
         public string Path { get; set; }
+        public int ImgId { get; set; }
     }
 }

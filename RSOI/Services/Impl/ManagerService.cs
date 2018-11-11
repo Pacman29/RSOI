@@ -168,7 +168,44 @@ namespace RSOI.Services.Impl
             var tcs = new TaskCompletionSource<IActionResult>();
             var task = tcs.Task;
 
+            var updateJob = _gateWayJobsFabric.UpdateJobHighOrderJob(jobId,pdfFileModel);
+            updateJob.OnHaveResult += async res =>
+            {
+                tcs.SetResult(new JsonResult(res));
+            };
+            updateJob.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
+                {
+                    StatusCode = jobError.StatusCode
+                });
+            };
+            
+            this._jobExecutor.JobAsyncExecute(updateJob);
+            
+            return task.Result;
+        }
 
+        public async Task<IActionResult> GetAllJobStatus()
+        {
+            var tcs = new TaskCompletionSource<IActionResult>();
+            var task = tcs.Task;
+
+            var getAll = _gateWayJobsFabric.GetAllJobInfosHighOrderJob();
+            getAll.OnHaveResult += async res =>
+            {
+                tcs.SetResult(new JsonResult(res));
+            };
+            getAll.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
+                {
+                    StatusCode = jobError.StatusCode
+                });
+            };
+            
+            this._jobExecutor.JobAsyncExecute(getAll);
+            
             return task.Result;
         }
     }

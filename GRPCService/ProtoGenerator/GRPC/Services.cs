@@ -31,41 +31,44 @@ namespace GRPCService.GRPCProto {
             "RW1wdHkiVgoHSm9iSW5mbxIrCglKb2JTdGF0dXMYASABKA4yGC5HUlBDUHJv",
             "dG8uRW51bUpvYlN0YXR1cxINCgVKb2JJZBgCIAEoCRIPCgdNZXNzYWdlGAMg",
             "ASgJIkYKEEpvYkluZm9XaXRoQnl0ZXMSIwoHam9iSW5mbxgBIAEoCzISLkdS",
-            "UENQcm90by5Kb2JJbmZvEg0KBWJ5dGVzGAIgASgMIoMBCghGaWxlSW5mbxIp",
+            "UENQcm90by5Kb2JJbmZvEg0KBWJ5dGVzGAIgASgMIo8BCghGaWxlSW5mbxIp",
             "CghmaWxlVHlwZRgBIAEoDjIXLkdSUENQcm90by5FbnVtRmlsZVR5cGUSCwoD",
             "TUQ1GAIgASgJEhIKCkZpbGVMZW5ndGgYAyABKAMSDAoEUGF0aBgEIAEoCRIN",
-            "CgVKb2JJZBgFIAEoCRIOCgZQYWdlTm8YBiABKAMiNwoOQ29tbW9uUmVzcG9u",
-            "c2USDwoHaXNFcnJvchgBIAEoCBIUCgxFcnJvck1lc3NhZ2UYAiABKAkiWgoe",
-            "RGF0YWJhc2VDcmVhdGVGaWxlSW5mb1Jlc3BvbnNlEigKBWVycm9yGAEgASgL",
-            "MhkuR1JQQ1Byb3RvLkNvbW1vblJlc3BvbnNlEg4KBmZpbGVJZBgCIAEoCSI/",
-            "CgpJbWFnZXNJbmZvEg0KBUpvYklkGAEgASgJEhMKC0ZpcnN0UGFnZU5vGAIg",
-            "ASgDEg0KBUNvdW50GAMgASgDIhoKCVJlamVjdEpvYhINCgVKb2JJZBgBIAEo",
-            "CSIYCgdEb25lSm9iEg0KBUpvYklkGAEgASgJKj8KDUVudW1Kb2JTdGF0dXMS",
-            "CwoHRVhFQ1VURRAAEggKBERPTkUQARIJCgVFUlJPUhACEgwKCFJFSkVDVEVE",
-            "EAMqIgoMRW51bUZpbGVUeXBlEgkKBUltYWdlEAASBwoDUGRmEAEypwMKCERh",
-            "dGFCYXNlEjkKDFNhdmVGaWxlSW5mbxITLkdSUENQcm90by5GaWxlSW5mbxoS",
-            "LkdSUENQcm90by5Kb2JJbmZvIgASPQoRVXBkYXRlT3JDcmVhdGVKb2ISEi5H",
-            "UlBDUHJvdG8uSm9iSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASNgoKR2V0",
-            "Sm9iSW5mbxISLkdSUENQcm90by5Kb2JJbmZvGhIuR1JQQ1Byb3RvLkpvYklu",
-            "Zm8iABI8Cg1HZXRJbWFnZXNJbmZvEhUuR1JQQ1Byb3RvLkltYWdlc0luZm8a",
-            "Ei5HUlBDUHJvdG8uSm9iSW5mbyIAEjkKDURlbGV0ZUpvYkluZm8SEi5HUlBD",
-            "UHJvdG8uSm9iSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASOQoNUmVqZWN0",
-            "Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBDUHJvdG8uRW1w",
-            "dHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25lSm9iGhAuR1JQ",
-            "Q1Byb3RvLkVtcHR5IgAytwEKCVJlY29nbml6ZRI4CgxSZWNvZ25pemVQZGYS",
-            "Ei5HUlBDUHJvdG8uUGRmRmlsZRoSLkdSUENQcm90by5Kb2JJbmZvIgASOQoN",
-            "UmVqZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBDUHJv",
-            "dG8uRW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25lSm9i",
-            "GhAuR1JQQ1Byb3RvLkVtcHR5IgAy2gEKCkZpbGVTZXJ2ZXISMQoIU2F2ZUZp",
-            "bGUSDy5HUlBDUHJvdG8uRmlsZRoSLkdSUENQcm90by5Kb2JJbmZvIgASMAoH",
-            "R2V0RmlsZRIPLkdSUENQcm90by5QYXRoGhIuR1JQQ1Byb3RvLkpvYkluZm8i",
-            "ABIyCghHZXRGaWxlcxIQLkdSUENQcm90by5QYXRocxoSLkdSUENQcm90by5K",
-            "b2JJbmZvIgASMwoKRGVsZXRlRmlsZRIPLkdSUENQcm90by5QYXRoGhIuR1JQ",
-            "Q1Byb3RvLkpvYkluZm8iADKJAQoHR2F0ZVdheRI1CgtQb3N0Sm9iSW5mbxIS",
-            "LkdSUENQcm90by5Kb2JJbmZvGhAuR1JQQ1Byb3RvLkVtcHR5IgASRwoUUG9z",
-            "dEpvYkluZm9XaXRoQnl0ZXMSGy5HUlBDUHJvdG8uSm9iSW5mb1dpdGhCeXRl",
-            "cxoQLkdSUENQcm90by5FbXB0eSIAQhiqAhVHUlBDU2VydmljZS5HUlBDUHJv",
-            "dG9iBnByb3RvMw=="));
+            "CgVKb2JJZBgFIAEoCRIOCgZQYWdlTm8YBiABKAMSCgoCSWQYByABKAMiNwoO",
+            "Q29tbW9uUmVzcG9uc2USDwoHaXNFcnJvchgBIAEoCBIUCgxFcnJvck1lc3Nh",
+            "Z2UYAiABKAkiWgoeRGF0YWJhc2VDcmVhdGVGaWxlSW5mb1Jlc3BvbnNlEigK",
+            "BWVycm9yGAEgASgLMhkuR1JQQ1Byb3RvLkNvbW1vblJlc3BvbnNlEg4KBmZp",
+            "bGVJZBgCIAEoCSI/CgpJbWFnZXNJbmZvEg0KBUpvYklkGAEgASgJEhMKC0Zp",
+            "cnN0UGFnZU5vGAIgASgDEg0KBUNvdW50GAMgASgDIhoKCVJlamVjdEpvYhIN",
+            "CgVKb2JJZBgBIAEoCSIYCgdEb25lSm9iEg0KBUpvYklkGAEgASgJKj8KDUVu",
+            "dW1Kb2JTdGF0dXMSCwoHRVhFQ1VURRAAEggKBERPTkUQARIJCgVFUlJPUhAC",
+            "EgwKCFJFSkVDVEVEEAMqIgoMRW51bUZpbGVUeXBlEgkKBUltYWdlEAASBwoD",
+            "UGRmEAEyngQKCERhdGFCYXNlEjkKDFNhdmVGaWxlSW5mbxITLkdSUENQcm90",
+            "by5GaWxlSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASOwoORGVsZXRlRmls",
+            "ZUluZm8SEy5HUlBDUHJvdG8uRmlsZUluZm8aEi5HUlBDUHJvdG8uSm9iSW5m",
+            "byIAEj0KEVVwZGF0ZU9yQ3JlYXRlSm9iEhIuR1JQQ1Byb3RvLkpvYkluZm8a",
+            "Ei5HUlBDUHJvdG8uSm9iSW5mbyIAEjYKCkdldEpvYkluZm8SEi5HUlBDUHJv",
+            "dG8uSm9iSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASPAoNR2V0SW1hZ2Vz",
+            "SW5mbxIVLkdSUENQcm90by5JbWFnZXNJbmZvGhIuR1JQQ1Byb3RvLkpvYklu",
+            "Zm8iABI5Cg1EZWxldGVKb2JJbmZvEhIuR1JQQ1Byb3RvLkpvYkluZm8aEi5H",
+            "UlBDUHJvdG8uSm9iSW5mbyIAEjgKDkdldEFsbEpvYkluZm9zEhAuR1JQQ1By",
+            "b3RvLkVtcHR5GhIuR1JQQ1Byb3RvLkpvYkluZm8iABI5Cg1SZWplY3RKb2JD",
+            "YWxsEhQuR1JQQ1Byb3RvLlJlamVjdEpvYhoQLkdSUENQcm90by5FbXB0eSIA",
+            "EjUKC0RvbmVKb2JDYWxsEhIuR1JQQ1Byb3RvLkRvbmVKb2IaEC5HUlBDUHJv",
+            "dG8uRW1wdHkiADK3AQoJUmVjb2duaXplEjgKDFJlY29nbml6ZVBkZhISLkdS",
+            "UENQcm90by5QZGZGaWxlGhIuR1JQQ1Byb3RvLkpvYkluZm8iABI5Cg1SZWpl",
+            "Y3RKb2JDYWxsEhQuR1JQQ1Byb3RvLlJlamVjdEpvYhoQLkdSUENQcm90by5F",
+            "bXB0eSIAEjUKC0RvbmVKb2JDYWxsEhIuR1JQQ1Byb3RvLkRvbmVKb2IaEC5H",
+            "UlBDUHJvdG8uRW1wdHkiADLaAQoKRmlsZVNlcnZlchIxCghTYXZlRmlsZRIP",
+            "LkdSUENQcm90by5GaWxlGhIuR1JQQ1Byb3RvLkpvYkluZm8iABIwCgdHZXRG",
+            "aWxlEg8uR1JQQ1Byb3RvLlBhdGgaEi5HUlBDUHJvdG8uSm9iSW5mbyIAEjIK",
+            "CEdldEZpbGVzEhAuR1JQQ1Byb3RvLlBhdGhzGhIuR1JQQ1Byb3RvLkpvYklu",
+            "Zm8iABIzCgpEZWxldGVGaWxlEg8uR1JQQ1Byb3RvLlBhdGgaEi5HUlBDUHJv",
+            "dG8uSm9iSW5mbyIAMokBCgdHYXRlV2F5EjUKC1Bvc3RKb2JJbmZvEhIuR1JQ",
+            "Q1Byb3RvLkpvYkluZm8aEC5HUlBDUHJvdG8uRW1wdHkiABJHChRQb3N0Sm9i",
+            "SW5mb1dpdGhCeXRlcxIbLkdSUENQcm90by5Kb2JJbmZvV2l0aEJ5dGVzGhAu",
+            "R1JQQ1Byb3RvLkVtcHR5IgBCGKoCFUdSUENTZXJ2aWNlLkdSUENQcm90b2IG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), typeof(global::GRPCService.GRPCProto.EnumFileType), }, new pbr::GeneratedClrTypeInfo[] {
@@ -76,7 +79,7 @@ namespace GRPCService.GRPCProto {
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Empty), global::GRPCService.GRPCProto.Empty.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfo), global::GRPCService.GRPCProto.JobInfo.Parser, new[]{ "JobStatus", "JobId", "Message" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.JobInfoWithBytes), global::GRPCService.GRPCProto.JobInfoWithBytes.Parser, new[]{ "JobInfo", "Bytes" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.FileInfo), global::GRPCService.GRPCProto.FileInfo.Parser, new[]{ "FileType", "MD5", "FileLength", "Path", "JobId", "PageNo" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.FileInfo), global::GRPCService.GRPCProto.FileInfo.Parser, new[]{ "FileType", "MD5", "FileLength", "Path", "JobId", "PageNo", "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.CommonResponse), global::GRPCService.GRPCProto.CommonResponse.Parser, new[]{ "IsError", "ErrorMessage" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse), global::GRPCService.GRPCProto.DatabaseCreateFileInfoResponse.Parser, new[]{ "Error", "FileId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.ImagesInfo), global::GRPCService.GRPCProto.ImagesInfo.Parser, new[]{ "JobId", "FirstPageNo", "Count" }, null, null, null),
@@ -1146,6 +1149,7 @@ namespace GRPCService.GRPCProto {
       path_ = other.path_;
       jobId_ = other.jobId_;
       pageNo_ = other.pageNo_;
+      id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1220,6 +1224,17 @@ namespace GRPCService.GRPCProto {
       }
     }
 
+    /// <summary>Field number for the "Id" field.</summary>
+    public const int IdFieldNumber = 7;
+    private long id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FileInfo);
@@ -1239,6 +1254,7 @@ namespace GRPCService.GRPCProto {
       if (Path != other.Path) return false;
       if (JobId != other.JobId) return false;
       if (PageNo != other.PageNo) return false;
+      if (Id != other.Id) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1251,6 +1267,7 @@ namespace GRPCService.GRPCProto {
       if (Path.Length != 0) hash ^= Path.GetHashCode();
       if (JobId.Length != 0) hash ^= JobId.GetHashCode();
       if (PageNo != 0L) hash ^= PageNo.GetHashCode();
+      if (Id != 0L) hash ^= Id.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1288,6 +1305,10 @@ namespace GRPCService.GRPCProto {
         output.WriteRawTag(48);
         output.WriteInt64(PageNo);
       }
+      if (Id != 0L) {
+        output.WriteRawTag(56);
+        output.WriteInt64(Id);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1313,6 +1334,9 @@ namespace GRPCService.GRPCProto {
       }
       if (PageNo != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(PageNo);
+      }
+      if (Id != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Id);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1342,6 +1366,9 @@ namespace GRPCService.GRPCProto {
       }
       if (other.PageNo != 0L) {
         PageNo = other.PageNo;
+      }
+      if (other.Id != 0L) {
+        Id = other.Id;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1376,6 +1403,10 @@ namespace GRPCService.GRPCProto {
           }
           case 48: {
             PageNo = input.ReadInt64();
+            break;
+          }
+          case 56: {
+            Id = input.ReadInt64();
             break;
           }
         }

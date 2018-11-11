@@ -6,7 +6,7 @@ namespace RSOI.Jobs
 {
     public interface IGateWayJobsFabric
     {
-        UpdateJobToDatabase GetUpdateJobToDatabase(string JobId, EnumJobStatus status);
+        UpdateJobToDatabase GetUpdateJobToDatabase(string jobId, EnumJobStatus status);
         SaveFileJob GetSaveFileJob(byte[] bytes, string path);
         RecognizePdfHighOrderJob GetRecognizePdfHighOrderJob(PdfFile pdfFile);
         RecognizePdfFileJob GetRecognizePdfFileJob(byte[] pdfFile, List<int> pages);
@@ -22,6 +22,10 @@ namespace RSOI.Jobs
         GetFilesJob GetFilesJob(List<string> paths);
         DeleteJobHighOrderJob DeleteJobHighOrderJob(string jobId);
         DeleteJobFromDatabase DeleteJobFromDatabase(string jobId);
+        DeleteFileInfoFromDatabaseJob DeleteFileInfoFromDatabaseJob(string jobId, int id, string path, EnumFileType fileType);
         DeleteFileJob DeleteFileJob(string path);
+        UpdateJobHighOrderJob UpdateJobHighOrderJob(string jobId, PdfFile pdfFile);
+        GetAllJobs GetAllJobs();
+        GetAllJobInfosHighOrderJob GetAllJobInfosHighOrderJob();
     }
 }

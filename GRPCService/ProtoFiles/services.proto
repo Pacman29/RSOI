@@ -5,10 +5,12 @@ option csharp_namespace = "GRPCService.GRPCProto";
 
 service DataBase {
     rpc SaveFileInfo (FileInfo) returns (JobInfo) {}
+    rpc DeleteFileInfo (FileInfo) returns (JobInfo) {}
     rpc UpdateOrCreateJob (JobInfo) returns (JobInfo) {} 
     rpc GetJobInfo (JobInfo) returns (JobInfo) {}
     rpc GetImagesInfo (ImagesInfo) returns (JobInfo) {}
     rpc DeleteJobInfo (JobInfo) returns (JobInfo) {}
+    rpc GetAllJobInfos (Empty) returns (JobInfo) {}
     
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}
@@ -84,6 +86,7 @@ message FileInfo {
     string Path = 4;
     string JobId = 5;
 	int64 PageNo = 6;
+    int64 Id = 7;
 }
 
 message CommonResponse {

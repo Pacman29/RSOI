@@ -65,6 +65,7 @@ namespace DataBaseServer.Contexts
             public string Guid { get; set; }
             public string Path { get; set; }
             public long PageNo { get; set; }
+            public int Id { get; set; }
             public EnumFileType FileType { get; set; }
             public EnumJobStatus JobStatus { get; set; }
         }
@@ -79,7 +80,8 @@ namespace DataBaseServer.Contexts
                     Path = b.Path,
                     PageNo = b.PageNo,
                     FileType = b.FileType,
-                    JobStatus = a.status
+                    JobStatus = a.status,
+                    Id = b.Id
                 });
             var res = criteria != null ? criteria(join).ToList() : join.ToList();     
             return res;

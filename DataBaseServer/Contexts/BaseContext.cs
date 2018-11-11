@@ -17,6 +17,7 @@ namespace DataBaseServer.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             DataBaseConnection.GetDatabaseConnection(optionsBuilder);
+            optionsBuilder.EnableSensitiveDataLogging(true);
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

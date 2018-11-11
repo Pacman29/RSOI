@@ -11,6 +11,8 @@ namespace RSOI.Services
         Task<JobInfo> GetJobInfo(string jobId);
         Task<JobInfo> ImagesInfo(string jobId, long firstPageNo, long count);
         Task<JobInfo> DeleteJobInfo(string jobId);
+        Task<JobInfo> DeleteFileInfo(FileInfo pdfFileInfo);
+        Task<JobInfo> GetAllJobInfos();
         Task DoneJob(Guid jobId);
     }
 }

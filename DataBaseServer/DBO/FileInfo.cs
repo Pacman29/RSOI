@@ -31,7 +31,8 @@ namespace DataBaseServer.DBO
                 Path = fileInfo.Path,
                 JobGuidFk = fileInfo.JobId,
                 FileType = fileInfo.FileType,
-                PageNo = fileInfo.PageNo
+                PageNo = fileInfo.PageNo,
+                Id = (int) fileInfo.Id
             };
         }
 

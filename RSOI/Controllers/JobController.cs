@@ -7,11 +7,11 @@ namespace RSOI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecognizeController : ControllerBase
+    public class JobController : ControllerBase
     {
         private readonly IManagerService _managerService;
 
-        public RecognizeController(IManagerService managerService)
+        public JobController(IManagerService managerService)
         {
             _managerService = managerService;
         }
@@ -20,7 +20,7 @@ namespace RSOI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok("get Recognize pdf");
+            return await _managerService.GetAllJobStatus();
         }
 
         [HttpPost]

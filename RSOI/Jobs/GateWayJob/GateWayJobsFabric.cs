@@ -165,5 +165,37 @@ namespace RSOI.Jobs
                 FileService = this.FileService
             });
         }
+
+        public DeleteFileInfoFromDatabaseJob DeleteFileInfoFromDatabaseJob(string jobId, int id, string path, EnumFileType fileType)
+        {
+            return IdSetter<DeleteFileInfoFromDatabaseJob>.SetJobGuid(new DeleteFileInfoFromDatabaseJob(jobId, id, path,fileType)
+            {
+                DataBaseService = this.DataBaseService
+            });
+        }
+
+        public UpdateJobHighOrderJob UpdateJobHighOrderJob(string jobId, PdfFile pdfFile)
+        {
+            return IdSetter<UpdateJobHighOrderJob>.SetJobGuid(new UpdateJobHighOrderJob(pdfFile,jobId)
+            {
+                GateWayJobsFabric = this
+            });
+        }
+
+        public GetAllJobs GetAllJobs()
+        {
+            return IdSetter<GetAllJobs>.SetJobGuid(new GetAllJobs()
+            {
+                DataBaseService = this.DataBaseService
+            });
+        }
+
+        public GetAllJobInfosHighOrderJob GetAllJobInfosHighOrderJob()
+        {
+            return IdSetter<GetAllJobInfosHighOrderJob>.SetJobGuid(new GetAllJobInfosHighOrderJob()
+            {
+                GateWayJobsFabric = this
+            });
+        }
     }
 }

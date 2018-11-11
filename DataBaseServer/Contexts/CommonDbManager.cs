@@ -65,21 +65,20 @@ namespace DataBaseServer.Contexts
 
         public async Task<bool> DeleteAsync(T source)
         {
-            bool result;
-            var state = _dbSet.Remove(source);
-            if (state.State == EntityState.Deleted)
+            var result = false;
+            lock (_threadLock)
             {
-                lock (_threadLock)
-                {
-                    _context.SaveChanges();
-                }
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
+               var state = _dbSet.Remove(source);
+               if (state.State == EntityState.Deleted)
+               {
+                   _context.SaveChanges();
+                   result = true;
+               }
+               else
+               {
+                   result = false;
+               } 
+            }         
             return result;
         }
        

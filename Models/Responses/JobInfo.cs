@@ -9,5 +9,6 @@ namespace Models.Responses
         public string JobId { get; set; }
         public string JobStatus { get; set; }
         public string PdfPath { get; set; } = "";
+        public int PdfId { get; set; }
     }
 }

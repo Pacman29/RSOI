@@ -15,14 +15,21 @@ namespace GRPCService.GRPCProto {
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.FileInfo> __Marshaller_GRPCProto_FileInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.FileInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.JobInfo> __Marshaller_GRPCProto_JobInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.JobInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.ImagesInfo> __Marshaller_GRPCProto_ImagesInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.ImagesInfo.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.RejectJob> __Marshaller_GRPCProto_RejectJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.RejectJob.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.Empty> __Marshaller_GRPCProto_Empty = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.Empty.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.RejectJob> __Marshaller_GRPCProto_RejectJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.RejectJob.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::GRPCService.GRPCProto.DoneJob> __Marshaller_GRPCProto_DoneJob = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.DoneJob.Parser.ParseFrom);
 
     static readonly grpc::Method<global::GRPCService.GRPCProto.FileInfo, global::GRPCService.GRPCProto.JobInfo> __Method_SaveFileInfo = new grpc::Method<global::GRPCService.GRPCProto.FileInfo, global::GRPCService.GRPCProto.JobInfo>(
         grpc::MethodType.Unary,
         __ServiceName,
         "SaveFileInfo",
+        __Marshaller_GRPCProto_FileInfo,
+        __Marshaller_GRPCProto_JobInfo);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.FileInfo, global::GRPCService.GRPCProto.JobInfo> __Method_DeleteFileInfo = new grpc::Method<global::GRPCService.GRPCProto.FileInfo, global::GRPCService.GRPCProto.JobInfo>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DeleteFileInfo",
         __Marshaller_GRPCProto_FileInfo,
         __Marshaller_GRPCProto_JobInfo);
 
@@ -54,6 +61,13 @@ namespace GRPCService.GRPCProto {
         __Marshaller_GRPCProto_JobInfo,
         __Marshaller_GRPCProto_JobInfo);
 
+    static readonly grpc::Method<global::GRPCService.GRPCProto.Empty, global::GRPCService.GRPCProto.JobInfo> __Method_GetAllJobInfos = new grpc::Method<global::GRPCService.GRPCProto.Empty, global::GRPCService.GRPCProto.JobInfo>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetAllJobInfos",
+        __Marshaller_GRPCProto_Empty,
+        __Marshaller_GRPCProto_JobInfo);
+
     static readonly grpc::Method<global::GRPCService.GRPCProto.RejectJob, global::GRPCService.GRPCProto.Empty> __Method_RejectJobCall = new grpc::Method<global::GRPCService.GRPCProto.RejectJob, global::GRPCService.GRPCProto.Empty>(
         grpc::MethodType.Unary,
         __ServiceName,
@@ -82,6 +96,11 @@ namespace GRPCService.GRPCProto {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.JobInfo> DeleteFileInfo(global::GRPCService.GRPCProto.FileInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
       public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.JobInfo> UpdateOrCreateJob(global::GRPCService.GRPCProto.JobInfo request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
@@ -98,6 +117,11 @@ namespace GRPCService.GRPCProto {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.JobInfo> DeleteJobInfo(global::GRPCService.GRPCProto.JobInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.JobInfo> GetAllJobInfos(global::GRPCService.GRPCProto.Empty request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -152,6 +176,22 @@ namespace GRPCService.GRPCProto {
       public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> SaveFileInfoAsync(global::GRPCService.GRPCProto.FileInfo request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_SaveFileInfo, null, options, request);
+      }
+      public virtual global::GRPCService.GRPCProto.JobInfo DeleteFileInfo(global::GRPCService.GRPCProto.FileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DeleteFileInfo(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.JobInfo DeleteFileInfo(global::GRPCService.GRPCProto.FileInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DeleteFileInfo, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> DeleteFileInfoAsync(global::GRPCService.GRPCProto.FileInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DeleteFileInfoAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> DeleteFileInfoAsync(global::GRPCService.GRPCProto.FileInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DeleteFileInfo, null, options, request);
       }
       public virtual global::GRPCService.GRPCProto.JobInfo UpdateOrCreateJob(global::GRPCService.GRPCProto.JobInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
@@ -217,6 +257,22 @@ namespace GRPCService.GRPCProto {
       {
         return CallInvoker.AsyncUnaryCall(__Method_DeleteJobInfo, null, options, request);
       }
+      public virtual global::GRPCService.GRPCProto.JobInfo GetAllJobInfos(global::GRPCService.GRPCProto.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAllJobInfos(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.JobInfo GetAllJobInfos(global::GRPCService.GRPCProto.Empty request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetAllJobInfos, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> GetAllJobInfosAsync(global::GRPCService.GRPCProto.Empty request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetAllJobInfosAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.JobInfo> GetAllJobInfosAsync(global::GRPCService.GRPCProto.Empty request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetAllJobInfos, null, options, request);
+      }
       public virtual global::GRPCService.GRPCProto.Empty RejectJobCall(global::GRPCService.GRPCProto.RejectJob request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return RejectJobCall(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -262,10 +318,12 @@ namespace GRPCService.GRPCProto {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_SaveFileInfo, serviceImpl.SaveFileInfo)
+          .AddMethod(__Method_DeleteFileInfo, serviceImpl.DeleteFileInfo)
           .AddMethod(__Method_UpdateOrCreateJob, serviceImpl.UpdateOrCreateJob)
           .AddMethod(__Method_GetJobInfo, serviceImpl.GetJobInfo)
           .AddMethod(__Method_GetImagesInfo, serviceImpl.GetImagesInfo)
           .AddMethod(__Method_DeleteJobInfo, serviceImpl.DeleteJobInfo)
+          .AddMethod(__Method_GetAllJobInfos, serviceImpl.GetAllJobInfos)
           .AddMethod(__Method_RejectJobCall, serviceImpl.RejectJobCall)
           .AddMethod(__Method_DoneJobCall, serviceImpl.DoneJobCall).Build();
     }

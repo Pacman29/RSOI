@@ -34,12 +34,15 @@ namespace DataBaseServer.Jobs
                 
                 if (files[0].JobStatus == EnumJobStatus.Done)
                 {
-                    jobInfo.PdfPath = files.First(fileInfo => fileInfo.FileType == EnumFileType.Pdf).Path;
+                    var pdfInfo = files.First(fileInfo => fileInfo.FileType == EnumFileType.Pdf);
+                    jobInfo.PdfPath = pdfInfo.Path;
+                    jobInfo.PdfId = pdfInfo.Id;
                     jobInfo.Images = files.Where(fileInfo => fileInfo.FileType == EnumFileType.Image)
                         .Select(fileInfo => new ImageResponseModel()
                         {
                             PageNo = fileInfo.PageNo,
-                            Path = fileInfo.Path
+                            Path = fileInfo.Path,
+                            ImgId = fileInfo.Id
                         }).ToList();
                 }
                 var formatter = new BinaryFormatter();

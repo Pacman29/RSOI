@@ -7,6 +7,7 @@ using DataBaseServer.Exceptions.DBExceptions;
 using DataBaseServer.Jobs;
 using Grpc.Core;
 using GRPCService.GRPCProto;
+using FileInfo = GRPCService.GRPCProto.FileInfo;
 
 namespace DataBaseServer
 {
@@ -196,6 +197,54 @@ namespace DataBaseServer
             try
             {
                 var job = new DeleteJobInfoJob(_jobsDbManager, request.JobId)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return jobInfo;
+        }
+
+        public override async Task<JobInfo> DeleteFileInfo(FileInfo request, ServerCallContext context)
+        {
+            Console.WriteLine("Delete File Info");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            try
+            {
+                var job = new DeleteFileInfo(_fileInfosDbManager, DBO.FileInfo.FromGRPCFileInfo(request))
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return jobInfo;
+        }
+
+        public override async Task<JobInfo> GetAllJobInfos(Empty request, ServerCallContext context)
+        {
+            Console.WriteLine("Get All Job Info");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            try
+            {
+                var job = new GetAllJobInfo(_jobsDbManager)
                 {
                     Guid = guid
                 };

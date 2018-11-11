@@ -62,6 +62,16 @@ namespace RSOI.Services.Impl
             });
         }
 
+        public async Task<JobInfo> DeleteFileInfo(FileInfo pdfFileInfo)
+        {
+            return await client.DeleteFileInfoAsync(pdfFileInfo);
+        }
+
+        public async Task<JobInfo> GetAllJobInfos()
+        {
+            return await client.GetAllJobInfosAsync(new Empty());
+        }
+
         public async void Dispose()
         {
             await channel.ShutdownAsync();
