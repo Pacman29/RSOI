@@ -3,49 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
 using Models.Responses;
 using Moq;
 using Newtonsoft.Json;
-using RSOI.Services;
 using Xunit;
 
 namespace RSOI.Test.Controllers
-{ 
-    public class JobControllerTest
-    {
-        public Mock<IDataBaseService> DataBaseServiceMock { get; }
-        public Mock<IFileService> FileServiceMock { get; }
-        public Mock<IRecognizeService> RecognizeServiceMock { get; }
-
-        private TestServer _server;
-        public HttpClient Client { get; set; }
-
-        public JobControllerTest()
-        {            
-            DataBaseServiceMock = new Mock<IDataBaseService>();
-            FileServiceMock = new Mock<IFileService>();
-            RecognizeServiceMock = new Mock<IRecognizeService>();
-
-            _server = new TestServer(new WebHostBuilder().UseStartup<Startup>().ConfigureTestServices( services =>
-            {
-                services.AddSingleton<IDataBaseService>(DataBaseServiceMock.Object);
-                services.AddSingleton<IFileService>(FileServiceMock.Object);
-                services.AddSingleton<IRecognizeService>(RecognizeServiceMock.Object);
-            }));
-
-            Client = _server.CreateClient();
-        }
-
-        
-
+{
+    public class JobControllerTest : BaseControllerTest
+    {     
         [Theory]
         [InlineData("api/job")]
         public async Task Index200(string url)
