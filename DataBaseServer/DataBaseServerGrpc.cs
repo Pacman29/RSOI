@@ -184,6 +184,30 @@ namespace DataBaseServer
             return result;
         }
 
+        public override async Task<JobInfo> DeleteJobInfo(JobInfo request, ServerCallContext context)
+        {
+            Console.WriteLine("Delete job Info");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+            try
+            {
+                var job = new DeleteJobInfoJob(_jobsDbManager, request.JobId)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobAsyncExecute(job, GetHandleJobOk(), GetHandleJobError());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return jobInfo;
+        }
+
         public async void Dispose()
         {
             await _channel.ShutdownAsync();

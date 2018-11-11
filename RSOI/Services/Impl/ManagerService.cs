@@ -145,7 +145,20 @@ namespace RSOI.Services.Impl
             var tcs = new TaskCompletionSource<IActionResult>();
             var task = tcs.Task;
 
+            var deleteJob = _gateWayJobsFabric.DeleteJobHighOrderJob(jobId);
+            deleteJob.OnHaveResult += async res =>
+            {
+                tcs.SetResult(new OkResult());
+            };
+            deleteJob.OnHaveError += async jobError =>
+            {
+                tcs.SetResult(new ObjectResult(jobError)
+                {
+                    StatusCode = jobError.StatusCode
+                });
+            };
             
+            this._jobExecutor.JobAsyncExecute(deleteJob);
             
             return task.Result;
         }

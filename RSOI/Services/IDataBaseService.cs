@@ -10,6 +10,7 @@ namespace RSOI.Services
         Task<JobInfo> UpdateOrCreateJob(JobInfo jobInfo);
         Task<JobInfo> GetJobInfo(string jobId);
         Task<JobInfo> ImagesInfo(string jobId, long firstPageNo, long count);
+        Task<JobInfo> DeleteJobInfo(string jobId);
         Task DoneJob(Guid jobId);
     }
 }

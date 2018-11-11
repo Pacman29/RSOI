@@ -138,9 +138,32 @@ namespace FileServer
             return jobInfo;
         }
 
-        public override Task<JobInfo> DeleteFile(Path request, ServerCallContext context)
+        public override async Task<JobInfo> DeleteFile(Path request, ServerCallContext context)
         {
-            return base.DeleteFile(request, context);
+            Console.WriteLine("Delete file");
+            var guid = Guid.NewGuid();
+            var jobInfo = new JobInfo
+            {
+                JobStatus = EnumJobStatus.Execute, 
+                JobId = guid.ToString()
+            };
+                
+            try
+            {
+                var job = new DeleteFile(request.Path_)
+                {
+                    Guid = guid
+                };
+                _jobExecutor.JobExecute(job, GetHandleJobOk(), GetHandleJobError());
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return jobInfo;
         }
 
         public async void Dispose()

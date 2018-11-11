@@ -20,5 +20,8 @@ namespace RSOI.Jobs
         GetImagesInfoJob GetImagesInfoJob(string jobId, int pageNo, int count);
         GetImageHighOrderJob GetImageHighOrderJob(string jobId, long pageNo);
         GetFilesJob GetFilesJob(List<string> paths);
+        DeleteJobHighOrderJob DeleteJobHighOrderJob(string jobId);
+        DeleteJobFromDatabase DeleteJobFromDatabase(string jobId);
+        DeleteFileJob DeleteFileJob(string path);
     }
 }

@@ -54,6 +54,14 @@ namespace RSOI.Services.Impl
             });
         }
 
+        public async Task<JobInfo> DeleteJobInfo(string jobId)
+        {
+            return await client.DeleteJobInfoAsync(new JobInfo()
+            {
+                JobId = jobId.ToString()
+            });
+        }
+
         public async void Dispose()
         {
             await channel.ShutdownAsync();

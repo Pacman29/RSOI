@@ -8,6 +8,7 @@ service DataBase {
     rpc UpdateOrCreateJob (JobInfo) returns (JobInfo) {} 
     rpc GetJobInfo (JobInfo) returns (JobInfo) {}
     rpc GetImagesInfo (ImagesInfo) returns (JobInfo) {}
+    rpc DeleteJobInfo (JobInfo) returns (JobInfo) {}
     
     rpc RejectJobCall(RejectJob) returns (Empty) {}
     rpc DoneJobCall(DoneJob) returns (Empty) {}

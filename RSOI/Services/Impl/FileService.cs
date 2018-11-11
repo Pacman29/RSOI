@@ -13,7 +13,7 @@ namespace RSOI.Services.Impl
         public FileService(string fileServerUri)
         {
             var channelOptions = new List<ChannelOption>();
-            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
+            channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
             _channel = new Channel(fileServerUri, ChannelCredentials.Insecure, channelOptions);
             Client = new FileServer.FileServerClient(_channel);
         }
@@ -34,6 +34,11 @@ namespace RSOI.Services.Impl
             {
                 FilePaths = {paths}
             });
+        }
+
+        public async Task<JobInfo> DeleteFile(Path path)
+        {
+            return await Client.DeleteFileAsync(path);
         }
     }
 }
