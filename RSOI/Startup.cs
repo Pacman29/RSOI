@@ -12,9 +12,13 @@ namespace RSOI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup()
         {
-            Configuration = configuration;
+            var configurationBuilder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = configurationBuilder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -42,7 +46,7 @@ namespace RSOI
             app.UseMvc();
         }
         
-        private void ConfigureDependencyInjection(IServiceCollection services)
+        public virtual void ConfigureDependencyInjection(IServiceCollection services)
         {            
             
             var dbService = new DataBaseService("localhost:8080");

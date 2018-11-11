@@ -19,6 +19,13 @@ namespace RSOI_Gateway
     public class Program
     {
 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+        }
+            
+        
         public class AspServer : IDisposable
         {
             private  IWebHost aspNet;
@@ -26,10 +33,6 @@ namespace RSOI_Gateway
             {
                 aspNet = CreateWebHostBuilder(args).Build();
             }
-
-            private IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-                WebHost.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>();
             
             public async Task Run()
             {
