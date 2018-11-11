@@ -15,12 +15,6 @@ namespace RSOI.Controllers
         {
             _managerService = managerService;
         }
-        
-        // GET
-        public IActionResult Index()
-        {
-            return Ok("get Files");
-        }
 
         [HttpGet]
         [Route("{jobId}/pdf")]

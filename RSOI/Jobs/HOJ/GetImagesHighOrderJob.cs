@@ -52,7 +52,9 @@ namespace RSOI.Jobs
                         {
                             var getFilesJob =
                                 GateWayJobsFabric.GetFilesJob(images.Images.Select(img => img.Path).ToList());
-                            getFilesJob.OnHaveResult += async zip => { this.InvokeOnHaveResult(zip); };
+                            getFilesJob.OnHaveResult += async zip => {
+                                this.InvokeOnHaveResult(zip);
+                            };
                             return getFilesJob;
                         });
                         this.Executor.JobAsyncExecute(getImagesInfoJob);
