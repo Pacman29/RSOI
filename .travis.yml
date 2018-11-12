@@ -1,0 +1,16 @@
+dist: trusty
+sudo: required
+language: csharp
+solution: RSOI.sln
+
+stages:
+  - name: test
+
+
+jobs:
+  include:
+    - stage: test
+      install: 
+      script:
+        - cd ./Rsoi.Test
+        - dotnet test
