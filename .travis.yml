@@ -12,4 +12,4 @@ jobs:
     - stage: test
       install: 
       script:
-        - dotnet test -c Release --no-build RSOI.Test/RSOI.Test.csproj
+        - dotnet test
