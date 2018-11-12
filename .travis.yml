@@ -1,7 +1,7 @@
 language: csharp
-solution: RSOI.sln
-dotnet:
-  - 2.1.300 # Latest 2.1 Runtime
+
+dotnet: 2.1.4
+sudo: false
   
 stages:
   - name: test
