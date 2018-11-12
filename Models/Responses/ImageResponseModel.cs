@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 
 namespace Models.Responses
@@ -20,6 +21,11 @@ namespace Models.Responses
                    PageNo == other.PageNo &&
                    Path == other.Path &&
                    ImgId == other.ImgId;
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

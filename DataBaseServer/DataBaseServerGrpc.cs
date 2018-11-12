@@ -7,6 +7,8 @@ using DataBaseServer.Exceptions.DBExceptions;
 using DataBaseServer.Jobs;
 using Grpc.Core;
 using GRPCService.GRPCProto;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using FileInfo = GRPCService.GRPCProto.FileInfo;
 
 namespace DataBaseServer
@@ -18,6 +20,7 @@ namespace DataBaseServer
         private readonly GateWay.GateWayClient _gateWay;
         private readonly Channel _channel;
         private readonly JobsDbManager _jobsDbManager;
+        private readonly ILogger<DataBaseServerGrpc> _logger;
 
         public DataBaseServerGrpc() : base()
         {
@@ -28,6 +31,11 @@ namespace DataBaseServer
             channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
+            
+            var loggerFactory = new LoggerFactory()
+                .AddConsole()
+                .AddDebug();
+            this._logger = loggerFactory.CreateLogger<DataBaseServerGrpc>();
         }
 
         private Action<Guid> GetHandleJobOk()
@@ -35,6 +43,7 @@ namespace DataBaseServer
             return async (Guid guid) =>
             {
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
+                this._logger.LogInformation($"OkResponse {guid}");
                 var job = _jobExecutor.GetJob(guid);
                 if (job.Bytes == null)
                     await _gateWay.PostJobInfoAsync(job.GetJobInfo());
@@ -48,8 +57,9 @@ namespace DataBaseServer
         {
             return async (Guid guid, Exception e) =>
             {
-                Console.WriteLine(e);
+                this._logger.LogError(e.Message);
                 _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
+                this._logger.LogError($"ErrorResponse {guid}");
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
                 await _gateWay.PostJobInfoAsync(jobInfo);
@@ -58,7 +68,7 @@ namespace DataBaseServer
         
         public override async Task<JobInfo> SaveFileInfo(GRPCService.GRPCProto.FileInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Save File Info");
+            _logger.LogInformation($"Save File Info ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -82,7 +92,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> UpdateOrCreateJob(JobInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Update or Create Job");
+            _logger.LogInformation($"Update Or Create Job ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -107,7 +117,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> GetJobInfo(JobInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Get Job Info");
+            _logger.LogInformation($"Get Job Info ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -131,7 +141,7 @@ namespace DataBaseServer
         
         public override async Task<JobInfo> GetImagesInfo(ImagesInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Get Images Info");
+            _logger.LogInformation($"Get Images Info ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -187,7 +197,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> DeleteJobInfo(JobInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Delete job Info");
+            _logger.LogInformation($"Delete Job Info ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -211,7 +221,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> DeleteFileInfo(FileInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Delete File Info");
+            _logger.LogInformation($"Delete File Info ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {
@@ -235,7 +245,7 @@ namespace DataBaseServer
 
         public override async Task<JobInfo> GetAllJobInfos(Empty request, ServerCallContext context)
         {
-            Console.WriteLine("Get All Job Info");
+            _logger.LogInformation($"Get All Job Infos ({JsonConvert.SerializeObject(request)})");
             var guid = Guid.NewGuid();
             var jobInfo = new JobInfo
             {

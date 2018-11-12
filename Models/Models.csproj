@@ -21,6 +21,7 @@
       <PackageReference Include="Microsoft.AspNetCore.Http.Features">
         <Version>2.1.1</Version>
       </PackageReference>
+      <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     </ItemGroup>
 
 </Project>

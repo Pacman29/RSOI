@@ -3,33 +3,37 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCService.GRPCProto;
 using JobExecutor;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RSOI.Services.Impl;
 
 namespace RSOI
 {
     public class GateWayServerGrpc : GateWay.GateWayBase
     {
+        public GateWayServerGrpc()
+        {
+            var loggerFactory = new LoggerFactory()
+                .AddConsole()
+                .AddDebug();
+            this._logger = loggerFactory.CreateLogger<GateWayServerGrpc>();
+        }
+
         private readonly IJobExecutor _jobExecutor = JobExecutor.JobExecutor.Instance;
+        private readonly ILogger _logger;
+
+        private string GetMessageInfo(JobInfo jobInfo)
+        {
+            return JsonConvert.SerializeObject(jobInfo);
+        }
 
         public override async Task<Empty> PostJobInfo(JobInfo request, ServerCallContext context)
         {
-            Console.WriteLine("Post Job Info");
-            switch (request.JobStatus)
-            {
-                    case EnumJobStatus.Execute: 
-                        Console.WriteLine($"{request.JobId} execute");
-                        break;
-                    case EnumJobStatus.Done:
-                        Console.WriteLine($"{request.JobId} done");
-                        break;
-                    case EnumJobStatus.Error:
-                        Console.WriteLine($"{request.JobId} error; {request.Message}");
-                        break;
-            }
+            _logger.LogInformation(GetMessageInfo(request));
             var res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId), request.JobStatus);
             while (res == false)
             {
-                Console.WriteLine("status not set");
+                _logger.LogWarning($"{request.JobId} status not set");
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobId), request.JobStatus);
             }
@@ -38,24 +42,12 @@ namespace RSOI
         
         public override async Task<Empty> PostJobInfoWithBytes(JobInfoWithBytes request, ServerCallContext context)
         {
-            Console.WriteLine("Post Job Info with Bytes");
-            switch (request.JobInfo.JobStatus)
-            {
-                case EnumJobStatus.Execute: 
-                    Console.WriteLine($"{request.JobInfo.JobId} execute");
-                    break;
-                case EnumJobStatus.Done:
-                    Console.WriteLine($"{request.JobInfo.JobId} done");
-                    break;
-                case EnumJobStatus.Error:
-                    Console.WriteLine($"{request.JobInfo.JobId} error; {request.JobInfo.Message}");
-                    break;
-            }
-            
+            _logger.LogInformation(GetMessageInfo(request.JobInfo));
+
             var res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId),request.JobInfo.JobStatus, request.Bytes.ToByteArray());
             while (res == false)
             {
-                Console.WriteLine("status not set");
+                _logger.LogWarning($"{request.JobInfo.JobId} status not set");
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 res = _jobExecutor.SetJobStatusByServiceGuid(new Guid(request.JobInfo.JobId), request.JobInfo.JobStatus, request.Bytes.ToByteArray());
             }

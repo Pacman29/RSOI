@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Models.Requests
 {
@@ -9,5 +10,10 @@ namespace Models.Requests
         
         [FromQuery(Name = "Count")]
         public int Count { get; set; } = 10;
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

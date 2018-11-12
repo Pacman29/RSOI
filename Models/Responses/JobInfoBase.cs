@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 
 namespace Models.Responses
@@ -18,6 +19,11 @@ namespace Models.Responses
             return other != null &&
                    JobId == other.JobId &&
                    JobStatus == other.JobStatus;
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

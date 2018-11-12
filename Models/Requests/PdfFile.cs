@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GRPCService.GRPCProto;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using FileInfo = GRPCService.GRPCProto.FileInfo;
 
 namespace Models.Requests
@@ -43,6 +44,11 @@ namespace Models.Requests
                     return ms.ToArray();
                 }
             }
-        } 
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

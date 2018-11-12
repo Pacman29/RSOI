@@ -1,5 +1,7 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+
 
 namespace Models.Responses
 {
@@ -23,6 +25,11 @@ namespace Models.Responses
                    JobStatus == other.JobStatus &&
                    PdfPath == other.PdfPath &&
                    PdfId == other.PdfId;
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using GRPCService.GRPCProto;
 using JobExecutor;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RecognizePdfServer.Jobs;
 
 namespace RecognizePdfServer
@@ -17,6 +19,7 @@ namespace RecognizePdfServer
         private readonly IJobExecutor _jobExecutor;
         private readonly GateWay.GateWayClient _gateWay;
         private readonly Channel _channel;
+        private readonly ILogger<PdfRecognizeServerGrpc> _logger;
 
         public PdfRecognizeServerGrpc()
         {
@@ -25,13 +28,19 @@ namespace RecognizePdfServer
             channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1));
             _channel = new Channel("localhost",8001,ChannelCredentials.Insecure,channelOptions);
             _gateWay = new GateWay.GateWayClient(_channel);
+
+            var loggerFactory = new LoggerFactory()
+                .AddConsole()
+                .AddDebug();
+            this._logger = loggerFactory.CreateLogger<PdfRecognizeServerGrpc>();
         }
 
         private Action<Guid> GetHandleJobOk()
         {
             return async (Guid guid) =>
             {
-                _jobExecutor.SetJobStatus(guid,EnumJobStatus.Done);
+                _jobExecutor.SetJobStatus(guid, EnumJobStatus.Done);
+                this._logger.LogInformation($"OkResponse {guid}");
                 var job = _jobExecutor.GetJob(guid);
                 if (job.Bytes == null)
                     await _gateWay.PostJobInfoAsync(job.GetJobInfo());
@@ -44,8 +53,9 @@ namespace RecognizePdfServer
         {
             return async (Guid guid, Exception e) =>
             {
-                Console.WriteLine(e);
-                _jobExecutor.SetJobStatus(guid,EnumJobStatus.Error);
+                this._logger.LogError(e.Message);
+                _jobExecutor.SetJobStatus(guid, EnumJobStatus.Error);
+                this._logger.LogError($"ErrorResponse {guid}");
                 var jobInfo = _jobExecutor.GetJob(guid).GetJobInfo();
                 jobInfo.Message = e.ToString();
                 await _gateWay.PostJobInfoAsync(jobInfo);
@@ -56,7 +66,7 @@ namespace RecognizePdfServer
 
         public override async Task<JobInfo> RecognizePdf(PdfFile request, ServerCallContext context)
         {
-            Console.WriteLine("RecognizePdf");
+            _logger.LogInformation($"Recognize pdf ({JsonConvert.SerializeObject(request)})");
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var pages = request.Pages.ToArray();
 
