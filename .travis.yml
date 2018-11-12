@@ -2,7 +2,9 @@ dist: trusty
 sudo: required
 language: csharp
 solution: RSOI.sln
-
+dotnet:
+  - 2.1.300 # Latest 2.1 Runtime
+  
 stages:
   - name: test
 
