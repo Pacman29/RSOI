@@ -1,0 +1,15 @@
+language: csharp
+mono: none
+dotnet: 2.1.403
+sudo: false
+  
+stages:
+  - name: test
+
+
+jobs:
+  include:
+    - stage: test
+      install: 
+      script: 
+        - sh build.sh
