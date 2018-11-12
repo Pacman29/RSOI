@@ -24,10 +24,7 @@ namespace RSOI.Jobs
 
         public override async Task ExecuteAsync()
         {
-            var jobInfo = await FileService.DeleteFile(new Path()
-            {
-                Path_ = this._path
-            });
+            var jobInfo = await FileService.DeleteFile(this._path);
             this.ServiceGuid = new Guid(jobInfo.JobId);
             this.JobStatus = jobInfo.JobStatus;
         }

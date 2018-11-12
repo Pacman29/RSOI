@@ -36,9 +36,11 @@ namespace RSOI.Services.Impl
             });
         }
 
-        public async Task<JobInfo> DeleteFile(Path path)
+        public async Task<JobInfo> DeleteFile(string path)
         {
-            return await Client.DeleteFileAsync(path);
+            return await Client.DeleteFileAsync(new Path() {
+                Path_ = path
+            });
         }
     }
 }

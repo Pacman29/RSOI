@@ -9,6 +9,6 @@ namespace RSOI.Services
         Task<JobInfo> SaveFile(File file);
         Task<JobInfo> GetFile(Path path);
         Task<JobInfo> GetFiles(IEnumerable<string> paths);
-        Task<JobInfo> DeleteFile(Path path);
+        Task<JobInfo> DeleteFile(string path);
     }
 }
