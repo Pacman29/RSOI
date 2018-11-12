@@ -28,6 +28,7 @@ namespace RSOI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+			services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             ConfigureDependencyInjection(services);
         }
@@ -45,6 +46,11 @@ namespace RSOI
             }
 
             //app.UseHttpsRedirection();
+			app.UseCors(builder => builder
+				.AllowAnyOrigin()
+				.AllowAnyMethod()
+				.AllowAnyHeader()
+				.AllowCredentials());  
             app.UseMvc();
             loggerFactory.AddProvider(new ConsoleLoggerProvider(
                 (text, logLevel) => logLevel >= LogLevel.Information , true));
