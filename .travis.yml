@@ -1,5 +1,5 @@
 language: csharp
-
+mono: none
 dotnet: 2.1.4
 sudo: false
   
@@ -12,5 +12,4 @@ jobs:
     - stage: test
       install: 
       script:
-        - cd ./Rsoi.Test
-        - dotnet test
+        - dotnet test -c Release --no-build RSOI.Test/RSOI.Test.csproj
