@@ -11,6 +11,4 @@ jobs:
   include:
     - stage: test
       install: 
-      script:
-        - cd "RSOI.Test"
-        - dotnet test
+      script: build.sh
