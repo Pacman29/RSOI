@@ -66,11 +66,13 @@ namespace RecognizePdfServer
 
         public override async Task<JobInfo> RecognizePdf(PdfFile request, ServerCallContext context)
         {
-            _logger.LogInformation($"Recognize pdf ({JsonConvert.SerializeObject(request)})");
+            
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var pages = request.Pages.ToArray();
 
             var guid = Guid.NewGuid();
+            _logger.LogInformation($"Recognize pdf ({JsonConvert.SerializeObject(guid.ToString())})");
+
             var jobInfo = new JobInfo
             {
                 JobStatus = EnumJobStatus.Execute, 

@@ -1,4 +1,5 @@
 import {observable, action} from "mobx";
+import Job from "../models/job";
 
 
 export default class JobsStore {
@@ -14,7 +15,7 @@ export default class JobsStore {
         return this._apiService.API.Jobs.allJobs()
             .then(action((res) => {
             this.isLoading = false;
-            return res;
+            return res.map(jsonJob => Job.fromJson(jsonJob));
         })).catch(action(e => {
             this.isLoading = false;
             return e;

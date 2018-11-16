@@ -23,7 +23,7 @@ namespace RecognizePdfServer.Jobs
 
         private void RecognizePage(ZipArchive archive, PdfPage page)
         {
-            var entry = archive.CreateEntry($"{page.Index}.jpg");
+            var entry = archive.CreateEntry($"{page.Index}.jpeg");
             using (var bitmap = new PDFiumBitmap((int) page.Width, (int) page.Height, true))
             using (var entryStream = entry.Open())
             {
