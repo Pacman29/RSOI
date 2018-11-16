@@ -4,17 +4,17 @@ import {inject, observer} from "mobx-react";
 import {action, computed, observable} from "mobx";
 import {RouterStore} from "mobx-react-router";
 import PropTypes from "prop-types";
-import {Button, Page, Toolbar} from "react-onsenui";
 import JobsStore from "../stores/JobsStore";
 import Loader from "./loader";
 import DataStore from "../stores/dataStore";
-import MainPage from "./mainPage";
+import JobsList from "./jobsList";
+import {Page, Navbar, Block} from "framework7-react";
 
 @inject('routing')
 @inject('jobsStore')
 @inject('dataStore')
 @observer
-export default class App extends Component {
+export default class AppMainPage extends Component {
     static propTypes = {
         routing: PropTypes.instanceOf(RouterStore),
         jobsStore: PropTypes.instanceOf(JobsStore),
@@ -31,7 +31,7 @@ export default class App extends Component {
         this.loadAllJobs();
     }
 
-    @action loadAllJobs(){
+    @action loadAllJobs = () =>{
         this.props.jobsStore.getAllJobs()
             .then(action(res => {
                 this.props.dataStore.createOrUpdateJobs(res);
@@ -45,17 +45,18 @@ export default class App extends Component {
         return this._jobs;
     }
 
+    @action reloadJobs = (evt,done) => {
+        this.loadAllJobs();
+        done();
+    };
+
     render(){
         return (
-            <Page renderToolbar={() =>(
-                <Toolbar>
-                    <div className="center">Recognize Service</div>
-                </Toolbar>
-            )}>
-
-                <Loader isLoading={this.props.jobsStore.isLoading}>
-                    <MainPage jobs={this.jobs}/>
-                </Loader>
+            <Page ptr onPtrRefresh={this.reloadJobs}>
+                <Navbar title="Recognize Service"/>
+                    <Loader isLoading={this.props.jobsStore.isLoading}>
+                        <JobsList jobs={this.jobs}/>
+                    </Loader>
             </Page>
         );
     }

@@ -7,9 +7,11 @@ export default class FilesApi extends BaseApi{
 
     async getImage(jobId,pageNo = 0){
         try {
-            let result = await this.axios.get(`api/files/${jobId}/image?PageNo=${pageNo}`);
+            let result = await this.axios.get(`api/files/${jobId}/image?PageNo=${pageNo}`,{
+                responseType: 'blob',
+            });
             console.log(result);
-            return result.data
+            return new Blob([result.data],{type: "image/jpeg"})
         } catch (e) {
             throw e;
         }
@@ -17,9 +19,11 @@ export default class FilesApi extends BaseApi{
 
     async getPdf(jobId){
         try {
-            let result = await this.axios.get(`api/files/${jobId}/pdf`);
+            let result = await this.axios.get(`api/files/${jobId}/pdf`,{
+                responseType: 'blob',
+            });
             console.log(result);
-            return result.data
+            return result.data;
         } catch (e) {
             throw e;
         }
@@ -27,7 +31,9 @@ export default class FilesApi extends BaseApi{
 
     async getImages(jobId,firstPage = 0,count = 0){
         try {
-            let result = await this.axios.get(`api/files/${jobId}/images?FirstPage=${firstPage}&Count=${count}`);
+            let result = await this.axios.get(`api/files/${jobId}/images?FirstPage=${firstPage}&Count=${count}`,{
+                responseType: 'blob',
+            });
             console.log(result);
             return result.data
         } catch (e) {

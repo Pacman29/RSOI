@@ -23,4 +23,45 @@ export default class JobsStore {
             this.isLoading = false;
         }));
     }
+
+    getStoreForJobId(jobId){
+        return new JobsStoreByJobId(this._apiService,jobId);
+    }
+}
+
+class JobsStoreByJobId{
+    @observable isLoading;
+
+    constructor(apiService, jobId){
+        this.isLoading = false;
+        this._apiService = apiService;
+        this._jobId = jobId;
+    }
+
+    @action getJobInfo(){
+        this.isLoading = true;
+        return this._apiService.API.Jobs.getJobInfo(this._jobId)
+            .then(action((res) => {
+                this.isLoading = false;
+                return Job.fromJson(res);
+            })).catch(action(e => {
+                this.isLoading = false;
+                return e;
+            })).finally(action(() => {
+                this.isLoading = false;
+            }));
+    }
+
+    @action deleteJob(){
+        this.isLoading = true;
+        return this._apiService.API.Jobs.deleteJob(this._jobId)
+            .then(action((res) => {
+                return true;
+            })).catch(action(e => {
+                this.isLoading = false;
+                return e;
+            })).finally(action(() => {
+                this.isLoading = false;
+            }));
+    }
 }

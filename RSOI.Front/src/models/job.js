@@ -1,8 +1,8 @@
 export const enumJobStatus = {
-    EXECUTE: 0,
-    DONE: 1,
-    ERROR: 2,
-    REJECTED: 3,
+    EXECUTE: "Execute",
+    DONE: "Ok",
+    ERROR: "Error",
+    REJECTED: "Rejected",
 
     fromString(str){
         return this[str.toUpperCase()];
@@ -10,9 +10,10 @@ export const enumJobStatus = {
 };
 
 export default class Job {
-    constructor(jobId, status){
+    constructor(jobId, status, pageCount = 0){
         this.jobId = jobId;
         this.status = status;
+        this.pageCount = pageCount
     }
 
     static getEnumStatus(str){
@@ -21,6 +22,7 @@ export default class Job {
     }
 
     static fromJson(obj){
-        return new Job(obj.jobId, enumJobStatus.fromString(obj.jobStatus))
+        let length = obj.images === undefined ? 0 : obj.images.length;
+        return new Job(obj.jobId, enumJobStatus.fromString(obj.jobStatus),length)
     }
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {ProgressCircular} from "react-onsenui";
+//import {ProgressCircular} from "react-onsenui";
 import {observer} from "mobx-react";
+import {Preloader} from "framework7-react";
 
 const styles = {
     progressStyle: {
@@ -27,15 +28,10 @@ export default class Loader extends React.Component{
     }
 
     render(){
-        return (
-            <div>
-                {this.props.isLoading ? (
+        return this.props.isLoading ? (
                     <div style={styles.loaderStyle}>
-                        <ProgressCircular style={styles.progressStyle} indeterminate />
+                        <Preloader style={styles.progressStyle} />
                     </div>
-
-                ) : this.props.children}
-            </div>
-        )
+                ) : this.props.children;
     }
 }
