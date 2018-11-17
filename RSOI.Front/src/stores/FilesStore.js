@@ -42,7 +42,6 @@ class JobIdFileStore {
         this.isLoading = true;
         return this._apiService.API.Files.getImage(this._jobId, pageNo)
             .then(action((res) => {
-                this.isLoading = false;
                 return res
             })).catch(action(e => {
                 this.isLoading = false;
@@ -57,7 +56,6 @@ class JobIdFileStore {
         return this._apiService.API.Files.getPdf(this._jobId)
             .then(action((res) => {
                 FileSaver.saveAs(res,`${this._jobId}.pdf`);
-                this.isLoading = false;
                 return true
             })).catch(action(e => {
                 this.isLoading = false;
@@ -72,7 +70,6 @@ class JobIdFileStore {
         return this._apiService.API.Files.getImages(this._jobId,firstPage,count)
             .then(action((res) => {
                 FileSaver.saveAs(res,`${this._jobId}.zip`);
-                this.isLoading = false;
                 return true
             })).catch(action(e => {
                 this.isLoading = false;

@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Block, Navbar, Page, List, ListButton, Row, Col, Stepper} from "framework7-react";
+import {Block, Navbar, Page, List, ListButton, PhotoBrowser, Stepper} from "framework7-react";
 import {inject, observer} from "mobx-react";
 import JobsStore from "../stores/JobsStore";
 import {computed, observable, action} from "mobx";
 import Loader from "./loader";
 import Job from "../models/job";
 import FilesStore from "../stores/FilesStore";
+import PageShower from "./pagesShower";
 
 @inject('jobsStore')
 @inject('filesStore')
@@ -19,7 +20,7 @@ export default class JobInfoPage extends React.Component {
 
     @observable _job = new Job("","","");
     firstPage = 0;
-    count = 10;
+    count = 0;
 
     constructor(props){
         super(props);
@@ -30,6 +31,7 @@ export default class JobInfoPage extends React.Component {
     @computed get job(){
         return this._job;
     }
+
 
     @action loadJob(){
         this.jobStore.getJobInfo()
@@ -46,7 +48,7 @@ export default class JobInfoPage extends React.Component {
     }
 
     handleShowImages = (evt) => {
-        console.log("Show Images")
+        this.pdfBrowser.open()
     };
 
     handleDownloadImages = (evt) => {
@@ -65,7 +67,11 @@ export default class JobInfoPage extends React.Component {
     };
 
     handleUpdateJob = (evt) => {
-        console.log("Show Images")
+        this.$f7router.navigate(`/updateJob`, {
+            props: {
+                job: this.job
+            }
+        });
     };
 
     handleFirstPageChange = (evt) => {
@@ -75,6 +81,7 @@ export default class JobInfoPage extends React.Component {
     handleCountChange = (evt) => {
         this.count = evt;
     };
+
 
     render(){
         return (
@@ -98,13 +105,14 @@ export default class JobInfoPage extends React.Component {
                     <div style={{display: "flex",justifyContent: "space-around"}}>
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <small style={{display: "flex",justifyContent: "center"}}>First page</small>
-                            <Stepper value={this.firstPage} onStepperChange={this.handleFirstPageChange}></Stepper>
+                            <Stepper value={this.firstPage} max={1000} onStepperChange={this.handleFirstPageChange}/>
                         </div>
                         <div style={{display: "flex", flexDirection: "column"}}>
                             <small style={{display: "flex",justifyContent: "center"}}>Count</small>
-                            <Stepper value={this.count} onStepperChange={this.handleCountChange}></Stepper>
+                            <Stepper value={this.count} max={1000} onStepperChange={this.handleCountChange}/>
                         </div>
                     </div>
+                    <PageShower job={this.job} refLink={ref => this.pdfBrowser = ref}/>
                     <List inset>
                         <ListButton title="Show pages" onClick={this.handleShowImages}/>
                         <ListButton title="Download pdf" onClick={this.handleDownloadPdf}/>

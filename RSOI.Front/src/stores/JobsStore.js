@@ -10,11 +10,36 @@ export default class JobsStore {
         this._apiService = apiService
     }
 
+    @action createJob(file){
+        this.isLoading = true;
+        return this._apiService.API.Jobs.recognizePdf(file)
+            .then(action((res) => {
+                return Job.fromJson(res);
+            })).catch(action(e => {
+                this.isLoading = false;
+                return e;
+            })).finally(action(() => {
+                this.isLoading = false;
+            }));
+    }
+
+    @action updateJob(jobId,file){
+        this.isLoading = true;
+        return this._apiService.API.Jobs.updateJob(jobId,file)
+            .then(action((res) => {
+                return Job.fromJson(res);
+            })).catch(action(e => {
+                this.isLoading = false;
+                return e;
+            })).finally(action(() => {
+                this.isLoading = false;
+            }));
+    }
+
     @action getAllJobs(){
         this.isLoading = true;
         return this._apiService.API.Jobs.allJobs()
             .then(action((res) => {
-            this.isLoading = false;
             return res.map(jsonJob => Job.fromJson(jsonJob));
         })).catch(action(e => {
             this.isLoading = false;
@@ -42,7 +67,6 @@ class JobsStoreByJobId{
         this.isLoading = true;
         return this._apiService.API.Jobs.getJobInfo(this._jobId)
             .then(action((res) => {
-                this.isLoading = false;
                 return Job.fromJson(res);
             })).catch(action(e => {
                 this.isLoading = false;
@@ -57,6 +81,19 @@ class JobsStoreByJobId{
         return this._apiService.API.Jobs.deleteJob(this._jobId)
             .then(action((res) => {
                 return true;
+            })).catch(action(e => {
+                this.isLoading = false;
+                return e;
+            })).finally(action(() => {
+                this.isLoading = false;
+            }));
+    }
+
+    @action updateJob(file){
+        this.isLoading = true;
+        return this._apiService.API.Jobs.updateJob(this._jobId,file)
+            .then(action((res) => {
+                return Job.fromJson(res);
             })).catch(action(e => {
                 this.isLoading = false;
                 return e;

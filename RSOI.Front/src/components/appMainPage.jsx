@@ -8,7 +8,8 @@ import JobsStore from "../stores/JobsStore";
 import Loader from "./loader";
 import DataStore from "../stores/dataStore";
 import JobsList from "./jobsList";
-import {Page, Navbar, Block} from "framework7-react";
+import {Page, Navbar, Block, Fab} from "framework7-react";
+import {Icon} from "framework7-react";
 
 @inject('routing')
 @inject('jobsStore')
@@ -50,6 +51,10 @@ export default class AppMainPage extends Component {
         done();
     };
 
+    @action handleOnCreateJobClick = (evt) => {
+        this.$f7router.navigate(`/createJob`);
+    };
+
     render(){
         return (
             <Page ptr onPtrRefresh={this.reloadJobs}>
@@ -57,6 +62,9 @@ export default class AppMainPage extends Component {
                     <Loader isLoading={this.props.jobsStore.isLoading}>
                         <JobsList jobs={this.jobs}/>
                     </Loader>
+                <Fab position="right-bottom" slot="fixed" color="orange" onClick={this.handleOnCreateJobClick}>
+                    <Icon ios="f7:add" md="material:add"></Icon>
+                </Fab>
             </Page>
         );
     }

@@ -45,26 +45,10 @@ const stores = {
     routingHistory: history
 };
 
-// ons.ready(() => render(
-//     <div>
-//         <DevTools />
-//         <Provider {...stores}>
-//             <React.Fragment>
-//                 <Router history={history}>
-//                     <Switch>
-//                         <Route path="/" component={AppMainPage}/>
-//                     </Switch>
-//                 </Router>
-//             </React.Fragment>
-//         </Provider>
-//     </div>,
-//     document.getElementById("root")
-// ));
-
 
 ReactDOM.render(
     <React.Fragment>
-        <DevTools />
+        {/*<DevTools />*/}
         <Provider {...stores}>
             <Root/>
         </Provider>

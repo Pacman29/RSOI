@@ -5,9 +5,17 @@ export default class FilesApi extends BaseApi{
         super(axios);
     }
 
+    getImageURL(jobId,pageNo = 0){
+        return `api/files/${jobId}/image?PageNo=${pageNo}`
+    }
+
+    getImageURLWithHost(jobId,pageNo = 0){
+        return `${this.axios.defaults.baseURL}/${this.getImageURL(jobId,pageNo)}`
+    }
+
     async getImage(jobId,pageNo = 0){
         try {
-            let result = await this.axios.get(`api/files/${jobId}/image?PageNo=${pageNo}`,{
+            let result = await this.axios.get(this.getImageURL(jobId,pageNo),{
                 responseType: 'blob',
             });
             console.log(result);

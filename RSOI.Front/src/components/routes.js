@@ -1,6 +1,8 @@
 import AppMainPage from "./appMainPage";
 import NotFoundPage from "./NotFoundPage";
 import JobInfoPage from "./jobInfoPage";
+import CreateJobPage from "./createJobPage";
+import UpdateJobPage from "./updateJobPage";
 
 export default [
     {
@@ -14,6 +16,22 @@ export default [
     {
         path: '/jobInfo/:jobId',
         component: JobInfoPage,
+        options: {
+            history: true,
+            pushState: true
+        }
+    },
+    {
+        path: '/createJob',
+        component: CreateJobPage,
+        options: {
+            history: true,
+            pushState: true
+        }
+    },
+    {
+        path: '/updateJob',
+        component: UpdateJobPage,
         options: {
             history: true,
             pushState: true

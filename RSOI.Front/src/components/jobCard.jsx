@@ -4,7 +4,7 @@ import Job, {enumJobStatus} from "../models/job";
 import {inject, observer} from "mobx-react";
 import {computed, observable, action} from "mobx";
 import FilesStore from "../stores/FilesStore";
-import {Card, CardHeader,CardContent,CardFooter,Link} from "framework7-react";
+import {Card, CardHeader,CardContent,CardFooter,Link, Chip} from "framework7-react";
 import Loader from "./loader";
 
 @inject('filesStore')
@@ -56,18 +56,24 @@ export default class JobCard extends React.Component{
                             <CardContent>
                                 {this.props.job.jobId}
                             </CardContent>
-                            <CardFooter>
-                                {this.props.job.status}
-                                <Link href={`/jobInfo/${this.props.job.jobId}`}>
-                                    Show more
-                                </Link>
+                            <CardFooter >
+                                <Chip text={this.props.job.status} color="green" />
+                                <span style={{display: "flex", justifyContent: "center", minWidth: "100%"}}>
+                                    <Link href={`/jobInfo/${this.props.job.jobId}`}>
+                                        Show more
+                                    </Link>
+                                </span>
                             </CardFooter>
                         </Loader>
                     </Card>
                 );
             default:
                 return (
-                    <Card title={this.props.job.jobId} footer={this.props.job.status}/>
+                    <Card title={this.props.job.jobId}>
+                        <CardFooter>
+                            <Chip text={this.props.job.status} color="orange" />
+                        </CardFooter>
+                    </Card>
                 );
         }
     }
