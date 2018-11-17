@@ -65,9 +65,10 @@ namespace FileServer
 
         public override async Task<JobInfo> SaveFile(File request, ServerCallContext context)
         {
-            _logger.LogInformation($"Save File ({JsonConvert.SerializeObject(request)})");
+            
             var memoryStream = new MemoryStream(request.Bytes.ToByteArray());
             var guid = Guid.NewGuid();
+            _logger.LogInformation($"Save File ({JsonConvert.SerializeObject(guid.ToString())})");
             var jobInfo = new JobInfo
             {
                 JobStatus = EnumJobStatus.Execute, 
