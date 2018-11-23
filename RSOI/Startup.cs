@@ -1,4 +1,5 @@
-﻿using JobExecutor;
+﻿using AuthOptions;
+using JobExecutor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +52,9 @@ namespace RSOI
 				.AllowAnyMethod()
 				.AllowAnyHeader()
 				.AllowCredentials());  
+            
+            app.UseAuthentication();
+            
             app.UseMvc();
             loggerFactory.AddProvider(new ConsoleLoggerProvider(
                 (text, logLevel) => logLevel >= LogLevel.Information , true));
@@ -60,6 +64,7 @@ namespace RSOI
         
         public virtual void ConfigureDependencyInjection(IServiceCollection services)
         {            
+            SetupAuthServices.Setup(services,Configuration);
             
             var dbService = new DataBaseService("localhost:8080");
             services.AddSingleton<IDataBaseService>(dbService);
