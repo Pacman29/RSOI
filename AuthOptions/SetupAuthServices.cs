@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthOptions
 {
-    public static class SetupServices
+    public static class SetupAuthServices
     {
         public static void Setup(IServiceCollection services , IConfiguration configuration)
         {

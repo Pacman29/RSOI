@@ -18,9 +18,6 @@ namespace RecognizePdfServer
         
         static void Main(string[] args)
         {
-            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH",
-                Environment.GetEnvironmentVariable("LD_LIBRARY_PATH") + 
-                "\"/home/pacman29/Рабочий стол/RSOI/RecognizePdfServer/bin/Debug/netcoreapp2.1\":");
             server = GrpcServerCreator.Create("0.0.0.0", 8081, Recognize.BindService(new PdfRecognizeServerGrpc()));
             server.Start();
             Console.WriteLine("PdfServer listening on port " + 8081);

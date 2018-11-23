@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AuthOptions\AuthOptions.csproj" />
       <ProjectReference Include="..\GRPCService\GRPCService.csproj" />
       <ProjectReference Include="..\JobExecutor\JobExecutor.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />

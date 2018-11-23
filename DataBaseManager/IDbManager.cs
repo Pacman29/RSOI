@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DataBaseServer.DBO;
 
-namespace DataBaseServer.Contexts
+namespace DataBaseManager
 {
     public interface IDbManager<T> where T : class, IEntity 
     {

@@ -1,7 +1,7 @@
 namespace Models.Requests
 {
-    public class PasswordUpdateRequestModel
+    public class PasswordUpdateRequestModel : AccountRequestModel
     {
-        
+        public string OldPassword { get; set; }
     }
 }
