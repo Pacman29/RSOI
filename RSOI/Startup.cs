@@ -72,6 +72,8 @@ namespace RSOI
             services.AddSingleton<IRecognizeService>(recognizeService);
             var fileService = new FileService("localhost:8082");
             services.AddSingleton<IFileService>(fileService);
+            var authService = new AuthService("localhost:8083");
+            services.AddSingleton<IAuthService>(authService);
 
             var executor = JobExecutor.JobExecutor.Instance;
             services.AddSingleton<IJobExecutor>(executor);

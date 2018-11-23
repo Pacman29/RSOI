@@ -17,7 +17,7 @@ namespace AuthServer.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : Controller
+    public class AccountController : Controller, IAuthController
     {
         private readonly AuthOptions.AuthOptions _authOptions;
         private readonly UserManager<IdentityUser> _userManager;

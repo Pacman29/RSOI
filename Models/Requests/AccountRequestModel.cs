@@ -11,5 +11,10 @@ namespace Models.Requests
         {
             return JsonConvert.SerializeObject(this);
         }
+
+        public static AccountRequestModel fromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<AccountRequestModel>(json);
+        }
     }
 }

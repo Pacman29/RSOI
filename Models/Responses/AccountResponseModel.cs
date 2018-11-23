@@ -11,5 +11,10 @@ namespace Models.Responses
         {
             return JsonConvert.SerializeObject(this);
         }
+        
+        public static AccountResponseModel fromJson(string json)
+        {
+            return JsonConvert.DeserializeObject<AccountResponseModel>(json);
+        }
     }
 }
