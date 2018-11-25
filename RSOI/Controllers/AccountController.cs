@@ -12,7 +12,7 @@ namespace RSOI.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : Controller, IAuthController
+    public class AccountController : Controller
     {
         private readonly IAuthService _authService;
 

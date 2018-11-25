@@ -24,54 +24,60 @@ namespace GRPCService.GRPCProto {
     static ServicesReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg5zZXJ2aWNlcy5wcm90bxIJR1JQQ1Byb3RvIhoKBVBhdGhzEhEKCWZpbGVQ",
-            "YXRocxgBIAMoCSIUCgRQYXRoEgwKBHBhdGgYASABKAkiOAoERmlsZRIhCghm",
-            "aWxlUGF0aBgBIAEoCzIPLkdSUENQcm90by5QYXRoEg0KBWJ5dGVzGAIgASgM",
-            "IicKB1BkZkZpbGUSDQoFcGFnZXMYASADKAUSDQoFYnl0ZXMYAiABKAwiBwoF",
-            "RW1wdHkiVgoHSm9iSW5mbxIrCglKb2JTdGF0dXMYASABKA4yGC5HUlBDUHJv",
-            "dG8uRW51bUpvYlN0YXR1cxINCgVKb2JJZBgCIAEoCRIPCgdNZXNzYWdlGAMg",
-            "ASgJIkYKEEpvYkluZm9XaXRoQnl0ZXMSIwoHam9iSW5mbxgBIAEoCzISLkdS",
-            "UENQcm90by5Kb2JJbmZvEg0KBWJ5dGVzGAIgASgMIo8BCghGaWxlSW5mbxIp",
-            "CghmaWxlVHlwZRgBIAEoDjIXLkdSUENQcm90by5FbnVtRmlsZVR5cGUSCwoD",
-            "TUQ1GAIgASgJEhIKCkZpbGVMZW5ndGgYAyABKAMSDAoEUGF0aBgEIAEoCRIN",
-            "CgVKb2JJZBgFIAEoCRIOCgZQYWdlTm8YBiABKAMSCgoCSWQYByABKAMiNwoO",
-            "Q29tbW9uUmVzcG9uc2USDwoHaXNFcnJvchgBIAEoCBIUCgxFcnJvck1lc3Nh",
-            "Z2UYAiABKAkiWgoeRGF0YWJhc2VDcmVhdGVGaWxlSW5mb1Jlc3BvbnNlEigK",
-            "BWVycm9yGAEgASgLMhkuR1JQQ1Byb3RvLkNvbW1vblJlc3BvbnNlEg4KBmZp",
-            "bGVJZBgCIAEoCSI/CgpJbWFnZXNJbmZvEg0KBUpvYklkGAEgASgJEhMKC0Zp",
-            "cnN0UGFnZU5vGAIgASgDEg0KBUNvdW50GAMgASgDIhoKCVJlamVjdEpvYhIN",
-            "CgVKb2JJZBgBIAEoCSIYCgdEb25lSm9iEg0KBUpvYklkGAEgASgJKj8KDUVu",
-            "dW1Kb2JTdGF0dXMSCwoHRVhFQ1VURRAAEggKBERPTkUQARIJCgVFUlJPUhAC",
-            "EgwKCFJFSkVDVEVEEAMqIgoMRW51bUZpbGVUeXBlEgkKBUltYWdlEAASBwoD",
-            "UGRmEAEyngQKCERhdGFCYXNlEjkKDFNhdmVGaWxlSW5mbxITLkdSUENQcm90",
-            "by5GaWxlSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASOwoORGVsZXRlRmls",
-            "ZUluZm8SEy5HUlBDUHJvdG8uRmlsZUluZm8aEi5HUlBDUHJvdG8uSm9iSW5m",
-            "byIAEj0KEVVwZGF0ZU9yQ3JlYXRlSm9iEhIuR1JQQ1Byb3RvLkpvYkluZm8a",
-            "Ei5HUlBDUHJvdG8uSm9iSW5mbyIAEjYKCkdldEpvYkluZm8SEi5HUlBDUHJv",
-            "dG8uSm9iSW5mbxoSLkdSUENQcm90by5Kb2JJbmZvIgASPAoNR2V0SW1hZ2Vz",
-            "SW5mbxIVLkdSUENQcm90by5JbWFnZXNJbmZvGhIuR1JQQ1Byb3RvLkpvYklu",
-            "Zm8iABI5Cg1EZWxldGVKb2JJbmZvEhIuR1JQQ1Byb3RvLkpvYkluZm8aEi5H",
-            "UlBDUHJvdG8uSm9iSW5mbyIAEjgKDkdldEFsbEpvYkluZm9zEhAuR1JQQ1By",
-            "b3RvLkVtcHR5GhIuR1JQQ1Byb3RvLkpvYkluZm8iABI5Cg1SZWplY3RKb2JD",
-            "YWxsEhQuR1JQQ1Byb3RvLlJlamVjdEpvYhoQLkdSUENQcm90by5FbXB0eSIA",
-            "EjUKC0RvbmVKb2JDYWxsEhIuR1JQQ1Byb3RvLkRvbmVKb2IaEC5HUlBDUHJv",
-            "dG8uRW1wdHkiADK3AQoJUmVjb2duaXplEjgKDFJlY29nbml6ZVBkZhISLkdS",
-            "UENQcm90by5QZGZGaWxlGhIuR1JQQ1Byb3RvLkpvYkluZm8iABI5Cg1SZWpl",
-            "Y3RKb2JDYWxsEhQuR1JQQ1Byb3RvLlJlamVjdEpvYhoQLkdSUENQcm90by5F",
-            "bXB0eSIAEjUKC0RvbmVKb2JDYWxsEhIuR1JQQ1Byb3RvLkRvbmVKb2IaEC5H",
-            "UlBDUHJvdG8uRW1wdHkiADLaAQoKRmlsZVNlcnZlchIxCghTYXZlRmlsZRIP",
-            "LkdSUENQcm90by5GaWxlGhIuR1JQQ1Byb3RvLkpvYkluZm8iABIwCgdHZXRG",
-            "aWxlEg8uR1JQQ1Byb3RvLlBhdGgaEi5HUlBDUHJvdG8uSm9iSW5mbyIAEjIK",
-            "CEdldEZpbGVzEhAuR1JQQ1Byb3RvLlBhdGhzGhIuR1JQQ1Byb3RvLkpvYklu",
-            "Zm8iABIzCgpEZWxldGVGaWxlEg8uR1JQQ1Byb3RvLlBhdGgaEi5HUlBDUHJv",
-            "dG8uSm9iSW5mbyIAMokBCgdHYXRlV2F5EjUKC1Bvc3RKb2JJbmZvEhIuR1JQ",
-            "Q1Byb3RvLkpvYkluZm8aEC5HUlBDUHJvdG8uRW1wdHkiABJHChRQb3N0Sm9i",
-            "SW5mb1dpdGhCeXRlcxIbLkdSUENQcm90by5Kb2JJbmZvV2l0aEJ5dGVzGhAu",
-            "R1JQQ1Byb3RvLkVtcHR5IgBCGKoCFUdSUENTZXJ2aWNlLkdSUENQcm90b2IG",
-            "cHJvdG8z"));
+            "Cg5zZXJ2aWNlcy5wcm90bxIJR1JQQ1Byb3RvIjIKClNlcnZlckluZm8SEgoK",
+            "c2VydmVyTmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSIxCgxBdXRoUmVz",
+            "cG9uc2USDQoFdG9rZW4YASABKAkSEgoKc2VydmVyTmFtZRgCIAEoCSIaCgVQ",
+            "YXRocxIRCglmaWxlUGF0aHMYASADKAkiFAoEUGF0aBIMCgRwYXRoGAEgASgJ",
+            "IjgKBEZpbGUSIQoIZmlsZVBhdGgYASABKAsyDy5HUlBDUHJvdG8uUGF0aBIN",
+            "CgVieXRlcxgCIAEoDCInCgdQZGZGaWxlEg0KBXBhZ2VzGAEgAygFEg0KBWJ5",
+            "dGVzGAIgASgMIgcKBUVtcHR5IlYKB0pvYkluZm8SKwoJSm9iU3RhdHVzGAEg",
+            "ASgOMhguR1JQQ1Byb3RvLkVudW1Kb2JTdGF0dXMSDQoFSm9iSWQYAiABKAkS",
+            "DwoHTWVzc2FnZRgDIAEoCSJGChBKb2JJbmZvV2l0aEJ5dGVzEiMKB2pvYklu",
+            "Zm8YASABKAsyEi5HUlBDUHJvdG8uSm9iSW5mbxINCgVieXRlcxgCIAEoDCKP",
+            "AQoIRmlsZUluZm8SKQoIZmlsZVR5cGUYASABKA4yFy5HUlBDUHJvdG8uRW51",
+            "bUZpbGVUeXBlEgsKA01ENRgCIAEoCRISCgpGaWxlTGVuZ3RoGAMgASgDEgwK",
+            "BFBhdGgYBCABKAkSDQoFSm9iSWQYBSABKAkSDgoGUGFnZU5vGAYgASgDEgoK",
+            "AklkGAcgASgDIjcKDkNvbW1vblJlc3BvbnNlEg8KB2lzRXJyb3IYASABKAgS",
+            "FAoMRXJyb3JNZXNzYWdlGAIgASgJIloKHkRhdGFiYXNlQ3JlYXRlRmlsZUlu",
+            "Zm9SZXNwb25zZRIoCgVlcnJvchgBIAEoCzIZLkdSUENQcm90by5Db21tb25S",
+            "ZXNwb25zZRIOCgZmaWxlSWQYAiABKAkiPwoKSW1hZ2VzSW5mbxINCgVKb2JJ",
+            "ZBgBIAEoCRITCgtGaXJzdFBhZ2VObxgCIAEoAxINCgVDb3VudBgDIAEoAyIa",
+            "CglSZWplY3RKb2ISDQoFSm9iSWQYASABKAkiGAoHRG9uZUpvYhINCgVKb2JJ",
+            "ZBgBIAEoCSo/Cg1FbnVtSm9iU3RhdHVzEgsKB0VYRUNVVEUQABIICgRET05F",
+            "EAESCQoFRVJST1IQAhIMCghSRUpFQ1RFRBADKiIKDEVudW1GaWxlVHlwZRIJ",
+            "CgVJbWFnZRAAEgcKA1BkZhABMp4ECghEYXRhQmFzZRI5CgxTYXZlRmlsZUlu",
+            "Zm8SEy5HUlBDUHJvdG8uRmlsZUluZm8aEi5HUlBDUHJvdG8uSm9iSW5mbyIA",
+            "EjsKDkRlbGV0ZUZpbGVJbmZvEhMuR1JQQ1Byb3RvLkZpbGVJbmZvGhIuR1JQ",
+            "Q1Byb3RvLkpvYkluZm8iABI9ChFVcGRhdGVPckNyZWF0ZUpvYhISLkdSUENQ",
+            "cm90by5Kb2JJbmZvGhIuR1JQQ1Byb3RvLkpvYkluZm8iABI2CgpHZXRKb2JJ",
+            "bmZvEhIuR1JQQ1Byb3RvLkpvYkluZm8aEi5HUlBDUHJvdG8uSm9iSW5mbyIA",
+            "EjwKDUdldEltYWdlc0luZm8SFS5HUlBDUHJvdG8uSW1hZ2VzSW5mbxoSLkdS",
+            "UENQcm90by5Kb2JJbmZvIgASOQoNRGVsZXRlSm9iSW5mbxISLkdSUENQcm90",
+            "by5Kb2JJbmZvGhIuR1JQQ1Byb3RvLkpvYkluZm8iABI4Cg5HZXRBbGxKb2JJ",
+            "bmZvcxIQLkdSUENQcm90by5FbXB0eRoSLkdSUENQcm90by5Kb2JJbmZvIgAS",
+            "OQoNUmVqZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2IaEC5HUlBD",
+            "UHJvdG8uRW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90by5Eb25l",
+            "Sm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgAytwEKCVJlY29nbml6ZRI4CgxSZWNv",
+            "Z25pemVQZGYSEi5HUlBDUHJvdG8uUGRmRmlsZRoSLkdSUENQcm90by5Kb2JJ",
+            "bmZvIgASOQoNUmVqZWN0Sm9iQ2FsbBIULkdSUENQcm90by5SZWplY3RKb2Ia",
+            "EC5HUlBDUHJvdG8uRW1wdHkiABI1CgtEb25lSm9iQ2FsbBISLkdSUENQcm90",
+            "by5Eb25lSm9iGhAuR1JQQ1Byb3RvLkVtcHR5IgAy2gEKCkZpbGVTZXJ2ZXIS",
+            "MQoIU2F2ZUZpbGUSDy5HUlBDUHJvdG8uRmlsZRoSLkdSUENQcm90by5Kb2JJ",
+            "bmZvIgASMAoHR2V0RmlsZRIPLkdSUENQcm90by5QYXRoGhIuR1JQQ1Byb3Rv",
+            "LkpvYkluZm8iABIyCghHZXRGaWxlcxIQLkdSUENQcm90by5QYXRocxoSLkdS",
+            "UENQcm90by5Kb2JJbmZvIgASMwoKRGVsZXRlRmlsZRIPLkdSUENQcm90by5Q",
+            "YXRoGhIuR1JQQ1Byb3RvLkpvYkluZm8iADKJAQoHR2F0ZVdheRI1CgtQb3N0",
+            "Sm9iSW5mbxISLkdSUENQcm90by5Kb2JJbmZvGhAuR1JQQ1Byb3RvLkVtcHR5",
+            "IgASRwoUUG9zdEpvYkluZm9XaXRoQnl0ZXMSGy5HUlBDUHJvdG8uSm9iSW5m",
+            "b1dpdGhCeXRlcxoQLkdSUENQcm90by5FbXB0eSIAMkYKCUF1dGhvcml6ZRI5",
+            "CgVMb2dpbhIVLkdSUENQcm90by5TZXJ2ZXJJbmZvGhcuR1JQQ1Byb3RvLkF1",
+            "dGhSZXNwb25zZSIAQhiqAhVHUlBDU2VydmljZS5HUlBDUHJvdG9iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GRPCService.GRPCProto.EnumJobStatus), typeof(global::GRPCService.GRPCProto.EnumFileType), }, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.ServerInfo), global::GRPCService.GRPCProto.ServerInfo.Parser, new[]{ "ServerName", "Password" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.AuthResponse), global::GRPCService.GRPCProto.AuthResponse.Parser, new[]{ "Token", "ServerName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Paths), global::GRPCService.GRPCProto.Paths.Parser, new[]{ "FilePaths" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.Path), global::GRPCService.GRPCProto.Path.Parser, new[]{ "Path_" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GRPCService.GRPCProto.File), global::GRPCService.GRPCProto.File.Parser, new[]{ "FilePath", "Bytes" }, null, null, null),
@@ -106,6 +112,320 @@ namespace GRPCService.GRPCProto {
   #endregion
 
   #region Messages
+  public sealed partial class ServerInfo : pb::IMessage<ServerInfo> {
+    private static readonly pb::MessageParser<ServerInfo> _parser = new pb::MessageParser<ServerInfo>(() => new ServerInfo());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ServerInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ServerInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ServerInfo(ServerInfo other) : this() {
+      serverName_ = other.serverName_;
+      password_ = other.password_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ServerInfo Clone() {
+      return new ServerInfo(this);
+    }
+
+    /// <summary>Field number for the "serverName" field.</summary>
+    public const int ServerNameFieldNumber = 1;
+    private string serverName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ServerName {
+      get { return serverName_; }
+      set {
+        serverName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "password" field.</summary>
+    public const int PasswordFieldNumber = 2;
+    private string password_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Password {
+      get { return password_; }
+      set {
+        password_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ServerInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ServerInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ServerName != other.ServerName) return false;
+      if (Password != other.Password) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ServerName.Length != 0) hash ^= ServerName.GetHashCode();
+      if (Password.Length != 0) hash ^= Password.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ServerName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(ServerName);
+      }
+      if (Password.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Password);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ServerName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ServerName);
+      }
+      if (Password.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ServerInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ServerName.Length != 0) {
+        ServerName = other.ServerName;
+      }
+      if (other.Password.Length != 0) {
+        Password = other.Password;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            ServerName = input.ReadString();
+            break;
+          }
+          case 18: {
+            Password = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AuthResponse : pb::IMessage<AuthResponse> {
+    private static readonly pb::MessageParser<AuthResponse> _parser = new pb::MessageParser<AuthResponse>(() => new AuthResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AuthResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthResponse(AuthResponse other) : this() {
+      token_ = other.token_;
+      serverName_ = other.serverName_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AuthResponse Clone() {
+      return new AuthResponse(this);
+    }
+
+    /// <summary>Field number for the "token" field.</summary>
+    public const int TokenFieldNumber = 1;
+    private string token_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Token {
+      get { return token_; }
+      set {
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "serverName" field.</summary>
+    public const int ServerNameFieldNumber = 2;
+    private string serverName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ServerName {
+      get { return serverName_; }
+      set {
+        serverName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AuthResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AuthResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Token != other.Token) return false;
+      if (ServerName != other.ServerName) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
+      if (ServerName.Length != 0) hash ^= ServerName.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Token.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Token);
+      }
+      if (ServerName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(ServerName);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
+      }
+      if (ServerName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ServerName);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AuthResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Token.Length != 0) {
+        Token = other.Token;
+      }
+      if (other.ServerName.Length != 0) {
+        ServerName = other.ServerName;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Token = input.ReadString();
+            break;
+          }
+          case 18: {
+            ServerName = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class Paths : pb::IMessage<Paths> {
     private static readonly pb::MessageParser<Paths> _parser = new pb::MessageParser<Paths>(() => new Paths());
     private pb::UnknownFieldSet _unknownFields;
@@ -114,7 +434,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -235,7 +555,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -364,7 +684,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -527,7 +847,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -677,7 +997,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -778,7 +1098,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -963,7 +1283,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1126,7 +1446,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1423,7 +1743,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[8]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1580,7 +1900,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[9]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1743,7 +2063,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[10]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1928,7 +2248,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[11]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2057,7 +2377,7 @@ namespace GRPCService.GRPCProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[12]; }
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

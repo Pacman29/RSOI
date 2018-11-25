@@ -23,4 +23,8 @@
       <Folder Include="ProtoGenerator\GRPC" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AuthOptions\AuthOptions.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -15,6 +15,8 @@ namespace AuthOptions
                 ISSUER = "authServer",
                 AUDIENCE = "GateWay"
             };
+            var jwtTokenGenerator = new JwtTokenGenerator(accountOptions);
+            services.AddSingleton<IJwtTokenGenerator>(jwtTokenGenerator);
             services.AddSingleton<AuthOptions>(accountOptions);
             configuration.GetSection("Security:Tokens").Bind(accountOptions);
             services.Configure<AuthOptions>(options => configuration.GetSection("Security:Tokens").Bind(options));
@@ -24,16 +26,7 @@ namespace AuthOptions
                 {
                     cfg.RequireHttpsMetadata = false;
                     cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = accountOptions.ISSUER,
-                        ValidateAudience = true,
-                        ValidAudience = accountOptions.AUDIENCE,
-                        ValidateIssuerSigningKey = true,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = accountOptions.GetSymmetricSecurityKey()
-                    };
+                    cfg.TokenValidationParameters = accountOptions.GetParameters();
                 });
         }
     }

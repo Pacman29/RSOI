@@ -2,21 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
+using GRPCService;
 using GRPCService.GRPCProto;
 
 namespace RSOI.Services.Impl
 {
-    public class RecognizeService : IRecognizeService
+    public class RecognizeService : BaseGrpcService, IRecognizeService
     {
-        private readonly Channel _channel;
-        private Recognize.RecognizeClient Client { get; set; }
-        
+        private readonly Recognize.RecognizeClient _client;
+
         public RecognizeService(string recognizeUri)
         {
-            var channelOptions = new List<ChannelOption>();
-            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
-            _channel = new Channel(recognizeUri, ChannelCredentials.Insecure,channelOptions);
-            Client = new Recognize.RecognizeClient(_channel);
+            var channelOptions = new List<ChannelOption>
+            {
+                new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1)
+            };
+            AuthHandler = new AuthorizationHandler("RecognizeServer","RecognizeServerPassword",recognizeUri,ChannelCredentials.Insecure, channelOptions);
+            var channel = GrpsClientChannelCreator.Create(recognizeUri, ChannelCredentials.Insecure, channelOptions,AuthHandler.GetAuthorizeFunc());
+            _client = new Recognize.RecognizeClient(channel);
         }
 
         public async Task<JobInfo> RecognizePdf(PdfFile pdfFile)
@@ -25,7 +28,7 @@ namespace RSOI.Services.Impl
             try
             {
                 Console.WriteLine("Recognize PDF");
-                result =  await Client.RecognizePdfAsync(pdfFile);
+                result =  await _client.RecognizePdfAsync(pdfFile,GetMetadata());
             } 
             catch (Exception e)
             {

@@ -17,22 +17,22 @@ namespace AuthServer.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : Controller, IAuthController
+    public class AccountController : Controller
     {
-        private readonly AuthOptions.AuthOptions _authOptions;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         
 
         public AccountController(
-            AuthOptions.AuthOptions authOptions, 
+            IJwtTokenGenerator jwtTokenGenerator,
             UserManager<IdentityUser> userManager, 
             SignInManager<IdentityUser> signInManager, 
             RoleManager<IdentityRole> roleManager
             )
         {
-            _authOptions = authOptions;
+            _jwtTokenGenerator = jwtTokenGenerator;
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._roleManager = roleManager;
@@ -49,7 +49,7 @@ namespace AuthServer.Controllers
                     var user = await _userManager.FindByNameAsync(model.UserName);
                     if (user != null)
                     {
-                        var jwt = GenerateJwtToken(user);
+                        var jwt = _jwtTokenGenerator.GenerateJwtToken(user.Id,user.UserName);
                         return new AccountResponseModel()
                         {
                             Token = new JwtSecurityTokenHandler().WriteToken(jwt),
@@ -99,7 +99,7 @@ namespace AuthServer.Controllers
                 var user = await _userManager.FindByIdAsync(GetJwtUserId);
                 if (user != null)
                 {
-                    var jwt = GenerateJwtToken(user);
+                    var jwt = _jwtTokenGenerator.GenerateJwtToken(user.Id,user.UserName);
                     return new AccountResponseModel()
                     {
                         Token = new JwtSecurityTokenHandler().WriteToken(jwt),
@@ -134,27 +134,5 @@ namespace AuthServer.Controllers
         
         private string GetJwtUserId => User.GetJwtUserId();
         
-        private JwtSecurityToken GenerateJwtToken(IdentityUser user)
-        {
-            var claims = new[]{
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Iss, _authOptions.ISSUER),
-                new Claim(JwtRegisteredClaimNames.Iss, _authOptions.AUDIENCE),
-            };
-
-            var key = _authOptions.GetSymmetricSecurityKey();
-            var credits = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(_authOptions.ISSUER,
-                _authOptions.AUDIENCE,
-                claims,
-                expires: DateTime.Now.Add(TimeSpan.FromMinutes(_authOptions.Lifetime)),
-                signingCredentials: credits);
-
-            return token;
-        }
     } 
 }

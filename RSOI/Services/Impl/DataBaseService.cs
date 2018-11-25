@@ -2,79 +2,84 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
+using GRPCService;
 using GRPCService.GRPCProto;
 
 namespace RSOI.Services.Impl
 {
-    public class DataBaseService : IDataBaseService
+    public class DataBaseService : BaseGrpcService, IDataBaseService
     {
-        private readonly Channel channel;
-        private readonly DataBase.DataBaseClient client;
+        private readonly DataBase.DataBaseClient _client;
+
         public DataBaseService(string databaseUri)
         {
-            var channelOptions = new List<ChannelOption>();
-            //channelOptions.Add(new ChannelOption(ChannelOptions.MaxReceiveMessageLength, 1024*1024*1024));
-            channel = new Channel(databaseUri, ChannelCredentials.Insecure,channelOptions);
-            client = new DataBase.DataBaseClient(channel);
+            var channelOptions = new List<ChannelOption>
+            {
+                new ChannelOption(ChannelOptions.MaxReceiveMessageLength, -1)
+            };
+
+            AuthHandler = new AuthorizationHandler("DataBase","DataBasePassword",databaseUri,ChannelCredentials.Insecure, channelOptions);
+            var channel = GrpsClientChannelCreator.Create(databaseUri, ChannelCredentials.Insecure, channelOptions,AuthHandler.GetAuthorizeFunc());
+            _client = new DataBase.DataBaseClient(channel);
         }
 
         public async Task<JobInfo> CreateFileInfo(FileInfo fileInfo)
         {
-            return await client.SaveFileInfoAsync(fileInfo);
+            return await _client.SaveFileInfoAsync(fileInfo,GetMetadata());
         }
         
         public async Task<JobInfo> UpdateOrCreateJob(JobInfo jobInfo)
         {
-            return await client.UpdateOrCreateJobAsync(jobInfo);
+            return await _client.UpdateOrCreateJobAsync(jobInfo,GetMetadata());
         }
 
         public async Task DoneJob(Guid jobId)
         {
-            var result = await client.DoneJobCallAsync(new DoneJob()
+            var result = await _client.DoneJobCallAsync(new DoneJob()
             {
                 JobId = jobId.ToString()
-            });
+            },GetMetadata());
         }
 
         public async Task<JobInfo>  GetJobInfo(string jobId)
         {
-            return await client.GetJobInfoAsync(new JobInfo()
+            return await _client.GetJobInfoAsync(new JobInfo()
             {
                 JobId = jobId.ToString()
-            });
+            },GetMetadata());
         }
 
         public async Task<JobInfo> ImagesInfo(string jobId, long firstPageNo, long count)
         {
-            return await client.GetImagesInfoAsync(new ImagesInfo()
+            return await _client.GetImagesInfoAsync(new ImagesInfo()
             {
                 Count = count,
                 FirstPageNo = firstPageNo,
                 JobId = jobId
-            });
+            },GetMetadata());
         }
 
         public async Task<JobInfo> DeleteJobInfo(string jobId)
         {
-            return await client.DeleteJobInfoAsync(new JobInfo()
+            return await _client.DeleteJobInfoAsync(new JobInfo()
             {
                 JobId = jobId.ToString()
-            });
+            },GetMetadata());
         }
 
         public async Task<JobInfo> DeleteFileInfo(FileInfo pdfFileInfo)
         {
-            return await client.DeleteFileInfoAsync(pdfFileInfo);
+            return await _client.DeleteFileInfoAsync(pdfFileInfo,GetMetadata());
         }
 
         public async Task<JobInfo> GetAllJobInfos()
         {
-            return await client.GetAllJobInfosAsync(new Empty());
+            return await _client.GetAllJobInfosAsync(new Empty(),GetMetadata());
         }
 
         public async void Dispose()
         {
-            await channel.ShutdownAsync();
+            //await channel.ShutdownAsync();
         }
     }
 }

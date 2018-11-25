@@ -35,6 +35,20 @@ service GateWay {
     rpc PostJobInfoWithBytes (JobInfoWithBytes) returns (Empty) {}
 }
 
+service Authorize {
+    rpc Login (ServerInfo) returns (AuthResponse) {}
+}
+
+message ServerInfo {
+    string serverName = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+    string serverName = 2;
+}
+
 message Paths {
     repeated string filePaths = 1;
 }
