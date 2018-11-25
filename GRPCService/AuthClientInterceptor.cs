@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
@@ -17,21 +18,30 @@ namespace GRPCService
         public override AsyncUnaryCall<TResponse> AsyncUnaryCall<TRequest, TResponse>(TRequest request, ClientInterceptorContext<TRequest, TResponse> context,
             AsyncUnaryCallContinuation<TRequest, TResponse> continuation)
         {
-
-            var cont = continuation(request, context);
-            var response = cont.ResponseHeadersAsync.Result;
-            if (cont.GetStatus().StatusCode != StatusCode.Cancelled) 
-                return cont;
-            var authResult = _authorize().Result;
-            if (authResult != "")
+            var cont = default(AsyncUnaryCall<TResponse>); 
+            try
             {
+                cont = continuation(request, context);
+                var response = cont.ResponseAsync.Result;
+                var headers = cont.ResponseHeadersAsync.Result;
+                var res = cont.GetAwaiter().GetResult();
+                return cont;
+            }
+            catch (AggregateException e)
+            {
+                var exception = (RpcException) e.InnerExceptions.FirstOrDefault(err =>
+                {
+                    if (err.GetType() != typeof(RpcException)) return false;
+                    var rpcErr = (RpcException) err;
+                    return rpcErr.StatusCode == StatusCode.Unauthenticated;
+                });
+                if (exception == null) return cont;
+                var authResult = _authorize().Result;
+                if (authResult == "") return cont;
                 context.SetAccessToken(authResult);
-                return continuation(request, context);
+                cont = continuation(request, context);
             }
-            else
-            {
-                return cont;
-            }
+            return cont;
         }
     }
 }
