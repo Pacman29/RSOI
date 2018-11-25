@@ -24,8 +24,6 @@ namespace GRPCService
         {
             if (!_jwtTokenGenerator.ValidateToken(context.GetAccessToken()))
             {
-                //context.Status = new Status(StatusCode.Unauthenticated, "Invalid token");
-                //return default(TResponse);
                 throw new RpcException(new Status(StatusCode.Unauthenticated,"Invalid token"));
             }
             else
