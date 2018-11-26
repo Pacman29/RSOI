@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Models.Requests;
@@ -41,7 +42,7 @@ namespace RSOI.Services.Impl
             if (response.IsSuccessStatusCode)
             {
                 var data = AccountResponseModel.fromJson(await response.Content.ReadAsStringAsync());
-                return new JsonResult(data);
+                return new CreatedResult("",data.ToJson());
             }
             return new JsonResult(await response.Content.ReadAsStringAsync())
             {
@@ -49,9 +50,12 @@ namespace RSOI.Services.Impl
             };
         }
 
-        public async Task<ActionResult<AccountResponseModel>> RefreshToken()
+        public async Task<ActionResult<AccountResponseModel>> RefreshToken(string token)
         {
-            var response = await _client.GetAsync("api/Account/RefreshToken");
+            var requestMessage =
+                new HttpRequestMessage(HttpMethod.Get, "api/Account/RefreshToken");
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.SendAsync(requestMessage);
             if (response.IsSuccessStatusCode)
             {
                 var data = AccountResponseModel.fromJson(await response.Content.ReadAsStringAsync());
@@ -63,9 +67,16 @@ namespace RSOI.Services.Impl
             };
         }
 
-        public async Task<IActionResult> PasswordChange(PasswordUpdateRequestModel updateModel)
+        public async Task<IActionResult> PasswordChange(PasswordUpdateRequestModel updateModel, string token)
         {
-            var response = await _client.PostAsJsonAsync("api/Account/PasswordChange", updateModel);
+            var requestMessage =
+                new HttpRequestMessage(HttpMethod.Post, "api/Account/PasswordChange")
+                {
+                    Content = new StringContent(updateModel.ToJson())
+                };
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.SendAsync(requestMessage);
+            
             if (response.IsSuccessStatusCode)
             {
                 return new OkResult();

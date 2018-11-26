@@ -2,6 +2,7 @@ import { App, View } from 'framework7-react';
 import routes from './routes.js';
 import React from "react";
 import {Statusbar} from "framework7-react";
+import AuthPage from "./authPage";
 
 const f7params = {
     // Array with app routes
@@ -25,8 +26,10 @@ export default class Root extends React.Component{
     render(){
         return (
             <App params={f7params}>
-                <Statusbar/>
-                <View id="main-view" main url="/" pushState={true} viewInit={this.handleOnViewInit}/>
+                <AuthPage>
+                    <Statusbar/>
+                    <View id="main-view" main url="/" pushState={true} viewInit={this.handleOnViewInit}/>
+                </AuthPage>
             </App>
         )
     }

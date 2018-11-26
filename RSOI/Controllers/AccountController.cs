@@ -44,7 +44,12 @@ namespace RSOI.Controllers
         public async Task<ActionResult<AccountResponseModel>> RefreshToken()
         {
             if (ModelState.IsValid)
-                return await _authService.RefreshToken();
+            {
+                var tokenWithScheme = Request.Headers["Authorization"];
+                var token = tokenWithScheme.ToString().Substring("Bearer".Length);
+                return await _authService.RefreshToken(token);
+            }
+                
 
             return BadRequest(ModelState.ToString());
         }
@@ -53,7 +58,12 @@ namespace RSOI.Controllers
         public async Task<IActionResult> PasswordChange([FromBody] PasswordUpdateRequestModel updateModel)
         {
             if (ModelState.IsValid)
-                return await _authService.PasswordChange(updateModel);
+            {
+                var tokenWithScheme = Request.Headers["Authorization"];
+                var token = tokenWithScheme.ToString().Substring("Bearer".Length);
+                return await _authService.PasswordChange(updateModel,token);
+            }
+                
 
             return BadRequest(ModelState.ToString());
         }

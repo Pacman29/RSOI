@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Block, List, ListButton, Navbar, Page, ListInput} from "framework7-react";
+import {Block, List, ListButton, Page} from "framework7-react";
 import Loader from "./loader";
 import PageShower from "./pagesShower";
 import {inject, observer} from "mobx-react";
 import {action, observable} from "mobx";
 import JobsStore from "../stores/JobsStore";
+import AppNavbar from "./appNavbar";
 
 @inject("jobsStore")
 @observer
@@ -35,7 +36,7 @@ export default class CreateJobPage extends React.Component {
     render(){
         return (
             <Page>
-                <Navbar title="Recognize Service" backLink="Back"/>
+                <AppNavbar/>
                 <Loader isLoading={this.props.jobsStore.isLoading}>
                     <Block >
                         <List inset>

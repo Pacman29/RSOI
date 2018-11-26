@@ -20,11 +20,11 @@ namespace AuthOptions
         /// ключ шифрации
         /// </summary>
         const string KEY = "mysupersecret_secretkey!123";
-        
+
         /// <summary>
         /// время жизни токена (мин)
         /// </summary>
-        public double Lifetime {get;} = 30 ;
+        public double Lifetime { get; } = 1;//30 ;
         
         public SymmetricSecurityKey GetSymmetricSecurityKey()
         {

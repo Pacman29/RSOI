@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Block, Navbar, Page, List, ListButton, PhotoBrowser, Stepper} from "framework7-react";
+import {Block, Page, List, ListButton, Stepper} from "framework7-react";
 import {inject, observer} from "mobx-react";
 import JobsStore from "../stores/JobsStore";
 import {computed, observable, action} from "mobx";
 import Loader from "./loader";
 import Job from "../models/job";
 import FilesStore from "../stores/FilesStore";
-import PageShower from "./pagesShower";
+import AppNavbar from "./appNavbar";
 
 @inject('jobsStore')
 @inject('filesStore')
@@ -48,7 +48,11 @@ export default class JobInfoPage extends React.Component {
     }
 
     handleShowImages = (evt) => {
-        this.pdfBrowser.open()
+        this.$f7router.navigate(`/jobInfo/${this.$f7route.params.jobId}/pages`, {
+            props: {
+                job: this.job
+            }
+        });
     };
 
     handleDownloadImages = (evt) => {
@@ -86,7 +90,7 @@ export default class JobInfoPage extends React.Component {
     render(){
         return (
             <Page>
-                <Navbar title="Recognize Service" backLink="Back"/>
+                <AppNavbar/>
                 <Loader isLoading={this.jobStore.isLoading || this.jobFilesStore.isLoading}>
                     <Block >
                         <div style={{display: "flex",justifyContent: "space-between"}}>
@@ -112,7 +116,6 @@ export default class JobInfoPage extends React.Component {
                             <Stepper value={this.count} max={1000} onStepperChange={this.handleCountChange}/>
                         </div>
                     </div>
-                    <PageShower job={this.job} refLink={ref => this.pdfBrowser = ref}/>
                     <List inset>
                         <ListButton title="Show pages" onClick={this.handleShowImages}/>
                         <ListButton title="Download pdf" onClick={this.handleDownloadPdf}/>

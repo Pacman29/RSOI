@@ -9,8 +9,8 @@ namespace RSOI.Services
     {
         Task<ActionResult<AccountResponseModel>> Login(AccountRequestModel model);
         Task<ActionResult<AccountResponseModel>> Register(AccountRequestModel model);
-        Task<ActionResult<AccountResponseModel>> RefreshToken();
-        Task<IActionResult> PasswordChange(PasswordUpdateRequestModel updateModel);
+        Task<ActionResult<AccountResponseModel>> RefreshToken(string token);
+        Task<IActionResult> PasswordChange(PasswordUpdateRequestModel updateModel, string token);
         
     }
 }

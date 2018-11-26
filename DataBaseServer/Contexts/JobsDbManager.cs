@@ -15,6 +15,8 @@ namespace DataBaseServer.Contexts
         private readonly CommonDbManager<Job> _commonDbManager;
         private DbSet<Job> Jobs { get; set; }
         private readonly BaseContext _baseContext;
+        
+        private object _threadLock = new object();
 
         public JobsDbManager(BaseContext context)
         {
@@ -74,18 +76,22 @@ namespace DataBaseServer.Contexts
         public async Task<List<JobAndFileInfoJoinEntity>> FindInJobAndFileInfoJoin(string guid, 
             Func<IQueryable<JobAndFileInfoJoinEntity>,IQueryable<JobAndFileInfoJoinEntity>> criteria = null)
         {
-            var join = Jobs.Where(job => job.GUID == guid).Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk,
-                (a, b) => new JobAndFileInfoJoinEntity()
-                {
-                    Guid = a.GUID,
-                    Path = b.Path,
-                    PageNo = b.PageNo,
-                    FileType = b.FileType,
-                    JobStatus = a.status,
-                    Id = b.Id
-                });
-            var res = criteria != null ? criteria(join).ToList() : join.ToList();     
-            return res;
+            lock (_threadLock)
+            {
+                var join = Jobs.Where(job => job.GUID == guid).Join(_baseContext.FileInfos, a => a.GUID, b => b.JobGuidFk,
+                                (a, b) => new JobAndFileInfoJoinEntity()
+                                {
+                                    Guid = a.GUID,
+                                    Path = b.Path,
+                                    PageNo = b.PageNo,
+                                    FileType = b.FileType,
+                                    JobStatus = a.status,
+                                    Id = b.Id
+                                });
+                            var res = criteria != null ? criteria(join).ToList() : join.ToList();     
+                            return res;
+            }
+            
         }
     }
 }

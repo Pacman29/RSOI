@@ -17,6 +17,7 @@ export default class FilesApi extends BaseApi{
         try {
             let result = await this.axios.get(this.getImageURL(jobId,pageNo),{
                 responseType: 'blob',
+
             });
             console.log(result);
             return new Blob([result.data],{type: "image/jpeg"})

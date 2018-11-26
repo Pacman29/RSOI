@@ -85,7 +85,14 @@ namespace AuthServer.Controllers
                 await _userManager.AddClaimAsync(user, new Claim("userName", user.UserName));
                 await _userManager.AddClaimAsync(user, new Claim("role", role));
 
-                return Ok(user.UserName);
+                var jwt = _jwtTokenGenerator.GenerateJwtToken(user.Id,user.UserName);
+                var accountResponseModel = new AccountResponseModel()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(jwt),
+                    UserName = user.UserName
+                };
+                return Created("",accountResponseModel.ToJson());
+                
             }
 
             return BadRequest(result.Errors);
