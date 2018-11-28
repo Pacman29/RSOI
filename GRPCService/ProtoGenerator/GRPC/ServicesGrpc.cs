@@ -764,5 +764,90 @@ namespace GRPCService.GRPCProto {
     }
 
   }
+  public static partial class Authorize
+  {
+    static readonly string __ServiceName = "GRPCProto.Authorize";
+
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.ServerInfo> __Marshaller_GRPCProto_ServerInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.ServerInfo.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::GRPCService.GRPCProto.AuthResponse> __Marshaller_GRPCProto_AuthResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::GRPCService.GRPCProto.AuthResponse.Parser.ParseFrom);
+
+    static readonly grpc::Method<global::GRPCService.GRPCProto.ServerInfo, global::GRPCService.GRPCProto.AuthResponse> __Method_Login = new grpc::Method<global::GRPCService.GRPCProto.ServerInfo, global::GRPCService.GRPCProto.AuthResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Login",
+        __Marshaller_GRPCProto_ServerInfo,
+        __Marshaller_GRPCProto_AuthResponse);
+
+    /// <summary>Service descriptor</summary>
+    public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
+    {
+      get { return global::GRPCService.GRPCProto.ServicesReflection.Descriptor.Services[4]; }
+    }
+
+    /// <summary>Base class for server-side implementations of Authorize</summary>
+    public abstract partial class AuthorizeBase
+    {
+      public virtual global::System.Threading.Tasks.Task<global::GRPCService.GRPCProto.AuthResponse> Login(global::GRPCService.GRPCProto.ServerInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+    }
+
+    /// <summary>Client for Authorize</summary>
+    public partial class AuthorizeClient : grpc::ClientBase<AuthorizeClient>
+    {
+      /// <summary>Creates a new client for Authorize</summary>
+      /// <param name="channel">The channel to use to make remote calls.</param>
+      public AuthorizeClient(grpc::Channel channel) : base(channel)
+      {
+      }
+      /// <summary>Creates a new client for Authorize that uses a custom <c>CallInvoker</c>.</summary>
+      /// <param name="callInvoker">The callInvoker to use to make remote calls.</param>
+      public AuthorizeClient(grpc::CallInvoker callInvoker) : base(callInvoker)
+      {
+      }
+      /// <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
+      protected AuthorizeClient() : base()
+      {
+      }
+      /// <summary>Protected constructor to allow creation of configured clients.</summary>
+      /// <param name="configuration">The client configuration.</param>
+      protected AuthorizeClient(ClientBaseConfiguration configuration) : base(configuration)
+      {
+      }
+
+      public virtual global::GRPCService.GRPCProto.AuthResponse Login(global::GRPCService.GRPCProto.ServerInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Login(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GRPCService.GRPCProto.AuthResponse Login(global::GRPCService.GRPCProto.ServerInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Login, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.AuthResponse> LoginAsync(global::GRPCService.GRPCProto.ServerInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LoginAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GRPCService.GRPCProto.AuthResponse> LoginAsync(global::GRPCService.GRPCProto.ServerInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Login, null, options, request);
+      }
+      /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
+      protected override AuthorizeClient NewInstance(ClientBaseConfiguration configuration)
+      {
+        return new AuthorizeClient(configuration);
+      }
+    }
+
+    /// <summary>Creates service definition that can be registered with a server</summary>
+    /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+    public static grpc::ServerServiceDefinition BindService(AuthorizeBase serviceImpl)
+    {
+      return grpc::ServerServiceDefinition.CreateBuilder()
+          .AddMethod(__Method_Login, serviceImpl.Login).Build();
+    }
+
+  }
 }
 #endregion

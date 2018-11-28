@@ -12,7 +12,7 @@ namespace FileServer
         
         static void Main(string[] args)
         {
-            server = GrpcServerCreator.Create("0.0.0.0", 8082,
+            server = GrpcServerCreator.Create("0.0.0.0", 8082, "FileServer", "FileServerPassword",
                 GRPCService.GRPCProto.FileServer.BindService(new FileServerGrpc()));
             server.Start();
             Console.WriteLine("FileServer listening on port " + 8082);

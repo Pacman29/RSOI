@@ -1,16 +1,8 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using System.Threading.Tasks;
 using JobExecutor;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 using Models.Requests;
-using Models.Responses;
-using RSOI.Controllers;
 using RSOI.Jobs;
 
 namespace RSOI.Services.Impl

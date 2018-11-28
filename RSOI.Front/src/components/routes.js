@@ -3,6 +3,7 @@ import NotFoundPage from "./NotFoundPage";
 import JobInfoPage from "./jobInfoPage";
 import CreateJobPage from "./createJobPage";
 import UpdateJobPage from "./updateJobPage";
+import PageShower from "./pagesShower";
 
 export default [
     {
@@ -16,6 +17,14 @@ export default [
     {
         path: '/jobInfo/:jobId',
         component: JobInfoPage,
+        options: {
+            history: true,
+            pushState: true
+        }
+    },
+    {
+        path: '/jobInfo/:jobId/pages',
+        component: PageShower,
         options: {
             history: true,
             pushState: true

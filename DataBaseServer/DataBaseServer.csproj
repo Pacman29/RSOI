@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DataBaseManager\DataBaseManager.csproj" />
       <ProjectReference Include="..\GRPCService\GRPCService.csproj" />
       <ProjectReference Include="..\JobExecutor\JobExecutor.csproj" />
       <ProjectReference Include="..\Models\Models.csproj" />

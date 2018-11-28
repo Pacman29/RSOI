@@ -13,7 +13,7 @@ namespace DataBaseServer
         
         static void Main(string[] args)
         {
-            server = GrpcServerCreator.Create("0.0.0.0", 8080, DataBase.BindService(new DataBaseServerGrpc()));
+            server = GrpcServerCreator.Create("0.0.0.0", 8080, "DataBase", "DataBasePassword", DataBase.BindService(new DataBaseServerGrpc()));
             server.Start();
             Console.WriteLine("DataBase server listening on port " + 8080);
             Console.WriteLine("Press Ctrl+C  to stop the server...");

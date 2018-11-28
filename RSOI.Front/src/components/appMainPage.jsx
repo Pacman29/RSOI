@@ -8,8 +8,10 @@ import JobsStore from "../stores/JobsStore";
 import Loader from "./loader";
 import DataStore from "../stores/dataStore";
 import JobsList from "./jobsList";
-import {Page, Navbar, Block, Fab} from "framework7-react";
+import {Page, Fab} from "framework7-react";
 import {Icon} from "framework7-react";
+import AppNavbar from "./appNavbar";
+
 
 @inject('routing')
 @inject('jobsStore')
@@ -58,7 +60,7 @@ export default class AppMainPage extends Component {
     render(){
         return (
             <Page ptr onPtrRefresh={this.reloadJobs}>
-                <Navbar title="Recognize Service"/>
+                <AppNavbar back={false}/>
                     <Loader isLoading={this.props.jobsStore.isLoading}>
                         <JobsList jobs={this.jobs}/>
                     </Loader>

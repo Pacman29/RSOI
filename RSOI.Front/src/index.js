@@ -12,6 +12,7 @@ import Framework7React from 'framework7-react';
 
 // Framework7 styles
 import 'framework7/css/framework7.min.css';
+import 'framework7-icons';
 
 
 import {Provider} from "mobx-react";
@@ -20,6 +21,7 @@ import JobsStore from "./stores/JobsStore";
 import DataStore from "./stores/dataStore";
 import Root from "./components/Root";
 import FilesStore from "./stores/FilesStore";
+import AuthStore from "./stores/AuthStore";
 
 Framework7.use(Framework7React);
 
@@ -33,11 +35,13 @@ const currentEnviroment = {
 const apiService = new BackendApiService(currentEnviroment),
     jobsStore = new JobsStore(apiService),
     dataStore = new DataStore(),
-    filesStore = new FilesStore(apiService);
+    filesStore = new FilesStore(apiService),
+    authStore = new AuthStore(apiService);
 
 const stores = {
     apiService,
 
+    authStore,
     filesStore,
     jobsStore,
     dataStore,

@@ -1,6 +1,6 @@
 using System;
 
-namespace DataBaseServer.DBO
+namespace DataBaseManager
 {
     public interface IEntity
     {
