@@ -19,34 +19,34 @@ export default class AuthApi extends BaseApi{
     }
 
     async login(username,password){
-        try {
-            let res = await this.axios.post("/api/Account",this.loginObject(username,password));
-            if(res.status === 200 && res.data) {
-                this.token = res.data.token || res.data["Token"];
-                this.username = username;
-                this.password = password;
-                this.setTokenUpdater(this.refreshToken);
-                return true;
+        let res = await this.axios.post("/api/Account",this.loginObject(username,password));
+
+        if(res.status === 200 && res.data) {
+            this.token = res.data.token || res.data["Token"];
+            this.username = username;
+            this.password = password;
+            this.setTokenUpdater(this.refreshToken);
+            return true;
+        }
+        else{
+            if(res.response.status === 400){
+                throw "incorrect login or password";
             }
-            return false
-        } catch (e) {
-            throw e;
         }
     }
 
     async registration(username,password){
-        try {
-            let res = await this.axios.post("/api/Account/Register",this.loginObject(username,password));
-            if(res.status === 201 && res.data) {
-                this.token = res.data.token || res.data["Token"];
-                this.username = username;
-                this.password = password;
-                this.setTokenUpdater(this.refreshToken);
-                return true;
+        let res = await this.axios.post("/api/Account/Register",this.loginObject(username,password));
+        if(res.status === 201 && res.data) {
+            this.token = res.data.token || res.data["Token"];
+            this.username = username;
+            this.password = password;
+            this.setTokenUpdater(this.refreshToken);
+            return true;
+        } else {
+            if(res.response.status === 400){
+                throw "incorrect data";
             }
-            return false
-        } catch (e) {
-            throw e;
         }
     }
 

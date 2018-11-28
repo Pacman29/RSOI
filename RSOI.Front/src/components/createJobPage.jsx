@@ -36,7 +36,7 @@ export default class CreateJobPage extends React.Component {
     render(){
         return (
             <Page>
-                <AppNavbar/>
+                <AppNavbar back={true}/>
                 <Loader isLoading={this.props.jobsStore.isLoading}>
                     <Block >
                         <List inset>

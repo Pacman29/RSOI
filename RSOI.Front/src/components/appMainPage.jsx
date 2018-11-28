@@ -60,7 +60,7 @@ export default class AppMainPage extends Component {
     render(){
         return (
             <Page ptr onPtrRefresh={this.reloadJobs}>
-                <AppNavbar/>
+                <AppNavbar back={false}/>
                     <Loader isLoading={this.props.jobsStore.isLoading}>
                         <JobsList jobs={this.jobs}/>
                     </Loader>

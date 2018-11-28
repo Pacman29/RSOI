@@ -27,7 +27,7 @@ export default class AuthStore {
             })).catch(action(e => {
                 this.isLoading = false;
                 this.isLogin = false;
-                return e;
+                throw e;
             })).finally(action(() => {
                 this.isLoading = false;
             }));
@@ -43,7 +43,7 @@ export default class AuthStore {
             })).catch(action(e => {
                 this.isLoading = false;
                 this.isLogin = false;
-                return e;
+                throw e;
             })).finally(action(() => {
                 this.isLoading = false;
             }));

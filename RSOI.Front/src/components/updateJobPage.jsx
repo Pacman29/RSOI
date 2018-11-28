@@ -39,7 +39,7 @@ export default class UpdateJobPage extends React.Component {
     render(){
         return (
             <Page>
-                <AppNavbar/>
+                <AppNavbar back={true}/>
                 <Loader isLoading={this.jobFilesStore.isLoading}>
                     <Block >
                         <div style={{display: "flex",justifyContent: "space-between"}}>

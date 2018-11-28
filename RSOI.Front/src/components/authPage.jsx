@@ -35,13 +35,15 @@ export default class AuthPage extends React.Component{
 
     @action handlerOnSignIn = () => {
         this.props.authStore.login(this.username,this.password).then(action(res => {
-
+        })).catch(action(err => {
+            this.$f7.dialog.alert(err);
         }));
     };
 
     @action handlerCreateAccount = () => {
         this.props.authStore.registration(this.username,this.password).then(action(res => {
-
+        })).catch(action(err => {
+            this.$f7.dialog.alert(err);
         }));
     };
 

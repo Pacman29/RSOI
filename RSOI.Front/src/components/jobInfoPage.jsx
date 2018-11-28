@@ -90,7 +90,7 @@ export default class JobInfoPage extends React.Component {
     render(){
         return (
             <Page>
-                <AppNavbar/>
+                <AppNavbar back={true}/>
                 <Loader isLoading={this.jobStore.isLoading || this.jobFilesStore.isLoading}>
                     <Block >
                         <div style={{display: "flex",justifyContent: "space-between"}}>

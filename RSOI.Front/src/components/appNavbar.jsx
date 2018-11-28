@@ -9,35 +9,16 @@ import AuthStore from "../stores/AuthStore";
 @observer
 export default class AppNavbar extends React.Component {
     static propTypes = {
-        authStore: PropTypes.instanceOf(AuthStore)
-    };
-
-
-    @action handleExit = (evt) => {
-        this.props.authStore.exit();
-        location.reload();
+        authStore: PropTypes.instanceOf(AuthStore),
+        back: PropTypes.bool,
     };
 
 
     render(){
-        console.log(` user: ${this.props.authStore.userName}`);
         return (
             <React.Fragment>
-                <Panel right themeDark>
-                    <View>
-                        <Page>
-                            <Block>
-                                <div style={{display: "flex", justifyContent: "center"}}>
-                                    <h3>{`Hello, ${this.props.authStore.userName}`}</h3>
-                                </div>
-                                <Button onClick={this.handleExit}>Do you want exit?</Button>
-                            </Block>
-                        </Page>
-                    </View>
-                </Panel>
-
                 <Navbar>
-                    <NavLeft backLink="Back"/>
+                    {this.props.back ? (<NavLeft backLink="Back"/>) : <NavLeft/>}
                     <NavTitle>
                         Recognize Service
                     </NavTitle>

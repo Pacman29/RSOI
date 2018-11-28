@@ -85,7 +85,7 @@ export default class PageShower extends React.Component{
         return (
             <Page ptr onPtrRefresh={this.reloadPages}>
                 <Loader isLoading={this.jobStore.isLoading}>
-                    <AppNavbar/>
+                    <AppNavbar back={true}/>
                     {
                         this._pages.map((page,idx) =>(
                             <Card key={idx}>
